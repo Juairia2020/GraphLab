@@ -1,0 +1,4 @@
+// Top-level build file. Only the Android application plugin is declared; :engine uses plain java-library.
+plugins {
+    alias(libs.plugins.android.application) apply false
+}

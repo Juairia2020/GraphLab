@@ -1,0 +1,28 @@
+// :engine is plain Java. It must never import anything from android.* or androidx.*.
+plugins {
+    id 'java-library'
+}
+
+// :app compiles to Java 17, so :engine must too (a newer class-file version cannot be read).
+// No toolchain block: it would try to download a JDK.
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    testImplementation libs.junit
+}
+
+tasks.named('test') {
+    useJUnit()
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        showStandardStreams = true
+    }
+}

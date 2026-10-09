@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Type. MS0 uses system fonts. To bundle Fredoka (display) and Figtree (body), add the
+         TTFs to res/font and change the android:fontFamily values below to @font/... -->
+    <style name="TextAppearance.GraphLab.Title" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/gl_text</item>
+    </style>
+
+    <style name="TextAppearance.GraphLab.Section" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/gl_text</item>
+    </style>
+
+    <style name="TextAppearance.GraphLab.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/gl_text_muted</item>
+    </style>
+
+    <style name="TextAppearance.GraphLab.Label" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/gl_text</item>
+    </style>
+
+    <style name="Widget.GraphLab.Card" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardBackgroundColor">?attr/gl_surface</item>
+        <item name="strokeColor">?attr/gl_outline</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.GraphLab.ToggleButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/gl_toggle_bg</item>
+        <item name="android:textColor">@color/gl_toggle_text</item>
+        <item name="strokeColor">?attr/gl_outline</item>
+        <item name="android:minHeight">@dimen/touch_min</item>
+    </style>
+</resources>

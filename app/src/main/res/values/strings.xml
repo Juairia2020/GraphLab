@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GraphLab</string>
+
+    <string name="tab_arena">Arena</string>
+    <string name="tab_lab">Lab</string>
+    <string name="tab_toolkit">Toolkit</string>
+    <string name="tab_me">Me</string>
+
+    <string name="arena_placeholder">Level path, puzzles and the daily challenge will live here.</string>
+    <string name="lab_placeholder">Build a graph, run an algorithm and replay it step by step.</string>
+    <string name="toolkit_placeholder">Real-world route and network tools will live here.</string>
+
+    <string name="tap_counter">Taps: %1$d</string>
+
+    <string name="state_colours">State colours</string>
+    <string name="state_idle">Idle</string>
+    <string name="state_frontier">Frontier</string>
+    <string name="state_visited">Visited</string>
+    <string name="state_chosen">Chosen</string>
+    <string name="state_path">Path</string>
+    <string name="state_fail">Fail</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="appearance_hint">System follows your phone. Light and Dark override it.</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="about">About</string>
+    <string name="about_version">App version</string>
+    <string name="about_engine">Engine version</string>
+
+    <!-- Lab editor (MS2) -->
+    <string name="lab_status">%1$s · %2$s · %3$s · %4$s</string>
+    <string name="canvas_description">Graph canvas. %1$s</string>
+    <string name="directed">Directed</string>
+    <string name="undirected">Undirected</string>
+    <string name="weighted">Weighted</string>
+    <string name="unweighted">Unweighted</string>
+    <plurals name="nodes">
+        <item quantity="one">%d node</item>
+        <item quantity="other">%d nodes</item>
+    </plurals>
+    <plurals name="edges">
+        <item quantity="one">%d edge</item>
+        <item quantity="other">%d edges</item>
+    </plurals>
+
+    <string name="canvas_empty_title">Empty canvas</string>
+    <string name="canvas_empty_body">Choose Node, then tap here to add one</string>
+
+    <string name="tool_node">Node</string>
+    <string name="tool_edge">Edge</string>
+    <string name="tool_move">Move</string>
+    <string name="tool_delete">Delete</string>
+    <string name="hint_node">Node: tap empty space to add a node. Drag to pan, pinch to zoom.</string>
+    <string name="hint_edge">Edge: drag from one node to another, or tap two nodes. Tap an edge to change its weight.</string>
+    <string name="hint_move">Move: drag a node to move it. Drag empty space to pan.</string>
+    <string name="hint_delete">Delete: tap a node (its edges go too) or an edge.</string>
+
+    <string name="action_fit">Fit</string>
+    <string name="action_sample">Sample</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete_edge">Delete edge</string>
+    <string name="action_merge">Merge</string>
+    <string name="action_replace">Replace</string>
+
+    <string name="msg_node_limit">A graph can have at most 60 nodes.</string>
+    <string name="msg_too_close">Too close to another node. Tap a little further away.</string>
+    <string name="msg_unweighted">This graph is unweighted. Turn on Weighted to edit weights.</string>
+    <string name="msg_already_connected">These nodes are already connected.</string>
+
+    <string name="new_edge_title">New edge %1$s – %2$s</string>
+    <string name="new_edge_title_directed">New edge %1$s → %2$s</string>
+    <string name="edit_edge_title">Edge %1$s – %2$s</string>
+    <string name="edit_edge_title_directed">Edge %1$s → %2$s</string>
+    <string name="weight_hint">Weight</string>
+    <string name="weight_error_empty">Type a number.</string>
+    <string name="weight_error_number">That is not a number. Examples: 7, -3, 2.5</string>
+    <string name="weight_error_large">Use a weight between -1000000 and 1000000.</string>
+
+    <string name="merge_title">Switch to undirected?</string>
+    <plurals name="merge_message">
+        <item quantity="one">%d pair of opposite edges (A to B and B to A) becomes a single edge. The earlier edge is kept.</item>
+        <item quantity="other">%d pairs of opposite edges (A to B and B to A) become single edges. The earlier edge of each pair is kept.</item>
+    </plurals>
+    <string name="replace_title">Replace this graph?</string>
+    <string name="replace_message">The sample graph replaces what is on the canvas. This cannot be undone yet.</string>
+    <string name="clear_title">Clear the canvas?</string>
+    <string name="clear_message">Every node and edge is removed. This cannot be undone yet.</string>
+</resources>

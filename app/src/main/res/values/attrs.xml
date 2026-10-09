@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GraphLab colour tokens. Layouts and Views read these with ?attr/gl_* only. -->
+    <attr name="gl_bg" format="color" />
+    <attr name="gl_surface" format="color" />
+    <attr name="gl_surface_raised" format="color" />
+    <attr name="gl_outline" format="color" />
+    <attr name="gl_text" format="color" />
+    <attr name="gl_text_muted" format="color" />
+    <attr name="gl_primary" format="color" />
+    <attr name="gl_on_primary" format="color" />
+    <attr name="gl_idle" format="color" />
+    <attr name="gl_frontier" format="color" />
+    <attr name="gl_visited" format="color" />
+    <attr name="gl_chosen" format="color" />
+    <attr name="gl_path" format="color" />
+    <attr name="gl_fail" format="color" />
+    <attr name="gl_code_bg" format="color" />
+    <attr name="gl_grid" format="color" />
+</resources>

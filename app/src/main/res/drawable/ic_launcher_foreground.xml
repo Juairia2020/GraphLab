@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher icon: a tiny graph in three state colours. Launcher icons are not themed, so
+     fixed colours are fine here. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M38,42 L70,42 L54,72 Z"
+        android:strokeColor="#9B8CFF"
+        android:strokeWidth="4"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#3FD1C0"
+        android:pathData="M32,42 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+    <path
+        android:fillColor="#FFB547"
+        android:pathData="M64,42 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+    <path
+        android:fillColor="#FF6B8B"
+        android:pathData="M48,72 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+</vector>

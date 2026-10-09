@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- One theme for both modes. Colours switch because values-night/colors.xml redefines
+         the same @color names. Views should read ?attr/gl_* (or Material roles), never hex. -->
+    <style name="Theme.GraphLab" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- GraphLab tokens -->
+        <item name="gl_bg">@color/gl_bg</item>
+        <item name="gl_surface">@color/gl_surface</item>
+        <item name="gl_surface_raised">@color/gl_surface_raised</item>
+        <item name="gl_outline">@color/gl_outline</item>
+        <item name="gl_text">@color/gl_text</item>
+        <item name="gl_text_muted">@color/gl_text_muted</item>
+        <item name="gl_primary">@color/gl_primary</item>
+        <item name="gl_on_primary">@color/gl_on_primary</item>
+        <item name="gl_idle">@color/gl_idle</item>
+        <item name="gl_frontier">@color/gl_frontier</item>
+        <item name="gl_visited">@color/gl_visited</item>
+        <item name="gl_chosen">@color/gl_chosen</item>
+        <item name="gl_path">@color/gl_path</item>
+        <item name="gl_fail">@color/gl_fail</item>
+        <item name="gl_code_bg">@color/gl_code_bg</item>
+        <item name="gl_grid">@color/gl_grid</item>
+
+        <!-- Material 3 roles mapped onto the tokens -->
+        <item name="colorPrimary">@color/gl_primary</item>
+        <item name="colorOnPrimary">@color/gl_on_primary</item>
+        <item name="colorPrimaryContainer">@color/gl_surface_raised</item>
+        <item name="colorOnPrimaryContainer">@color/gl_text</item>
+        <item name="colorSecondary">@color/gl_path</item>
+        <item name="colorOnSecondary">@color/gl_bg</item>
+        <item name="colorSecondaryContainer">@color/gl_surface_raised</item>
+        <item name="colorOnSecondaryContainer">@color/gl_text</item>
+        <item name="colorTertiary">@color/gl_visited</item>
+        <item name="colorOnTertiary">@color/gl_bg</item>
+        <item name="colorError">@color/gl_fail</item>
+        <item name="colorOnError">@color/gl_bg</item>
+        <item name="android:colorBackground">@color/gl_bg</item>
+        <item name="colorOnBackground">@color/gl_text</item>
+        <item name="colorSurface">@color/gl_surface</item>
+        <item name="colorOnSurface">@color/gl_text</item>
+        <item name="colorSurfaceVariant">@color/gl_surface_raised</item>
+        <item name="colorOnSurfaceVariant">@color/gl_text_muted</item>
+        <item name="colorSurfaceContainerLowest">@color/gl_bg</item>
+        <item name="colorSurfaceContainerLow">@color/gl_surface</item>
+        <item name="colorSurfaceContainer">@color/gl_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/gl_surface_raised</item>
+        <item name="colorSurfaceContainerHighest">@color/gl_surface_raised</item>
+        <item name="colorOutline">@color/gl_outline</item>
+        <item name="colorOutlineVariant">@color/gl_outline</item>
+
+        <item name="android:windowBackground">@color/gl_bg</item>
+        <item name="materialCardViewStyle">@style/Widget.GraphLab.Card</item>
+    </style>
+</resources>

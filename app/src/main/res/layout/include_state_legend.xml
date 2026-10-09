@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The six algorithm state colours. Shown on every tab in MS0 so a theme switch is
+     visible everywhere. -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_idle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_idle"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_frontier" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_frontier"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_visited" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_visited"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_chosen" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_chosen"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_path" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_path"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_dot"
+                android:backgroundTint="?attr/gl_fail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/state_fail"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

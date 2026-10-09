@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LIGHT theme values. Dark values live in values-night/colors.xml with the same names. -->
+    <color name="gl_bg">#F4F5FB</color>
+    <color name="gl_surface">#FFFFFF</color>
+    <color name="gl_surface_raised">#E9EBF8</color>
+    <color name="gl_outline">#D9DCF0</color>
+    <color name="gl_text">#161933</color>
+    <color name="gl_text_muted">#5B6088</color>
+    <color name="gl_primary">#5B4BE0</color>
+    <color name="gl_on_primary">#FFFFFF</color>
+    <color name="gl_idle">#7A82B8</color>
+    <color name="gl_frontier">#A65B00</color>
+    <color name="gl_visited">#0B7F72</color>
+    <color name="gl_chosen">#D6265A</color>
+    <color name="gl_path">#5B4BE0</color>
+    <color name="gl_fail">#C62828</color>
+    <color name="gl_code_bg">#ECEEF9</color>
+    <color name="gl_grid">#E3E6F5</color>
+</resources>

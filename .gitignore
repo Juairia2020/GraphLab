@@ -1,0 +1,19 @@
+# Gradle / Android Studio
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+# Secrets (used from MS7 onward)
+google-services.json
+keystore.properties
+*.jks
+*.keystore
+# OS
+.DS_Store
+Thumbs.db

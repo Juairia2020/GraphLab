@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DARK theme values (from the v3 mockup). Same names as values/colors.xml. -->
+    <color name="gl_bg">#0F1226</color>
+    <color name="gl_surface">#181C3B</color>
+    <color name="gl_surface_raised">#232850</color>
+    <color name="gl_outline">#2E3568</color>
+    <color name="gl_text">#EEF0FF</color>
+    <color name="gl_text_muted">#9198C4</color>
+    <color name="gl_primary">#6C5CE7</color>
+    <color name="gl_on_primary">#FFFFFF</color>
+    <color name="gl_idle">#5A63B3</color>
+    <color name="gl_frontier">#FFB547</color>
+    <color name="gl_visited">#3FD1C0</color>
+    <color name="gl_chosen">#FF6B8B</color>
+    <color name="gl_path">#9B8CFF</color>
+    <color name="gl_fail">#FF5A5A</color>
+    <color name="gl_code_bg">#0A0C1C</color>
+    <color name="gl_grid">#1B2048</color>
+</resources>
