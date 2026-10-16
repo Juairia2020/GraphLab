@@ -3,6 +3,7 @@ package com.graphlab.engine.algo.graph;
 import com.graphlab.engine.model.Arc;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Params;
 import com.graphlab.engine.trace.Result;
@@ -37,6 +38,11 @@ public final class Bfs implements Algorithm {
     }
 
     @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.GRAPH_SEARCH;
+    }
+
+    @Override
     public String name() {
         return "Breadth-first search";
     }
@@ -63,6 +69,7 @@ public final class Bfs implements Algorithm {
         queue.add(source);
         result.visit(source).distance(source, 0);
         paint.node(source, State.FRONTIER).label(source, "0");
+        queuePanel(paint, graph, queue);
         rec.set("queue", queue.size());
         rec.step(paint.build(), 1,
                 "Start at " + graph.nodeName(source) + ": it is 0 hops from itself");
@@ -72,6 +79,7 @@ public final class Bfs implements Algorithm {
         while (!queue.isEmpty()) {
             int u = queue.poll();
             paint.node(u, State.CHOSEN);
+            queuePanel(paint, graph, queue);
             rec.set("queue", queue.size());
             rec.step(paint.build(), 3, "Take " + graph.nodeName(u) + " from the queue");
 
@@ -93,6 +101,7 @@ public final class Bfs implements Algorithm {
                     result.visit(v).distance(v, h).parent(v, edgeId).treeEdge(edgeId);
                     total += arc.weight();
                     paint.node(v, State.FRONTIER).label(v, Integer.toString(h)).edge(edgeId, State.PATH);
+                    queuePanel(paint, graph, queue);
                     rec.set("queue", queue.size());
                     rec.step(paint.build(), 6, "Discover " + graph.nodeName(v) + " at " + h
                             + (h == 1 ? " hop" : " hops") + " and add it to the queue");
@@ -114,5 +123,14 @@ public final class Bfs implements Algorithm {
         rec.step(paint.build(), 2, "The queue is empty: reached " + hops.size() + " of "
                 + graph.nodeCount() + " nodes");
         return new Trace(ID, params, rec.steps(), result.build());
+    }
+
+    /** Shows the queue, front first, in the State tab. */
+    private static void queuePanel(GraphFrame.Builder paint, Graph graph, ArrayDeque<Integer> queue) {
+        List<String> items = new java.util.ArrayList<>();
+        for (int node : queue) {
+            items.add(graph.nodeName(node));
+        }
+        paint.panel("Queue", items);
     }
 }

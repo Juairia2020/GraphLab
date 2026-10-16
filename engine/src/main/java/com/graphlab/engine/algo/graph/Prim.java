@@ -3,6 +3,7 @@ package com.graphlab.engine.algo.graph;
 import com.graphlab.engine.model.Arc;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Labels;
 import com.graphlab.engine.trace.Params;
@@ -45,6 +46,11 @@ public final class Prim implements Algorithm {
     }
 
     @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.SPANNING_TREES;
+    }
+
+    @Override
     public String name() {
         return "Prim";
     }
@@ -73,6 +79,7 @@ public final class Prim implements Algorithm {
         result.visit(source);
         paint.node(source, State.VISITED).label(source, "0");
         int queuedNow = queueEdgesFrom(graph, source, inTree, key, queue, paint);
+        queuePanel(paint, graph, queue);
         rec.set("queued", queue.size());
         rec.step(paint.build(), 1, "Start the tree at " + graph.nodeName(source) + " and queue its "
                 + queuedNow + (queuedNow == 1 ? " edge" : " edges"));
@@ -80,6 +87,7 @@ public final class Prim implements Algorithm {
         double total = 0;
         while (!queue.isEmpty() && inTree.size() < graph.nodeCount()) {
             Candidate c = queue.poll();
+            queuePanel(paint, graph, queue);
             rec.set("queued", queue.size());
             String name = graph.nodeName(c.from()) + "-" + graph.nodeName(c.to());
             paint.edge(c.edgeId(), State.CHOSEN);
@@ -103,6 +111,7 @@ public final class Prim implements Algorithm {
                     + ". Total weight so far " + Labels.number(total));
 
             int added = queueEdgesFrom(graph, c.to(), inTree, key, queue, paint);
+            queuePanel(paint, graph, queue);
             rec.set("queued", queue.size());
             rec.step(paint.build(), 6, added == 0
                     ? graph.nodeName(c.to()) + " has no edges to nodes outside the tree"
@@ -117,6 +126,17 @@ public final class Prim implements Algorithm {
                 : "Done: only " + inTree.size() + " of " + graph.nodeCount() + " nodes are reachable from "
                         + graph.nodeName(source) + ", total weight " + Labels.number(total));
         return new Trace(ID, params, rec.steps(), result.build());
+    }
+
+    /** Shows the waiting edges, cheapest first, as "A-B:weight". */
+    private static void queuePanel(GraphFrame.Builder paint, Graph graph, PriorityQueue<Candidate> queue) {
+        List<Candidate> sorted = new java.util.ArrayList<>(queue);
+        sorted.sort(Comparator.comparingDouble(Candidate::weight).thenComparingInt(Candidate::edgeId));
+        List<String> items = new java.util.ArrayList<>();
+        for (Candidate c : sorted) {
+            items.add(graph.nodeName(c.from()) + "-" + graph.nodeName(c.to()) + ":" + Labels.number(c.weight()));
+        }
+        paint.panel("Queue", items);
     }
 
     /** Queues the edges from {@code node} to nodes outside the tree; returns how many. */

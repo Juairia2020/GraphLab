@@ -4,6 +4,7 @@ import com.graphlab.engine.model.Edge;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.model.Node;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Labels;
 import com.graphlab.engine.trace.Params;
@@ -40,6 +41,16 @@ public final class Kruskal implements Algorithm {
     }
 
     @Override
+    public boolean needsSource() {
+        return false;
+    }
+
+    @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.SPANNING_TREES;
+    }
+
+    @Override
     public String name() {
         return "Kruskal";
     }
@@ -66,6 +77,7 @@ public final class Kruskal implements Algorithm {
         TraceRecorder rec = new TraceRecorder().counter("accepted", 0).counter("skipped", 0);
         Result.Builder result = Result.builder();
 
+        parentsPanel(paint, graph, setOf);
         rec.step(paint.build(), 1, "Sort the " + sorted.size() + " edges by weight, lightest first");
         rec.step(paint.build(), 2, "Every node starts in its own set");
 
@@ -86,6 +98,7 @@ public final class Kruskal implements Algorithm {
             int b = find(setOf, edge.to());
             if (a != b) {
                 setOf.put(a, b);
+                parentsPanel(paint, graph, setOf);
                 accepted++;
                 total += edge.weight();
                 result.treeEdge(edge.id());
@@ -96,6 +109,7 @@ public final class Kruskal implements Algorithm {
                         + "Total weight so far " + Labels.number(total));
             } else {
                 skipped++;
+                parentsPanel(paint, graph, setOf);
                 paint.edge(edge.id(), State.FAIL);
                 rec.set("skipped", skipped);
                 rec.step(paint.build(), 6, "Skip " + name + ": its ends are already connected, "
@@ -110,6 +124,18 @@ public final class Kruskal implements Algorithm {
                         + accepted + " edges, total weight ";
         rec.step(paint.build(), 3, summary + Labels.number(total));
         return new Trace(ID, params, rec.steps(), result.build());
+    }
+
+    /** Shows the union-find parent of every node as "A>B"; a node that is its own parent is a set leader. */
+    private static void parentsPanel(GraphFrame.Builder paint, Graph graph, Map<Integer, Integer> setOf) {
+        List<String> items = new ArrayList<>();
+        for (Node node : graph.nodes()) {
+            int parent = setOf.get(node.id());
+            items.add(parent == node.id()
+                    ? graph.nodeName(node.id()) + " (leader)"
+                    : graph.nodeName(node.id()) + " > " + graph.nodeName(parent));
+        }
+        paint.panel("Union-find parents", items);
     }
 
     private static int find(Map<Integer, Integer> setOf, int node) {

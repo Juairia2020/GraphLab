@@ -4,6 +4,7 @@ import com.graphlab.engine.model.Arc;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.model.Node;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Labels;
 import com.graphlab.engine.trace.Params;
@@ -49,6 +50,11 @@ public final class Dijkstra implements Algorithm {
     }
 
     @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.SHORTEST_PATHS;
+    }
+
+    @Override
     public String name() {
         return "Dijkstra";
     }
@@ -82,6 +88,7 @@ public final class Dijkstra implements Algorithm {
         PriorityQueue<Entry> queue = new PriorityQueue<>(
                 Comparator.comparingDouble(Entry::dist).thenComparingInt(Entry::node));
         queue.add(new Entry(0.0, source));
+        queuePanel(paint, graph, queue, dist, settled);
         rec.step(paint.build(), 1, "Every distance starts at infinity, except " + graph.nodeName(source)
                 + " which is 0");
         rec.step(paint.build(), 2, "Put " + graph.nodeName(source) + " in the priority queue");
@@ -95,6 +102,7 @@ public final class Dijkstra implements Algorithm {
             }
             settled.add(u);
             settleOrder.add(u);
+            queuePanel(paint, graph, queue, dist, settled);
             paint.node(u, State.CHOSEN);
             rec.set("settled", settled.size() - 1L);
             rec.step(paint.build(), 4, "Settle " + graph.nodeName(u) + ": its distance "
@@ -121,6 +129,7 @@ public final class Dijkstra implements Algorithm {
                         paint.node(v, State.FRONTIER);
                     }
                     queue.add(new Entry(candidate, v));
+                    queuePanel(paint, graph, queue, dist, settled);
                     relaxed++;
                     rec.set("relaxed", relaxed);
                     rec.step(paint.build(), 7, "Better route to " + graph.nodeName(v) + ": "
@@ -157,5 +166,22 @@ public final class Dijkstra implements Algorithm {
         rec.step(paint.build(), 3, "The queue is empty: " + settled.size() + " of "
                 + graph.nodeCount() + " nodes reached, distances are final");
         return new Trace(ID, params, rec.steps(), result.build());
+    }
+
+    /** Shows the live entries of the priority queue, smallest first, as "node:distance". */
+    private static void queuePanel(GraphFrame.Builder paint, Graph graph, PriorityQueue<Entry> queue,
+            Map<Integer, Double> dist, Set<Integer> settled) {
+        List<Entry> live = new java.util.ArrayList<>();
+        for (Entry entry : queue) {
+            if (!settled.contains(entry.node()) && entry.dist() <= dist.get(entry.node())) {
+                live.add(entry);
+            }
+        }
+        live.sort(Comparator.comparingDouble(Entry::dist).thenComparingInt(Entry::node));
+        List<String> items = new java.util.ArrayList<>();
+        for (Entry entry : live) {
+            items.add(graph.nodeName(entry.node()) + ":" + Labels.number(entry.dist()));
+        }
+        paint.panel("Priority queue", items);
     }
 }

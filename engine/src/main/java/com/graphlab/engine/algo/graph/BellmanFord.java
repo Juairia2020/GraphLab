@@ -4,6 +4,7 @@ import com.graphlab.engine.model.Arc;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.model.Node;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Labels;
 import com.graphlab.engine.trace.Params;
@@ -42,6 +43,11 @@ public final class BellmanFord implements Algorithm {
     @Override
     public String id() {
         return ID;
+    }
+
+    @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.SHORTEST_PATHS;
     }
 
     @Override

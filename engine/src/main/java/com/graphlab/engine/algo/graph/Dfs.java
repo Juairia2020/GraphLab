@@ -3,6 +3,7 @@ package com.graphlab.engine.algo.graph;
 import com.graphlab.engine.model.Arc;
 import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.trace.Algorithm;
+import com.graphlab.engine.trace.AlgorithmCategory;
 import com.graphlab.engine.trace.GraphFrame;
 import com.graphlab.engine.trace.Params;
 import com.graphlab.engine.trace.Result;
@@ -40,6 +41,11 @@ public final class Dfs implements Algorithm {
     }
 
     @Override
+    public AlgorithmCategory category() {
+        return AlgorithmCategory.GRAPH_SEARCH;
+    }
+
+    @Override
     public String name() {
         return "Depth-first search";
     }
@@ -69,6 +75,7 @@ public final class Dfs implements Algorithm {
         final TraceRecorder rec = new TraceRecorder().counter("time", 0).counter("finished", 0);
         final Result.Builder result = Result.builder();
         final Map<Integer, Integer> discovery = new HashMap<>();
+        final java.util.ArrayDeque<Integer> stack = new java.util.ArrayDeque<>();   // the nodes being explored, top first
         int time;
         int finished;
         double total;
@@ -78,8 +85,18 @@ public final class Dfs implements Algorithm {
             this.paint = GraphFrame.builder(graph);
         }
 
+        void stackPanel() {
+            List<String> items = new java.util.ArrayList<>();
+            for (int node : stack) {
+                items.add(graph.nodeName(node));
+            }
+            paint.panel("Stack", items);
+        }
+
         void visit(int u) {
             discovery.put(u, ++time);
+            stack.push(u);
+            stackPanel();
             result.visit(u);
             paint.node(u, State.CHOSEN).label(u, Integer.toString(time));
             rec.set("time", time);
@@ -109,6 +126,8 @@ public final class Dfs implements Algorithm {
             ++time;
             finished++;
             result.finish(u);
+            stack.pop();
+            stackPanel();
             paint.node(u, State.VISITED).label(u, discovery.get(u) + "/" + time);
             rec.set("time", time);
             rec.set("finished", finished);
