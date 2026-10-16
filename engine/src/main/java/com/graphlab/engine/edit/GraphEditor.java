@@ -34,6 +34,7 @@ public final class GraphEditor {
     private int nextEdgeId;
     private int version;
     private int structureVersion;
+    private com.graphlab.engine.io.Background background;
 
     private boolean derivedDirty = true;
     private int[] edgeFromIdx = new int[0];
@@ -91,6 +92,15 @@ public final class GraphEditor {
         return new Graph(directed, new ArrayList<>(nodes), out);
     }
 
+    /**
+     * The graph exactly as typed, with every weight kept even when the editor is unweighted.
+     * This is what gets saved to the library and to files, so switching Weighted back on after
+     * reopening a graph restores the weights. Algorithms use {@link #toGraph()} instead.
+     */
+    public Graph toStoredGraph() {
+        return new Graph(directed, new ArrayList<>(nodes), new ArrayList<>(edges));
+    }
+
     public void clear() {
         nodes.clear();
         edges.clear();
@@ -101,6 +111,22 @@ public final class GraphEditor {
 
     public boolean isEmpty() {
         return nodes.isEmpty();
+    }
+
+    // ---- photo behind the graph (MS10) ---------------------------------------------------
+
+    /** The photo behind the graph, or null. It is saved with the graph but is not part of undo and redo. */
+    public com.graphlab.engine.io.Background background() {
+        return background;
+    }
+
+    /** Sets, changes or (with null) removes the photo. Counts as a change, so the graph is saved again. */
+    public void setBackground(com.graphlab.engine.io.Background newBackground) {
+        if (java.util.Objects.equals(background, newBackground)) {
+            return;
+        }
+        background = newBackground;
+        version++;
     }
 
     // ---- settings ----------------------------------------------------------------------

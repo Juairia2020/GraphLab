@@ -40,4 +40,34 @@ public final class SampleGraph {
                 .edge(8, E, F, 9)
                 .build();
     }
+
+    /** The same six places with arrows, and a cycle B, D, E (for strongly connected components). */
+    public static Graph sixNodeDirected() {
+        return Graph.builder(true)
+                .node(A, 10, 50, "A").node(B, 30, 15, "B").node(C, 40, 60, "C")
+                .node(D, 70, 15, "D").node(E, 90, 50, "E").node(F, 65, 80, "F")
+                .edge(0, A, B, 4).edge(1, A, C, 3).edge(2, B, D, 5).edge(3, C, D, 2)
+                .edge(4, D, E, 6).edge(5, C, F, 7).edge(6, F, E, 1).edge(7, E, B, 2)
+                .build();
+    }
+
+    /** Six nodes with arrows and no cycle (for topological sort). */
+    public static Graph sixNodeDag() {
+        return Graph.builder(true)
+                .node(A, 10, 50, "A").node(B, 30, 15, "B").node(C, 40, 60, "C")
+                .node(D, 70, 15, "D").node(E, 90, 50, "E").node(F, 65, 80, "F")
+                .edge(0, A, B, 4).edge(1, A, C, 3).edge(2, B, D, 5).edge(3, C, D, 2)
+                .edge(4, D, E, 6).edge(5, C, F, 7).edge(6, F, E, 1)
+                .build();
+    }
+
+    /** Undirected, left side A, C, E and right side B, D, F (for bipartite matching). */
+    public static Graph sixNodeBipartite() {
+        return Graph.builder(false)
+                .node(A, 10, 50, "A").node(B, 30, 15, "B").node(C, 40, 60, "C")
+                .node(D, 70, 15, "D").node(E, 90, 50, "E").node(F, 65, 80, "F")
+                .edge(0, A, B, 1).edge(1, A, D, 1).edge(2, C, B, 1).edge(3, C, F, 1)
+                .edge(4, E, D, 1).edge(5, E, F, 1).edge(6, A, F, 1)
+                .build();
+    }
 }

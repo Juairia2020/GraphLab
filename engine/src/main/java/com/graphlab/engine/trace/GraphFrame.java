@@ -4,7 +4,9 @@ import com.graphlab.engine.model.Graph;
 import com.graphlab.engine.model.Edge;
 import com.graphlab.engine.model.Node;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,12 +16,27 @@ import java.util.Map;
 public record GraphFrame(
         Map<Integer, State> nodeStates,
         Map<Integer, State> edgeStates,
-        Map<Integer, String> nodeLabels) implements Frame {
+        Map<Integer, String> nodeLabels,
+        Map<Integer, String> edgeLabels,
+        List<Panel> panels) implements Frame {
+
+    /** A frame with no edge labels. Keeps the MS1 three-map form working. */
+    public GraphFrame(Map<Integer, State> nodeStates, Map<Integer, State> edgeStates, Map<Integer, String> nodeLabels) {
+        this(nodeStates, edgeStates, nodeLabels, Map.of(), List.of());
+    }
+
+    /** A frame with edge labels and no panels. */
+    public GraphFrame(Map<Integer, State> nodeStates, Map<Integer, State> edgeStates, Map<Integer, String> nodeLabels,
+                      Map<Integer, String> edgeLabels) {
+        this(nodeStates, edgeStates, nodeLabels, edgeLabels, List.of());
+    }
 
     public GraphFrame {
         nodeStates = freeze(nodeStates);
         edgeStates = freeze(edgeStates);
         nodeLabels = freeze(nodeLabels);
+        edgeLabels = freeze(edgeLabels);
+        panels = List.copyOf(panels);
     }
 
     private static <V> Map<Integer, V> freeze(Map<Integer, V> source) {
@@ -47,6 +64,14 @@ public record GraphFrame(
         return nodeLabels.getOrDefault(nodeId, "");
     }
 
+    /**
+     * The text on the edge (for example flow "3/5"), or an empty string. When an edge has a label
+     * the canvas shows it instead of the weight.
+     */
+    public String edgeLabel(int edgeId) {
+        return edgeLabels.getOrDefault(edgeId, "");
+    }
+
     /** A frame where everything is IDLE and nothing is labelled. */
     public static GraphFrame initial(Graph graph) {
         return builder(graph).build();
@@ -64,6 +89,8 @@ public record GraphFrame(
         private final Map<Integer, State> nodeStates = new LinkedHashMap<>();
         private final Map<Integer, State> edgeStates = new LinkedHashMap<>();
         private final Map<Integer, String> nodeLabels = new LinkedHashMap<>();
+        private final Map<Integer, String> edgeLabels = new LinkedHashMap<>();
+        private final List<Panel> panels = new ArrayList<>();
 
         private Builder(Graph graph) {
             for (Node node : graph.nodes()) {
@@ -92,6 +119,36 @@ public record GraphFrame(
             return this;
         }
 
+        /** Puts text on an edge; an empty string clears it. */
+        public Builder edgeLabel(int edgeId, String label) {
+            requireKey(edgeStates, edgeId, "edge");
+            if (label.isEmpty()) {
+                edgeLabels.remove(edgeId);
+            } else {
+                edgeLabels.put(edgeId, label);
+            }
+            return this;
+        }
+
+        /** Shows (or replaces) the panel with this title: a queue, a stack or a parent table. */
+        public Builder panel(String title, List<String> items) {
+            Panel next = new Panel(title, items);
+            for (int i = 0; i < panels.size(); i++) {
+                if (panels.get(i).title().equals(title)) {
+                    panels.set(i, next);
+                    return this;
+                }
+            }
+            panels.add(next);
+            return this;
+        }
+
+        /** Removes every node label. */
+        public Builder clearLabels() {
+            nodeLabels.clear();
+            return this;
+        }
+
         public State nodeState(int nodeId) {
             requireKey(nodeStates, nodeId, "node");
             return nodeStates.get(nodeId);
@@ -116,7 +173,7 @@ public record GraphFrame(
 
         /** Takes an immutable snapshot. Later changes to this builder do not affect it. */
         public GraphFrame build() {
-            return new GraphFrame(nodeStates, edgeStates, nodeLabels);
+            return new GraphFrame(nodeStates, edgeStates, nodeLabels, edgeLabels, panels);
         }
 
         private static void requireKey(Map<Integer, ?> map, int id, String what) {

@@ -16,9 +16,14 @@ public final class TraceFormatter {
     private TraceFormatter() {
     }
 
+    /** For algorithms that do not work on a graph (sorting, knapsack). */
+    public static String format(Algorithm algorithm, Trace trace) {
+        return format(null, algorithm, trace);
+    }
+
     public static String format(Graph graph, Algorithm algorithm, Trace trace) {
         StringBuilder out = new StringBuilder();
-        out.append(algorithm.name()).append(" | ").append(graph).append(" | ")
+        out.append(algorithm.name()).append(" | ").append(graph == null ? algorithm.inputKind() : graph).append(" | ")
                 .append(trace.size()).append(" steps\n");
         List<String> code = algorithm.pseudocode();
         for (int i = 0; i < code.size(); i++) {
@@ -34,13 +39,13 @@ public final class TraceFormatter {
             }
             out.append('\n');
         }
-        out.append('\n').append(describeResult(graph, trace.result())).append('\n');
+        out.append('\n').append(graph == null ? "Result: " + trace.result() : describeResult(graph, trace.result())).append('\n');
         return out.toString();
     }
 
     static String describe(Graph graph, Frame frame) {
         List<String> parts = new ArrayList<>();
-        if (frame instanceof GraphFrame g) {
+        if (frame instanceof GraphFrame g && graph != null) {
             for (Node node : graph.nodes()) {
                 String label = g.nodeLabel(node.id());
                 parts.add(graph.nodeName(node.id()) + (label.isEmpty() ? "" : "=" + label)
@@ -49,6 +54,17 @@ public final class TraceFormatter {
         } else if (frame instanceof ArrayFrame a) {
             for (int i = 0; i < a.values().size(); i++) {
                 parts.add(a.values().get(i) + "[" + letter(a.states().get(i)) + "]");
+            }
+            if (!a.markers().isEmpty()) {
+                parts.add(a.markers().toString());
+            }
+        } else if (frame instanceof GridFrame g) {
+            for (int r = 0; r < g.rows(); r++) {
+                StringBuilder row = new StringBuilder(g.rowHeaders().get(r)).append(':');
+                for (int c = 0; c < g.cols(); c++) {
+                    row.append(' ').append(g.cell(r, c).isEmpty() ? "." : g.cell(r, c)).append('[').append(letter(g.state(r, c))).append(']');
+                }
+                parts.add(row.toString());
             }
         }
         return String.join(" ", parts);

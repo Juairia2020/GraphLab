@@ -23,6 +23,17 @@ public final class Result {
     private final List<Integer> treeEdgeIds;
     private final double totalWeight;
     private final boolean negativeCycle;
+    // answers of the non-graph and flow algorithms (empty or zero for the others)
+    private final List<Integer> sortedValues;
+    private final double value;
+    private final List<Integer> chosen;
+    private final List<Double> amounts;
+    private final Map<Integer, Integer> colours;
+    private final List<List<Double>> matrix;
+    private final Map<Integer, Double> edgeFlow;
+    private final List<Integer> cutEdgeIds;
+    private final List<Integer> sourceSide;
+    private final String text;
 
     private Result(Builder b) {
         this.visitOrder = List.copyOf(b.visitOrder);
@@ -32,6 +43,77 @@ public final class Result {
         this.treeEdgeIds = List.copyOf(b.treeEdgeIds);
         this.totalWeight = b.totalWeight;
         this.negativeCycle = b.negativeCycle;
+        this.sortedValues = List.copyOf(b.sortedValues);
+        this.value = b.value;
+        this.chosen = List.copyOf(b.chosen);
+        this.amounts = List.copyOf(b.amounts);
+        this.colours = Collections.unmodifiableMap(new LinkedHashMap<>(b.colours));
+        List<List<Double>> rows = new ArrayList<>();
+        for (List<Double> row : b.matrix) {
+            rows.add(List.copyOf(row));
+        }
+        this.matrix = Collections.unmodifiableList(rows);
+        this.edgeFlow = Collections.unmodifiableMap(new LinkedHashMap<>(b.edgeFlow));
+        this.cutEdgeIds = List.copyOf(b.cutEdgeIds);
+        this.sourceSide = List.copyOf(b.sourceSide);
+        this.text = b.text;
+    }
+
+    /**
+     * A text answer: the common subsequence of LCS, the edit script of edit distance (tokens like {@code keep:K},
+     * {@code replace:S>M}, {@code delete:A}, {@code insert:B}, separated by spaces), the coins of coin change as "3 + 3".
+     * Empty when an algorithm has none.
+     */
+    public String text() {
+        return text;
+    }
+
+    /** Sorting algorithms: the list in sorted order. */
+    public List<Integer> sortedValues() {
+        return sortedValues;
+    }
+
+    /**
+     * The one number a run is about: the maximum flow, the size of the cut Karger found, the
+     * number of colours used, the best value in the knapsack. Zero when an algorithm has none.
+     */
+    public double value() {
+        return value;
+    }
+
+    /** Knapsack: the items (0-based, in the order given) that are in the bag; for the fractional version, those taken at all. */
+    public List<Integer> chosen() {
+        return chosen;
+    }
+
+    /** Fractional knapsack: how much of each item (0 to 1), in the order the items were given. */
+    public List<Double> amounts() {
+        return amounts;
+    }
+
+    /** Colouring: node id to colour number (starting at 1). Karger: node id to 0 or 1 (which side of the cut). */
+    public Map<Integer, Integer> colours() {
+        return colours;
+    }
+
+    /** Floyd-Warshall: shortest distance from node i to node j, in node order. Unreachable is +infinity. */
+    public List<List<Double>> matrix() {
+        return matrix;
+    }
+
+    /** Flow: net flow on each edge id (negative means against the edge's direction in an undirected graph). */
+    public Map<Integer, Double> edgeFlow() {
+        return edgeFlow;
+    }
+
+    /** Edges that cross the cut (min cut for flow, the random cut for Karger). */
+    public List<Integer> cutEdgeIds() {
+        return cutEdgeIds;
+    }
+
+    /** Flow: the nodes still reachable from the start in the last residual graph (one side of the min cut). */
+    public List<Integer> sourceSide() {
+        return sourceSide;
     }
 
     /** Nodes in the order the algorithm reached them (BFS and DFS discovery, Dijkstra settling, Prim adding). */
@@ -103,20 +185,33 @@ public final class Result {
                 && finishOrder.equals(that.finishOrder)
                 && distances.equals(that.distances)
                 && parentEdge.equals(that.parentEdge)
-                && treeEdgeIds.equals(that.treeEdgeIds);
+                && treeEdgeIds.equals(that.treeEdgeIds)
+                && sortedValues.equals(that.sortedValues)
+                && Double.compare(value, that.value) == 0
+                && chosen.equals(that.chosen)
+                && amounts.equals(that.amounts)
+                && colours.equals(that.colours)
+                && matrix.equals(that.matrix)
+                && edgeFlow.equals(that.edgeFlow)
+                && cutEdgeIds.equals(that.cutEdgeIds)
+                && sourceSide.equals(that.sourceSide)
+                && text.equals(that.text);
     }
 
     @Override
     public int hashCode() {
         return java.util.Objects.hash(visitOrder, finishOrder, distances, parentEdge, treeEdgeIds,
-                totalWeight, negativeCycle);
+                totalWeight, negativeCycle, sortedValues, value, chosen, amounts, colours, matrix, edgeFlow,
+                cutEdgeIds, sourceSide, text);
     }
 
     @Override
     public String toString() {
         return "Result{visitOrder=" + visitOrder + ", distances=" + distances
                 + ", treeEdgeIds=" + treeEdgeIds + ", totalWeight=" + totalWeight
-                + ", negativeCycle=" + negativeCycle + "}";
+                + ", negativeCycle=" + negativeCycle
+                + (sortedValues.isEmpty() ? "" : ", sorted=" + sortedValues)
+                + (value == 0 ? "" : ", value=" + value) + "}";
     }
 
     public static Builder builder() {
@@ -131,8 +226,73 @@ public final class Result {
         private final List<Integer> treeEdgeIds = new ArrayList<>();
         private double totalWeight;
         private boolean negativeCycle;
+        private final List<Integer> sortedValues = new ArrayList<>();
+        private double value;
+        private final List<Integer> chosen = new ArrayList<>();
+        private final List<Double> amounts = new ArrayList<>();
+        private final Map<Integer, Integer> colours = new LinkedHashMap<>();
+        private final List<List<Double>> matrix = new ArrayList<>();
+        private final Map<Integer, Double> edgeFlow = new LinkedHashMap<>();
+        private final List<Integer> cutEdgeIds = new ArrayList<>();
+        private final List<Integer> sourceSide = new ArrayList<>();
+        private String text = "";
 
         private Builder() {
+        }
+
+        public Builder text(String answer) {
+            this.text = answer == null ? "" : answer;
+            return this;
+        }
+
+        public Builder sortedValues(List<Integer> values) {
+            sortedValues.clear();
+            sortedValues.addAll(values);
+            return this;
+        }
+
+        public Builder value(double v) {
+            this.value = v;
+            return this;
+        }
+
+        public Builder chosen(List<Integer> items) {
+            chosen.clear();
+            chosen.addAll(items);
+            return this;
+        }
+
+        public Builder amounts(List<Double> fractions) {
+            amounts.clear();
+            amounts.addAll(fractions);
+            return this;
+        }
+
+        public Builder colour(int nodeId, int colour) {
+            colours.put(nodeId, colour);
+            return this;
+        }
+
+        public Builder matrix(List<List<Double>> rows) {
+            matrix.clear();
+            matrix.addAll(rows);
+            return this;
+        }
+
+        public Builder flow(int edgeId, double netFlow) {
+            edgeFlow.put(edgeId, netFlow);
+            return this;
+        }
+
+        public Builder cutEdge(int edgeId) {
+            cutEdgeIds.add(edgeId);
+            return this;
+        }
+
+        public Builder sourceSide(List<Integer> nodeIds) {
+            sourceSide.clear();
+            sourceSide.addAll(nodeIds);
+            return this;
         }
 
         public Builder visit(int nodeId) {
