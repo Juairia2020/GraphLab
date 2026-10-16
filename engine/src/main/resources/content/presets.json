@@ -1,0 +1,330 @@
+{
+ "schemaVersion": 1,
+ "presets": [
+  {
+   "id": "flood-relief",
+   "title": "Flood relief",
+   "story": "Water must be moved from the dam to the shelter through pumps, canals and wards. Each pipe has a limit in thousand litres per minute. How much can reach the shelter, and which pipes limit it?",
+   "unit": "kL/min",
+   "tools": [
+    "max-flow"
+   ],
+   "source": 0,
+   "target": 7,
+   "graph": {
+    "format": "graphlab-graph",
+    "version": 1,
+    "name": "Flood relief",
+    "directed": true,
+    "weighted": true,
+    "nodes": [
+     {
+      "id": 0,
+      "label": "Dam",
+      "x": -170,
+      "y": 0
+     },
+     {
+      "id": 1,
+      "label": "Pump A",
+      "x": -80,
+      "y": -70
+     },
+     {
+      "id": 2,
+      "label": "Pump B",
+      "x": -80,
+      "y": 70
+     },
+     {
+      "id": 3,
+      "label": "Canal",
+      "x": 10,
+      "y": 0
+     },
+     {
+      "id": 4,
+      "label": "Ward 1",
+      "x": 95,
+      "y": -80
+     },
+     {
+      "id": 5,
+      "label": "Ward 2",
+      "x": 95,
+      "y": 0
+     },
+     {
+      "id": 6,
+      "label": "Ward 3",
+      "x": 95,
+      "y": 80
+     },
+     {
+      "id": 7,
+      "label": "Shelter",
+      "x": 180,
+      "y": 0
+     }
+    ],
+    "edges": [
+     {
+      "id": 0,
+      "from": 0,
+      "to": 1,
+      "weight": 16
+     },
+     {
+      "id": 1,
+      "from": 0,
+      "to": 2,
+      "weight": 13
+     },
+     {
+      "id": 2,
+      "from": 1,
+      "to": 2,
+      "weight": 4
+     },
+     {
+      "id": 3,
+      "from": 1,
+      "to": 3,
+      "weight": 12
+     },
+     {
+      "id": 4,
+      "from": 2,
+      "to": 4,
+      "weight": 14
+     },
+     {
+      "id": 5,
+      "from": 2,
+      "to": 3,
+      "weight": 9
+     },
+     {
+      "id": 6,
+      "from": 3,
+      "to": 5,
+      "weight": 7
+     },
+     {
+      "id": 7,
+      "from": 3,
+      "to": 6,
+      "weight": 10
+     },
+     {
+      "id": 8,
+      "from": 4,
+      "to": 7,
+      "weight": 20
+     },
+     {
+      "id": 9,
+      "from": 5,
+      "to": 7,
+      "weight": 4
+     },
+     {
+      "id": 10,
+      "from": 6,
+      "to": 7,
+      "weight": 8
+     },
+     {
+      "id": 11,
+      "from": 1,
+      "to": 4,
+      "weight": 6
+     }
+    ]
+   },
+   "geo": [
+    {
+     "lat": 22.98,
+     "lon": 89.38
+    },
+    {
+     "lat": 22.93,
+     "lon": 89.43
+    },
+    {
+     "lat": 22.88,
+     "lon": 89.4
+    },
+    {
+     "lat": 22.86,
+     "lon": 89.5
+    },
+    {
+     "lat": 22.9,
+     "lon": 89.58
+    },
+    {
+     "lat": 22.83,
+     "lon": 89.57
+    },
+    {
+     "lat": 22.78,
+     "lon": 89.54
+    },
+    {
+     "lat": 22.8,
+     "lon": 89.63
+    }
+   ]
+  },
+  {
+   "id": "city-bus",
+   "title": "City bus network",
+   "story": "Eight stops in a city are joined by roads with lengths in km. Find the shortest bus route from KUET to Moylapota, and the cheapest set of roads that keeps every stop connected.",
+   "unit": "km",
+   "tools": [
+    "shortest-route",
+    "mst"
+   ],
+   "source": 0,
+   "target": 7,
+   "graph": {
+    "format": "graphlab-graph",
+    "version": 1,
+    "name": "City bus network",
+    "directed": false,
+    "weighted": true,
+    "nodes": [
+     {
+      "id": 0,
+      "label": "KUET",
+      "x": -180,
+      "y": -60
+     },
+     {
+      "id": 1,
+      "label": "Fulbarigate",
+      "x": -120,
+      "y": 40
+     },
+     {
+      "id": 2,
+      "label": "Sonadanga",
+      "x": -30,
+      "y": -20
+     },
+     {
+      "id": 3,
+      "label": "Shibbari",
+      "x": 40,
+      "y": -80
+     },
+     {
+      "id": 4,
+      "label": "Boyra",
+      "x": 70,
+      "y": 30
+     },
+     {
+      "id": 5,
+      "label": "Daulatpur",
+      "x": -110,
+      "y": -110
+     },
+     {
+      "id": 6,
+      "label": "Rupsha",
+      "x": 150,
+      "y": -30
+     },
+     {
+      "id": 7,
+      "label": "Moylapota",
+      "x": 130,
+      "y": 90
+     }
+    ],
+    "edges": [
+     {
+      "id": 0,
+      "from": 0,
+      "to": 1,
+      "weight": 3
+     },
+     {
+      "id": 1,
+      "from": 0,
+      "to": 5,
+      "weight": 4
+     },
+     {
+      "id": 2,
+      "from": 1,
+      "to": 2,
+      "weight": 5
+     },
+     {
+      "id": 3,
+      "from": 1,
+      "to": 4,
+      "weight": 9
+     },
+     {
+      "id": 4,
+      "from": 2,
+      "to": 3,
+      "weight": 4
+     },
+     {
+      "id": 5,
+      "from": 2,
+      "to": 4,
+      "weight": 5
+     },
+     {
+      "id": 6,
+      "from": 3,
+      "to": 4,
+      "weight": 3
+     },
+     {
+      "id": 7,
+      "from": 3,
+      "to": 6,
+      "weight": 7
+     },
+     {
+      "id": 8,
+      "from": 4,
+      "to": 7,
+      "weight": 4
+     },
+     {
+      "id": 9,
+      "from": 6,
+      "to": 7,
+      "weight": 6
+     },
+     {
+      "id": 10,
+      "from": 5,
+      "to": 2,
+      "weight": 7
+     },
+     {
+      "id": 11,
+      "from": 5,
+      "to": 3,
+      "weight": 10
+     },
+     {
+      "id": 12,
+      "from": 1,
+      "to": 5,
+      "weight": 6
+     }
+    ]
+   }
+  }
+ ]
+}
