@@ -1,6 +1,11 @@
 // :engine is plain Java. It must never import anything from android.* or androidx.*.
 plugins {
     id 'java-library'
+    id 'application'   // gives the :engine:run task (the trace demo)
+}
+
+application {
+    mainClass = 'com.graphlab.engine.demo.TraceDemo'
 }
 
 // :app compiles to Java 17, so :engine must too (a newer class-file version cannot be read).
@@ -21,6 +26,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnit()
+    // lets CI run the fuzz tests with more rounds: gradle :engine:test -Dfuzz.rounds=3000
+    if (System.getProperty('fuzz.rounds') != null) {
+        systemProperty 'fuzz.rounds', System.getProperty('fuzz.rounds')
+    }
     testLogging {
         events 'passed', 'failed', 'skipped'
         showStandardStreams = true

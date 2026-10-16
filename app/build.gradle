@@ -2,6 +2,17 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// Settings that must not be committed (the Firebase keys) come from local.properties, or from
+// gradle.properties, or from -P options. Missing ones are empty, and the app then says so.
+def localProps = new Properties()
+def localFile = rootProject.file('local.properties')
+if (localFile.exists()) {
+    localFile.withInputStream { localProps.load(it) }
+}
+def setting = { String key, String fallback = '' ->
+    (project.findProperty(key) ?: localProps.getProperty(key) ?: fallback).toString().trim().replace('"', '')
+}
+
 android {
     namespace = 'com.graphlab'
     compileSdk = 37
@@ -10,8 +21,26 @@ android {
         applicationId = 'com.graphlab'
         minSdk = 26
         targetSdk = 37
-        versionCode = 3
-        versionName = '0.0.3-ms2'
+        versionCode = 20
+        versionName = '1.8.1-ms19'
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+
+        // MS16: OpenCV ships a native library per processor type, about 15 MB each. Keep the three that matter.
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+        }
+
+        // MS7: where the sample library lives, and the Firebase project (see the README).
+        buildConfigField 'String', 'SAMPLE_LIBRARY_URL', "\"${setting('sampleLibraryUrl', 'https://raw.githubusercontent.com/YOUR_GITHUB_NAME/graphlab-samples/main/sample-library.json')}\""
+        buildConfigField 'String', 'FIREBASE_API_KEY', "\"${setting('firebase.apiKey')}\""
+        buildConfigField 'String', 'FIREBASE_APP_ID', "\"${setting('firebase.appId')}\""
+        // MS7 (messaging and hosted content): the sender id lets Firebase Messaging start without google-services.json,
+        // and CONTENT_BASE_URL is the folder that holds questions.json.
+        buildConfigField 'String', 'FIREBASE_SENDER_ID', "\"${setting('firebase.senderId')}\""
+        buildConfigField 'String', 'CONTENT_BASE_URL', "\"${setting('contentBaseUrl', 'https://raw.githubusercontent.com/YOUR_GITHUB_NAME/graphlab-samples/main/content')}\""
+        // MS14: the small proxy in front of the Routes API (see the README). Empty = the offline estimate is used.
+        buildConfigField 'String', 'ROUTES_PROXY_URL', "\"${setting('routesProxyUrl')}\""
+        buildConfigField 'String', 'FIREBASE_PROJECT_ID', "\"${setting('firebase.projectId')}\""
     }
 
     buildTypes {
@@ -37,6 +66,25 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.androidx.activity
     implementation libs.material
+    // MS14: the Toolkit map is OpenStreetMap through osmdroid: free, no API key, no billing account.
+    implementation libs.osmdroid
+    implementation libs.androidx.work.runtime
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+    implementation libs.firebase.firestore
+    implementation libs.firebase.messaging
+    implementation libs.firebase.crashlytics
+    implementation libs.firebase.analytics
+    // MS16: image import. CameraX takes the photo, ML Kit reads the text on the phone, OpenCV finds circles and lines.
+    implementation libs.androidx.camera.core
+    implementation libs.androidx.camera.camera2
+    implementation libs.androidx.camera.lifecycle
+    implementation libs.androidx.camera.view
+    implementation libs.mlkit.text.recognition
+    implementation libs.opencv
+    implementation libs.androidx.exifinterface
 
     testImplementation libs.junit
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.ext.junit
 }

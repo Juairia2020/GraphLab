@@ -1,0 +1,14 @@
+## Copy these lines into local.properties (the file Android Studio creates in the project root).
+## local.properties is ignored by Git, so your keys stay private. Every line is optional.
+
+# Where the sample library JSON is hosted (https only). See the README.
+# sampleLibraryUrl=https://raw.githubusercontent.com/YOUR_NAME/graphlab-samples/main/sample-library.json
+
+# The Firebase project for the cloud gallery. See the README.
+# firebase.projectId=your-project-id
+# firebase.apiKey=AIza...
+# firebase.appId=1:1234567890:android:abc123
+
+# MS14: the Maps SDK key (restricted to the package name and SHA-1) and the route proxy. See the README.
+# MAPS_API_KEY=AIza...
+# routesProxyUrl=https://REGION-PROJECT.cloudfunctions.net/routeMatrix
