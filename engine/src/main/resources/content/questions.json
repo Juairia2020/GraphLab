@@ -1,0 +1,1298 @@
+{
+ "schemaVersion": 2,
+ "cards": [
+  {
+   "id": "tf-001",
+   "activity": "true-false",
+   "topic": "dijkstra",
+   "difficulty": "easy",
+   "text": "Dijkstra's algorithm works correctly when some edges have negative weights.",
+   "answer": false,
+   "explanation": "A negative edge can make a distance that was already settled wrong. Use Bellman-Ford when weights can be negative."
+  },
+  {
+   "id": "tf-002",
+   "activity": "true-false",
+   "topic": "bfs",
+   "difficulty": "easy",
+   "text": "Breadth-first search finds the fewest edges from the start to every reachable node.",
+   "answer": true,
+   "explanation": "It visits nodes level by level, so the first time it reaches a node is by the fewest edges."
+  },
+  {
+   "id": "tf-003",
+   "activity": "true-false",
+   "topic": "bfs",
+   "difficulty": "easy",
+   "text": "Breadth-first search keeps its waiting nodes in a stack.",
+   "answer": false,
+   "explanation": "It uses a queue: first in, first out. A stack belongs to depth-first search."
+  },
+  {
+   "id": "tf-004",
+   "activity": "true-false",
+   "topic": "dfs",
+   "difficulty": "easy",
+   "text": "Depth-first search can be written with recursion or with an explicit stack.",
+   "answer": true,
+   "explanation": "The recursion uses the call stack in the same way as an explicit stack."
+  },
+  {
+   "id": "tf-005",
+   "activity": "true-false",
+   "topic": "kruskal",
+   "difficulty": "easy",
+   "text": "Kruskal's algorithm starts by sorting the edges by weight.",
+   "answer": true,
+   "explanation": "It then tries the lightest edge first."
+  },
+  {
+   "id": "tf-006",
+   "activity": "true-false",
+   "topic": "prim",
+   "difficulty": "easy",
+   "text": "Prim's algorithm grows one tree from a start node.",
+   "answer": true,
+   "explanation": "At each step it adds the cheapest edge that joins the tree to a new node."
+  },
+  {
+   "id": "tf-007",
+   "activity": "true-false",
+   "topic": "kruskal",
+   "difficulty": "easy",
+   "text": "A spanning tree of a connected graph with n nodes has n - 1 edges.",
+   "answer": true,
+   "explanation": "Fewer edges leave a node out; more edges make a cycle."
+  },
+  {
+   "id": "tf-008",
+   "activity": "true-false",
+   "topic": "bellman-ford",
+   "difficulty": "medium",
+   "text": "Bellman-Ford can detect a negative cycle.",
+   "answer": true,
+   "explanation": "If an edge can still be relaxed after n - 1 rounds, a negative cycle exists."
+  },
+  {
+   "id": "tf-009",
+   "activity": "true-false",
+   "topic": "floyd-warshall",
+   "difficulty": "easy",
+   "text": "Floyd-Warshall finds the shortest distance between every pair of nodes.",
+   "answer": true,
+   "explanation": "It fills a table of all pairs, one middle node at a time."
+  },
+  {
+   "id": "tf-010",
+   "activity": "true-false",
+   "topic": "floyd-warshall",
+   "difficulty": "medium",
+   "text": "Floyd-Warshall takes time proportional to the cube of the number of nodes.",
+   "answer": true,
+   "explanation": "It has three nested loops over the nodes, so it runs in O(V^3)."
+  },
+  {
+   "id": "tf-011",
+   "activity": "true-false",
+   "topic": "merge-sort",
+   "difficulty": "medium",
+   "text": "Merge sort takes O(n log n) time even in its worst case.",
+   "answer": true,
+   "explanation": "It always halves the list and merges, whatever the order of the input."
+  },
+  {
+   "id": "tf-012",
+   "activity": "true-false",
+   "topic": "quick-sort",
+   "difficulty": "medium",
+   "text": "Quick sort takes O(n log n) time in every case.",
+   "answer": false,
+   "explanation": "Its worst case is O(n^2), for example with a bad pivot on sorted input. Its average case is O(n log n)."
+  },
+  {
+   "id": "tf-013",
+   "activity": "true-false",
+   "topic": "merge-sort",
+   "difficulty": "medium",
+   "text": "The usual merge sort sorts a list without any extra memory.",
+   "answer": false,
+   "explanation": "Merging needs a second array of about the same size."
+  },
+  {
+   "id": "tf-014",
+   "activity": "true-false",
+   "topic": "randomized-quick-sort",
+   "difficulty": "easy",
+   "text": "Randomized quick sort picks its pivot at random so no input is always bad for it.",
+   "answer": true,
+   "explanation": "A random pivot makes the bad case unlikely for every input."
+  },
+  {
+   "id": "tf-015",
+   "activity": "true-false",
+   "topic": "karger",
+   "difficulty": "medium",
+   "text": "One run of Karger's algorithm always finds a minimum cut.",
+   "answer": false,
+   "explanation": "One run finds a minimum cut only with some probability. The runs are repeated and the best cut is kept."
+  },
+  {
+   "id": "tf-016",
+   "activity": "true-false",
+   "topic": "karger",
+   "difficulty": "easy",
+   "text": "In Karger's algorithm, contracting an edge merges its two end nodes.",
+   "answer": true,
+   "explanation": "The merged node keeps the other edges; edges between the two ends disappear."
+  },
+  {
+   "id": "tf-017",
+   "activity": "true-false",
+   "topic": "edmonds-karp",
+   "difficulty": "medium",
+   "text": "Edmonds-Karp looks for augmenting paths with breadth-first search.",
+   "answer": true,
+   "explanation": "Choosing the path with the fewest edges bounds the number of rounds."
+  },
+  {
+   "id": "tf-018",
+   "activity": "true-false",
+   "topic": "edmonds-karp",
+   "difficulty": "medium",
+   "text": "In a flow network, the value of the maximum flow equals the capacity of the minimum cut.",
+   "answer": true,
+   "explanation": "This is the max-flow min-cut theorem."
+  },
+  {
+   "id": "tf-019",
+   "activity": "true-false",
+   "topic": "knapsack-01",
+   "difficulty": "easy",
+   "text": "In the 0/1 knapsack problem you may take part of an item.",
+   "answer": false,
+   "explanation": "Each item is taken whole or left out. Taking parts is the fractional knapsack."
+  },
+  {
+   "id": "tf-020",
+   "activity": "true-false",
+   "topic": "fractional-knapsack",
+   "difficulty": "easy",
+   "text": "Taking items by the best value per weight is optimal for the fractional knapsack.",
+   "answer": true,
+   "explanation": "The greedy choice works because an item can be cut to fill the bag exactly."
+  },
+  {
+   "id": "tf-021",
+   "activity": "true-false",
+   "topic": "knapsack-01",
+   "difficulty": "hard",
+   "text": "Taking items by the best value per weight is always optimal for the 0/1 knapsack.",
+   "answer": false,
+   "explanation": "Whole items can leave unused room, so greedy can lose. Dynamic programming gives the best answer."
+  },
+  {
+   "id": "tf-022",
+   "activity": "true-false",
+   "topic": "knapsack-01",
+   "difficulty": "medium",
+   "text": "The dynamic programming table for 0/1 knapsack has about items times capacity cells.",
+   "answer": true,
+   "explanation": "There is one cell for each item count and each capacity."
+  },
+  {
+   "id": "tf-023",
+   "activity": "true-false",
+   "topic": "graph-colouring",
+   "difficulty": "easy",
+   "text": "In a proper colouring, two neighbouring nodes may have the same colour.",
+   "answer": false,
+   "explanation": "Neighbouring nodes must have different colours."
+  },
+  {
+   "id": "tf-024",
+   "activity": "true-false",
+   "topic": "graph-colouring",
+   "difficulty": "easy",
+   "text": "A graph with no edges can be coloured with one colour.",
+   "answer": true,
+   "explanation": "No two nodes are neighbours, so one colour is enough."
+  },
+  {
+   "id": "tf-025",
+   "activity": "true-false",
+   "topic": "dijkstra",
+   "difficulty": "hard",
+   "text": "Dijkstra's algorithm with a binary heap runs in O((V + E) log V) time.",
+   "answer": true,
+   "explanation": "Each edge may push one entry on the heap, and each push or pop costs O(log V)."
+  },
+  {
+   "id": "tf-026",
+   "activity": "true-false",
+   "topic": "bfs",
+   "difficulty": "easy",
+   "text": "Breadth-first search visits all neighbours of the start before the neighbours of those neighbours.",
+   "answer": true,
+   "explanation": "That is the level-by-level order."
+  },
+  {
+   "id": "tf-027",
+   "activity": "true-false",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "A tree is a connected graph with no cycles.",
+   "answer": true,
+   "explanation": "Remove any edge of a tree and it falls into two parts."
+  },
+  {
+   "id": "tf-028",
+   "activity": "true-false",
+   "topic": "kruskal",
+   "difficulty": "hard",
+   "text": "When some edge weights tie, Prim and Kruskal can give different trees with the same total weight.",
+   "answer": true,
+   "explanation": "The minimum spanning tree may not be unique, but its total weight is."
+  },
+  {
+   "id": "tf-029",
+   "activity": "true-false",
+   "topic": "kruskal",
+   "difficulty": "easy",
+   "text": "Kruskal's algorithm skips an edge whose ends are already connected.",
+   "answer": true,
+   "explanation": "Adding it would make a cycle."
+  },
+  {
+   "id": "tf-030",
+   "activity": "true-false",
+   "topic": "kruskal",
+   "difficulty": "medium",
+   "text": "Kruskal's algorithm uses union-find to check whether two nodes are already connected.",
+   "answer": true,
+   "explanation": "Union-find answers that question in almost constant time."
+  },
+  {
+   "id": "tf-031",
+   "activity": "true-false",
+   "topic": "dijkstra",
+   "difficulty": "medium",
+   "text": "Dijkstra's algorithm settles a node as soon as it is first put in the queue.",
+   "answer": false,
+   "explanation": "A node is settled when it is taken out with the smallest distance, not when it is first queued."
+  },
+  {
+   "id": "tf-032",
+   "activity": "true-false",
+   "topic": "bellman-ford",
+   "difficulty": "hard",
+   "text": "The basic Bellman-Ford algorithm relaxes every edge up to n - 1 times.",
+   "answer": true,
+   "explanation": "A shortest path has at most n - 1 edges, so n - 1 rounds are enough."
+  },
+  {
+   "id": "tf-033",
+   "activity": "true-false",
+   "topic": "quick-sort",
+   "difficulty": "medium",
+   "text": "Quick sort that always takes the first element as pivot is slow on a list that is already sorted.",
+   "answer": true,
+   "explanation": "Every split leaves one side empty, so the time grows to O(n^2)."
+  },
+  {
+   "id": "tf-034",
+   "activity": "true-false",
+   "topic": "merge-sort",
+   "difficulty": "easy",
+   "text": "Merge sort is a divide and conquer algorithm.",
+   "answer": true,
+   "explanation": "It splits the list, sorts the halves and merges them."
+  },
+  {
+   "id": "tf-035",
+   "activity": "true-false",
+   "topic": "prim",
+   "difficulty": "medium",
+   "text": "Prim's minimum spanning tree algorithm is defined for directed graphs in the same way as for undirected graphs.",
+   "answer": false,
+   "explanation": "A minimum spanning tree is defined for undirected graphs. GraphLab asks for an undirected graph."
+  },
+  {
+   "id": "tf-036",
+   "activity": "true-false",
+   "topic": "edmonds-karp",
+   "difficulty": "easy",
+   "text": "An augmenting path is a path from the source to the sink that still has spare capacity.",
+   "answer": true,
+   "explanation": "Pushing flow along it increases the total flow."
+  },
+  {
+   "id": "tf-037",
+   "activity": "true-false",
+   "topic": "floyd-warshall",
+   "difficulty": "hard",
+   "text": "Floyd-Warshall can handle negative edge weights if there is no negative cycle.",
+   "answer": true,
+   "explanation": "It only needs the path lengths to be well defined."
+  },
+  {
+   "id": "tf-038",
+   "activity": "true-false",
+   "topic": "dfs",
+   "difficulty": "medium",
+   "text": "Depth-first search always finds the shortest path in an unweighted graph.",
+   "answer": false,
+   "explanation": "It may find a long path first. Breadth-first search finds the shortest one."
+  },
+  {
+   "id": "tf-039",
+   "activity": "true-false",
+   "topic": "dijkstra",
+   "difficulty": "medium",
+   "text": "On a graph where every edge weighs 1, Dijkstra and breadth-first search give the same distances.",
+   "answer": true,
+   "explanation": "Both settle the nodes in order of their distance."
+  },
+  {
+   "id": "bt-001",
+   "activity": "best-tool",
+   "topic": "dijkstra",
+   "difficulty": "easy",
+   "text": "Find the shortest road route from one city to another. All distances are positive.",
+   "options": [
+    "Breadth-first search",
+    "Dijkstra",
+    "Kruskal"
+   ],
+   "correct": 1,
+   "explanation": "Dijkstra finds the shortest weighted route when no weight is negative. Kruskal builds a tree, and breadth-first search counts edges, not distance."
+  },
+  {
+   "id": "bt-002",
+   "activity": "best-tool",
+   "topic": "kruskal",
+   "difficulty": "easy",
+   "text": "Join every village with the least total length of cable.",
+   "options": [
+    "Dijkstra",
+    "Floyd-Warshall",
+    "Kruskal"
+   ],
+   "correct": 2,
+   "explanation": "Joining all nodes with the least total weight is a minimum spanning tree, which Kruskal builds."
+  },
+  {
+   "id": "bt-003",
+   "activity": "best-tool",
+   "topic": "bfs",
+   "difficulty": "easy",
+   "text": "Find the fewest links between two people in a friendship network. Every link counts as 1.",
+   "options": [
+    "Breadth-first search",
+    "Prim",
+    "Merge sort"
+   ],
+   "correct": 0,
+   "explanation": "With equal links, the fewest links is found by breadth-first search."
+  },
+  {
+   "id": "bt-004",
+   "activity": "best-tool",
+   "topic": "bellman-ford",
+   "difficulty": "medium",
+   "text": "Some edges are negative, for example refunds. You need the shortest paths from one source.",
+   "options": [
+    "Kruskal",
+    "Dijkstra",
+    "Bellman-Ford"
+   ],
+   "correct": 2,
+   "explanation": "Bellman-Ford allows negative edges. Dijkstra can give wrong answers with them."
+  },
+  {
+   "id": "bt-005",
+   "activity": "best-tool",
+   "topic": "floyd-warshall",
+   "difficulty": "medium",
+   "text": "You need the shortest distance between every pair of 40 stations.",
+   "options": [
+    "Prim",
+    "Breadth-first search",
+    "Floyd-Warshall"
+   ],
+   "correct": 2,
+   "explanation": "Floyd-Warshall fills the distances of all pairs in one run."
+  },
+  {
+   "id": "bt-006",
+   "activity": "best-tool",
+   "topic": "edmonds-karp",
+   "difficulty": "medium",
+   "text": "Find how much water a pipe network can carry from the source to the city.",
+   "options": [
+    "Edmonds-Karp (max flow)",
+    "Kruskal",
+    "Dijkstra"
+   ],
+   "correct": 0,
+   "explanation": "Pipes have capacities, so this is a maximum flow problem. Edmonds-Karp solves it."
+  },
+  {
+   "id": "bt-007",
+   "activity": "best-tool",
+   "topic": "knapsack-01",
+   "difficulty": "medium",
+   "text": "Pack a bag with the most value. Each item must be taken whole or left out.",
+   "options": [
+    "Prim",
+    "0/1 knapsack",
+    "Fractional knapsack"
+   ],
+   "correct": 1,
+   "explanation": "Whole items mean the 0/1 knapsack, solved by dynamic programming."
+  },
+  {
+   "id": "bt-008",
+   "activity": "best-tool",
+   "topic": "fractional-knapsack",
+   "difficulty": "easy",
+   "text": "Fill a truck with grain and sugar that can be poured in any amount, for the most value.",
+   "options": [
+    "0/1 knapsack",
+    "Floyd-Warshall",
+    "Fractional knapsack"
+   ],
+   "correct": 2,
+   "explanation": "Goods that can be split suit the fractional knapsack: take the best value per weight first."
+  },
+  {
+   "id": "bt-009",
+   "activity": "best-tool",
+   "topic": "graph-colouring",
+   "difficulty": "medium",
+   "text": "Give exam slots to subjects so that two subjects with a shared student never share a slot, using few slots.",
+   "options": [
+    "Graph colouring",
+    "Dijkstra",
+    "Merge sort"
+   ],
+   "correct": 0,
+   "explanation": "Subjects are nodes, shared students are edges, and slots are colours: graph colouring."
+  },
+  {
+   "id": "bt-010",
+   "activity": "best-tool",
+   "topic": "merge-sort",
+   "difficulty": "medium",
+   "text": "Sort a very large list and you need a time of O(n log n) that is guaranteed.",
+   "options": [
+    "Breadth-first search",
+    "Merge sort",
+    "Quick sort"
+   ],
+   "correct": 1,
+   "explanation": "Merge sort keeps O(n log n) in the worst case. Quick sort can fall to O(n^2)."
+  },
+  {
+   "id": "bt-011",
+   "activity": "best-tool",
+   "topic": "quick-sort",
+   "difficulty": "medium",
+   "text": "Sort a list in memory. You want a fast average time and very little extra memory.",
+   "options": [
+    "Merge sort",
+    "Kruskal",
+    "Quick sort"
+   ],
+   "correct": 2,
+   "explanation": "Quick sort sorts in place with a fast average time. Merge sort needs a second array."
+  },
+  {
+   "id": "bt-012",
+   "activity": "best-tool",
+   "topic": "karger",
+   "difficulty": "hard",
+   "text": "Estimate the minimum cut of a network quickly by choosing edges at random.",
+   "options": [
+    "Karger min cut",
+    "Dijkstra",
+    "Prim"
+   ],
+   "correct": 0,
+   "explanation": "Karger's algorithm contracts random edges, and repeated runs find the minimum cut with high probability."
+  },
+  {
+   "id": "bt-013",
+   "activity": "best-tool",
+   "topic": "dfs",
+   "difficulty": "easy",
+   "text": "Check whether a maze has any route from the entrance to the exit by going as deep as possible before backing up.",
+   "options": [
+    "Fractional knapsack",
+    "Depth-first search",
+    "Kruskal"
+   ],
+   "correct": 1,
+   "explanation": "Going deep and backing up is depth-first search."
+  },
+  {
+   "id": "bt-014",
+   "activity": "best-tool",
+   "topic": "bfs",
+   "difficulty": "easy",
+   "text": "Visit every room level by level, nearest first, starting at the entrance.",
+   "options": [
+    "Depth-first search",
+    "Prim",
+    "Breadth-first search"
+   ],
+   "correct": 2,
+   "explanation": "Level by level, nearest first, is breadth-first search."
+  },
+  {
+   "id": "bt-015",
+   "activity": "best-tool",
+   "topic": "randomized-quick-sort",
+   "difficulty": "medium",
+   "text": "Quick sort is slow on your sorted data. Which change makes the bad case unlikely for every input?",
+   "options": [
+    "Randomized quick sort",
+    "Floyd-Warshall",
+    "Kruskal"
+   ],
+   "correct": 0,
+   "explanation": "Choosing the pivot at random gives randomized quick sort."
+  },
+  {
+   "id": "bt-016",
+   "activity": "best-tool",
+   "topic": "prim",
+   "difficulty": "medium",
+   "text": "Start in one house and always add the cheapest cable to a house that is not connected yet.",
+   "options": [
+    "Dijkstra",
+    "Prim",
+    "Kruskal"
+   ],
+   "correct": 1,
+   "explanation": "Growing one tree by the cheapest edge to a new node is Prim's algorithm."
+  },
+  {
+   "id": "bt-017",
+   "activity": "best-tool",
+   "topic": "kruskal",
+   "difficulty": "medium",
+   "text": "Take the cheapest road from a sorted list, but skip any road that closes a loop.",
+   "options": [
+    "Prim",
+    "Bellman-Ford",
+    "Kruskal"
+   ],
+   "correct": 2,
+   "explanation": "Sorting the edges and skipping cycles is Kruskal's algorithm."
+  },
+  {
+   "id": "bt-018",
+   "activity": "best-tool",
+   "topic": "bellman-ford",
+   "difficulty": "hard",
+   "text": "Check whether a chain of currency exchanges can earn money in a loop (a negative cycle).",
+   "options": [
+    "Bellman-Ford",
+    "Dijkstra",
+    "Prim"
+   ],
+   "correct": 0,
+   "explanation": "Bellman-Ford can report a negative cycle. Dijkstra cannot."
+  },
+  {
+   "id": "bt-019",
+   "activity": "best-tool",
+   "topic": "edmonds-karp",
+   "difficulty": "easy",
+   "text": "How many cars per hour can go from the stadium to the highway through roads that each have a limit?",
+   "options": [
+    "Merge sort",
+    "Edmonds-Karp (max flow)",
+    "Kruskal"
+   ],
+   "correct": 1,
+   "explanation": "Limits on roads make a flow network. The answer is its maximum flow."
+  },
+  {
+   "id": "bt-020",
+   "activity": "best-tool",
+   "topic": "bfs",
+   "difficulty": "medium",
+   "text": "Find the fewest moves a robot needs on a grid, where each step costs the same.",
+   "options": [
+    "Prim",
+    "0/1 knapsack",
+    "Breadth-first search"
+   ],
+   "correct": 2,
+   "explanation": "Equal steps mean the fewest moves are found by breadth-first search."
+  },
+  {
+   "id": "bt-021",
+   "activity": "best-tool",
+   "topic": "knapsack-01",
+   "difficulty": "medium",
+   "text": "Choose study topics. Each has a time cost and gives marks, and half a topic is not allowed. You want the most marks.",
+   "options": [
+    "0/1 knapsack",
+    "Fractional knapsack",
+    "Quick sort"
+   ],
+   "correct": 0,
+   "explanation": "Whole topics with a limit on time form a 0/1 knapsack."
+  },
+  {
+   "id": "bt-022",
+   "activity": "best-tool",
+   "topic": "dijkstra",
+   "difficulty": "easy",
+   "text": "You need the fastest route from the capital to all other cities. Travel times are positive.",
+   "options": [
+    "Graph colouring",
+    "Dijkstra",
+    "Kruskal"
+   ],
+   "correct": 1,
+   "explanation": "One source and positive weights: Dijkstra."
+  },
+  {
+   "id": "bt-023",
+   "activity": "best-tool",
+   "topic": "merge-sort",
+   "difficulty": "easy",
+   "text": "Combine two already sorted lists of results into one sorted list efficiently.",
+   "options": [
+    "Dijkstra",
+    "Prim",
+    "Merge sort"
+   ],
+   "correct": 2,
+   "explanation": "The merge step of merge sort does exactly this in linear time."
+  },
+  {
+   "id": "bt-024",
+   "activity": "best-tool",
+   "topic": "graph-colouring",
+   "difficulty": "easy",
+   "text": "Colour a map so that countries that touch have different colours.",
+   "options": [
+    "Graph colouring",
+    "Kruskal",
+    "Quick sort"
+   ],
+   "correct": 0,
+   "explanation": "Countries are nodes and borders are edges: graph colouring."
+  },
+  {
+   "id": "bt-025",
+   "activity": "best-tool",
+   "topic": "prim",
+   "difficulty": "medium",
+   "text": "Connect islands with bridges of different costs so that every island is reachable at the least cost.",
+   "options": [
+    "Fractional knapsack",
+    "Prim",
+    "Bellman-Ford"
+   ],
+   "correct": 1,
+   "explanation": "Connecting all nodes at the least cost is a minimum spanning tree. Prim builds one."
+  },
+  {
+   "id": "bt-026",
+   "activity": "best-tool",
+   "topic": "edmonds-karp",
+   "difficulty": "hard",
+   "text": "Find the smallest set of links whose removal cuts the source from the sink, using a flow.",
+   "options": [
+    "Prim",
+    "Merge sort",
+    "Edmonds-Karp (max flow)"
+   ],
+   "correct": 2,
+   "explanation": "By the max-flow min-cut theorem, a maximum flow also gives the minimum cut."
+  },
+  {
+   "id": "bt-027",
+   "activity": "best-tool",
+   "topic": "dfs",
+   "difficulty": "medium",
+   "text": "Find all the nodes in the same connected piece as a start node, following each branch as far as it goes.",
+   "options": [
+    "Depth-first search",
+    "Kruskal",
+    "0/1 knapsack"
+   ],
+   "correct": 0,
+   "explanation": "Following each branch to its end is depth-first search."
+  },
+  {
+   "id": "bt-028",
+   "activity": "best-tool",
+   "topic": "bfs",
+   "difficulty": "medium",
+   "text": "Find the distance, in edges, from one node to all others in O(V + E) time.",
+   "options": [
+    "Merge sort",
+    "Breadth-first search",
+    "Floyd-Warshall"
+   ],
+   "correct": 1,
+   "explanation": "Breadth-first search gives the edge distance to every node in linear time."
+  },
+  {
+   "id": "bt-029",
+   "activity": "best-tool",
+   "topic": "merge-sort",
+   "difficulty": "hard",
+   "text": "Sort records and keep records with equal keys in their original order (a stable sort).",
+   "options": [
+    "Quick sort",
+    "Karger min cut",
+    "Merge sort"
+   ],
+   "correct": 2,
+   "explanation": "Merge sort is stable. The usual quick sort is not."
+  },
+  {
+   "id": "bt-030",
+   "activity": "best-tool",
+   "topic": "dijkstra",
+   "difficulty": "easy",
+   "text": "Find the shortest paths from one node when edge weights are zero or positive.",
+   "options": [
+    "Dijkstra",
+    "Kruskal",
+    "Graph colouring"
+   ],
+   "correct": 0,
+   "explanation": "Non-negative weights and one source: Dijkstra."
+  },
+  {
+   "id": "oo-001",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Breadth-first search",
+    "Depth-first search",
+    "Merge sort",
+    "Dijkstra"
+   ],
+   "correct": 2,
+   "explanation": "BFS, DFS and Dijkstra all walk through a graph. Merge sort sorts a list of numbers."
+  },
+  {
+   "id": "oo-002",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Merge sort",
+    "Quick sort",
+    "Randomized quick sort",
+    "Dijkstra"
+   ],
+   "correct": 3,
+   "explanation": "Three of them sort a list. Dijkstra finds shortest paths in a graph."
+  },
+  {
+   "id": "oo-003",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Dijkstra",
+    "Bellman-Ford",
+    "Floyd-Warshall",
+    "Kruskal"
+   ],
+   "correct": 3,
+   "explanation": "Dijkstra, Bellman-Ford and Floyd-Warshall find shortest distances. Kruskal builds a spanning tree."
+  },
+  {
+   "id": "oo-004",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Merge sort",
+    "Quick sort",
+    "0/1 knapsack",
+    "Randomized quick sort"
+   ],
+   "correct": 2,
+   "explanation": "Three of them sort a list. The 0/1 knapsack chooses items for a bag."
+  },
+  {
+   "id": "oo-005",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Dijkstra",
+    "Kruskal",
+    "Prim",
+    "Breadth-first search"
+   ],
+   "correct": 3,
+   "explanation": "Dijkstra, Kruskal and Prim use the weights on the edges. BFS only counts the number of edges (hops)."
+  },
+  {
+   "id": "oo-006",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Kruskal",
+    "Prim",
+    "Fractional knapsack",
+    "Merge sort"
+   ],
+   "correct": 3,
+   "explanation": "Kruskal, Prim and the fractional knapsack are greedy: they take the best choice now. Merge sort divides and conquers."
+  },
+  {
+   "id": "oo-007",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Merge sort",
+    "Quick sort",
+    "Randomized quick sort",
+    "Kruskal"
+   ],
+   "correct": 3,
+   "explanation": "Three of them split a list and sort the parts (divide and conquer). Kruskal is greedy."
+  },
+  {
+   "id": "oo-008",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Breadth-first search",
+    "Prim",
+    "Dijkstra",
+    "Depth-first search"
+   ],
+   "correct": 3,
+   "explanation": "BFS, Prim and Dijkstra keep a queue of waiting nodes or edges. DFS goes deep first and uses a stack (recursion)."
+  },
+  {
+   "id": "oo-009",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "0/1 knapsack",
+    "Floyd-Warshall",
+    "Bellman-Ford",
+    "Fractional knapsack"
+   ],
+   "correct": 3,
+   "explanation": "The first three build the answer from answers to smaller problems. The fractional knapsack is greedy: it sorts by value per weight."
+  },
+  {
+   "id": "oo-010",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Dijkstra",
+    "Breadth-first search",
+    "Bellman-Ford",
+    "Kruskal"
+   ],
+   "correct": 3,
+   "explanation": "Dijkstra, BFS and Bellman-Ford start from a chosen node. Kruskal needs no start node, because it looks at all edges."
+  },
+  {
+   "id": "oo-011",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Kruskal",
+    "Prim",
+    "Breadth-first search",
+    "Floyd-Warshall"
+   ],
+   "correct": 3,
+   "explanation": "Kruskal, Prim and BFS each end with a tree. Floyd-Warshall ends with a table of distances."
+  },
+  {
+   "id": "oo-012",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Karger min cut",
+    "Breadth-first search",
+    "Dijkstra",
+    "Kruskal"
+   ],
+   "correct": 0,
+   "explanation": "BFS, Dijkstra and Kruskal always give the same answer on the same graph. Karger picks edges at random, so runs can differ."
+  },
+  {
+   "id": "oo-013",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Merge sort",
+    "Quick sort",
+    "Depth-first search",
+    "Kruskal"
+   ],
+   "correct": 3,
+   "explanation": "Merge sort, quick sort and DFS call themselves (recursion). Kruskal is a plain loop over the sorted edges."
+  },
+  {
+   "id": "oo-014",
+   "activity": "odd-one-out",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Which one does not belong with the other three?",
+   "options": [
+    "Dijkstra",
+    "Bellman-Ford",
+    "Floyd-Warshall",
+    "Edmonds-Karp (max flow)"
+   ],
+   "correct": 3,
+   "explanation": "The first three find shortest distances. Edmonds-Karp finds a maximum flow."
+  },
+  {
+   "id": "mp-001",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Match each algorithm with what it does.",
+   "pairs": [
+    [
+     "Dijkstra",
+     "Finds shortest paths when no edge is negative"
+    ],
+    [
+     "Kruskal",
+     "Builds a cheapest spanning tree by sorting the edges"
+    ],
+    [
+     "BFS",
+     "Visits the nodes in order of their hops from the start"
+    ],
+    [
+     "Merge sort",
+     "Splits a list in halves and merges them back sorted"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Dijkstra is finds shortest paths when no edge is negative; Kruskal is builds a cheapest spanning tree by sorting the edges; BFS is visits the nodes in order of their hops from the start; Merge sort is splits a list in halves and merges them back sorted."
+  },
+  {
+   "id": "mp-002",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Match each data structure with how it works.",
+   "pairs": [
+    [
+     "Queue",
+     "First in, first out"
+    ],
+    [
+     "Stack",
+     "Last in, first out"
+    ],
+    [
+     "Priority queue",
+     "The smallest key leaves first"
+    ],
+    [
+     "Union-find",
+     "Tells whether two nodes are in the same set"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Queue is first in, first out; Stack is last in, first out; Priority queue is the smallest key leaves first; Union-find is tells whether two nodes are in the same set."
+  },
+  {
+   "id": "mp-003",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Match each algorithm with its family.",
+   "pairs": [
+    [
+     "Kruskal",
+     "Greedy"
+    ],
+    [
+     "Merge sort",
+     "Divide and conquer"
+    ],
+    [
+     "0/1 knapsack",
+     "Dynamic programming"
+    ],
+    [
+     "Graph colouring",
+     "Backtracking"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Kruskal is greedy; Merge sort is divide and conquer; 0/1 knapsack is dynamic programming; Graph colouring is backtracking."
+  },
+  {
+   "id": "mp-004",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Match each algorithm with its job.",
+   "pairs": [
+    [
+     "Karger",
+     "Random contractions find a small cut"
+    ],
+    [
+     "Edmonds-Karp",
+     "Maximum flow by shortest routes with spare room"
+    ],
+    [
+     "Floyd-Warshall",
+     "Shortest distances between all pairs"
+    ],
+    [
+     "Bellman-Ford",
+     "Shortest paths even with negative edges"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Karger is random contractions find a small cut; Edmonds-Karp is maximum flow by shortest routes with spare room; Floyd-Warshall is shortest distances between all pairs; Bellman-Ford is shortest paths even with negative edges."
+  },
+  {
+   "id": "mp-005",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Match each algorithm with its cost.",
+   "pairs": [
+    [
+     "Merge sort",
+     "About n log n steps in every case"
+    ],
+    [
+     "Quick sort",
+     "About n squared steps in its worst case"
+    ],
+    [
+     "BFS",
+     "Looks at each node and each edge once"
+    ],
+    [
+     "Floyd-Warshall",
+     "Three nested loops over the nodes"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Merge sort is about n log n steps in every case; Quick sort is about n squared steps in its worst case; BFS is looks at each node and each edge once; Floyd-Warshall is three nested loops over the nodes."
+  },
+  {
+   "id": "mp-006",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Match each algorithm with how it works.",
+   "pairs": [
+    [
+     "Prim",
+     "Grows one tree from a start node"
+    ],
+    [
+     "Kruskal",
+     "Joins many small sets into one"
+    ],
+    [
+     "Dijkstra",
+     "Settles the closest node that is not settled yet"
+    ],
+    [
+     "Bellman-Ford",
+     "Relaxes every edge in repeated passes"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Prim is grows one tree from a start node; Kruskal is joins many small sets into one; Dijkstra is settles the closest node that is not settled yet; Bellman-Ford is relaxes every edge in repeated passes."
+  },
+  {
+   "id": "mp-007",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Match each term with its meaning.",
+   "pairs": [
+    [
+     "Relaxation",
+     "Improving a distance by using one more edge"
+    ],
+    [
+     "Cycle",
+     "A route that comes back to its start"
+    ],
+    [
+     "Spanning tree",
+     "Joins all nodes with no cycle"
+    ],
+    [
+     "Residual capacity",
+     "Spare room left on an edge of a flow"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Relaxation is improving a distance by using one more edge; Cycle is a route that comes back to its start; Spanning tree is joins all nodes with no cycle; Residual capacity is spare room left on an edge of a flow."
+  },
+  {
+   "id": "mp-008",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "medium",
+   "text": "Match each word with its meaning.",
+   "pairs": [
+    [
+     "Pivot",
+     "The element a quick sort part is split around"
+    ],
+    [
+     "Pass",
+     "One round over all edges in Bellman-Ford"
+    ],
+    [
+     "Augmenting path",
+     "A route from source to sink with spare capacity"
+    ],
+    [
+     "DP table",
+     "Stores answers to smaller problems"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Pivot is the element a quick sort part is split around; Pass is one round over all edges in Bellman-Ford; Augmenting path is a route from source to sink with spare capacity; DP table is stores answers to smaller problems."
+  },
+  {
+   "id": "mp-009",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Match each idea with its meaning.",
+   "pairs": [
+    [
+     "Negative cycle",
+     "Makes shortest distances undefined"
+    ],
+    [
+     "Greedy choice",
+     "The best step now, never reconsidered"
+    ],
+    [
+     "Optimal substructure",
+     "The best answer is built from best smaller answers"
+    ],
+    [
+     "Minimum cut",
+     "The least capacity that separates source from sink"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Negative cycle is makes shortest distances undefined; Greedy choice is the best step now, never reconsidered; Optimal substructure is the best answer is built from best smaller answers; Minimum cut is the least capacity that separates source from sink."
+  },
+  {
+   "id": "mp-010",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Match each algorithm with its key idea.",
+   "pairs": [
+    [
+     "Fractional knapsack",
+     "Greedy by value per weight"
+    ],
+    [
+     "0/1 knapsack",
+     "Needs a table over items and room"
+    ],
+    [
+     "Graph colouring",
+     "Goes back when no colour fits"
+    ],
+    [
+     "Randomized quick sort",
+     "A random pivot avoids the sorted-input worst case"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Fractional knapsack is greedy by value per weight; 0/1 knapsack is needs a table over items and room; Graph colouring is goes back when no colour fits; Randomized quick sort is a random pivot avoids the sorted-input worst case."
+  },
+  {
+   "id": "mp-011",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "hard",
+   "text": "Match each algorithm with its key fact.",
+   "pairs": [
+    [
+     "Karger",
+     "May need many runs to find the true minimum cut"
+    ],
+    [
+     "Prim",
+     "Keeps a priority queue of edges"
+    ],
+    [
+     "Kruskal",
+     "Needs sorted edges and union-find"
+    ],
+    [
+     "Dijkstra",
+     "Fails when an edge is negative"
+    ]
+   ],
+   "explanation": "Each term goes with the meaning next to it in this list: Karger is may need many runs to find the true minimum cut; Prim is keeps a priority queue of edges; Kruskal is needs sorted edges and union-find; Dijkstra is fails when an edge is negative."
+  },
+  {
+   "id": "mp-012",
+   "activity": "match-pairs",
+   "topic": "general",
+   "difficulty": "easy",
+   "text": "Match each algorithm with the kind of answer it gives.",
+   "pairs": [
+    [
+     "BFS",
+     "Fewest edges from the start"
+    ],
+    [
+     "Kruskal",
+     "A spanning tree of least weight"
+    ],
+    [
+     "Quick sort",
+     "A sorted list"
+    ],
+    [
+     "Edmonds-Karp",
+     "A maximum flow"
+    ]
+   ],
+   "explanation": "BFS gives the fewest edges from the start; Kruskal gives a spanning tree of least weight; quick sort gives a sorted list; Edmonds-Karp gives a maximum flow."
+  }
+ ]
+}
