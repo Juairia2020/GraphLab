@@ -1,0 +1,155 @@
+{
+ "schemaVersion": 1,
+ "cities": [
+  {
+   "name": "Dhaka",
+   "lat": 23.8103,
+   "lon": 90.4125
+  },
+  {
+   "name": "Chattogram",
+   "lat": 22.3569,
+   "lon": 91.7832
+  },
+  {
+   "name": "Khulna",
+   "lat": 22.8456,
+   "lon": 89.5403
+  },
+  {
+   "name": "Rajshahi",
+   "lat": 24.3745,
+   "lon": 88.6042
+  },
+  {
+   "name": "Sylhet",
+   "lat": 24.8949,
+   "lon": 91.8687
+  },
+  {
+   "name": "Barishal",
+   "lat": 22.701,
+   "lon": 90.3535
+  },
+  {
+   "name": "Rangpur",
+   "lat": 25.7439,
+   "lon": 89.2752
+  },
+  {
+   "name": "Mymensingh",
+   "lat": 24.7471,
+   "lon": 90.4203
+  },
+  {
+   "name": "Cumilla",
+   "lat": 23.4607,
+   "lon": 91.1809
+  },
+  {
+   "name": "Gazipur",
+   "lat": 23.9999,
+   "lon": 90.4203
+  },
+  {
+   "name": "Narayanganj",
+   "lat": 23.6238,
+   "lon": 90.5
+  },
+  {
+   "name": "Jashore",
+   "lat": 23.1667,
+   "lon": 89.2167
+  },
+  {
+   "name": "Bogura",
+   "lat": 24.8465,
+   "lon": 89.3776
+  },
+  {
+   "name": "Dinajpur",
+   "lat": 25.6217,
+   "lon": 88.6354
+  },
+  {
+   "name": "Cox's Bazar",
+   "lat": 21.4272,
+   "lon": 92.0058
+  },
+  {
+   "name": "Faridpur",
+   "lat": 23.607,
+   "lon": 89.8429
+  },
+  {
+   "name": "Tangail",
+   "lat": 24.2513,
+   "lon": 89.9167
+  },
+  {
+   "name": "Pabna",
+   "lat": 24.0064,
+   "lon": 89.2372
+  },
+  {
+   "name": "Kushtia",
+   "lat": 23.9013,
+   "lon": 89.1205
+  },
+  {
+   "name": "Noakhali",
+   "lat": 22.8696,
+   "lon": 91.0995
+  },
+  {
+   "name": "Brahmanbaria",
+   "lat": 23.9571,
+   "lon": 91.1115
+  },
+  {
+   "name": "Habiganj",
+   "lat": 24.3745,
+   "lon": 91.4156
+  },
+  {
+   "name": "Moulvibazar",
+   "lat": 24.4829,
+   "lon": 91.7774
+  },
+  {
+   "name": "Satkhira",
+   "lat": 22.7185,
+   "lon": 89.0705
+  },
+  {
+   "name": "Bagerhat",
+   "lat": 22.6516,
+   "lon": 89.785
+  },
+  {
+   "name": "Patuakhali",
+   "lat": 22.3596,
+   "lon": 90.3299
+  },
+  {
+   "name": "Jamalpur",
+   "lat": 24.9375,
+   "lon": 89.9372
+  },
+  {
+   "name": "Naogaon",
+   "lat": 24.7936,
+   "lon": 88.9318
+  },
+  {
+   "name": "Thakurgaon",
+   "lat": 26.0337,
+   "lon": 88.4616
+  },
+  {
+   "name": "Feni",
+   "lat": 23.0159,
+   "lon": 91.3976
+  }
+ ]
+}
