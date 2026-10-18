@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lab, Experiment mode (MS8): run a randomized algorithm many times in a foreground service and see the histogram. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/experiment_intro"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/experiment_algorithm_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:hint="@string/experiment_algorithm_hint">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/experiment_algorithm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:minHeight="@dimen/touch_min" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/experiment_lesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/experiment_graph_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:hint="@string/experiment_graph_hint">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/experiment_graph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:minHeight="@dimen/touch_min" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/experiment_trials_layout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:hint="@string/experiment_trials_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/experiment_trials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:minHeight="@dimen/touch_min" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/experiment_random"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/experiment_random_graph" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/experiment_slow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/experiment_slow" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/experiment_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/experiment_start" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/experiment_benchmark"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/benchmark_open" />
+
+        <TextView
+            android:id="@+id/experiment_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label"
+            android:textColor="?attr/colorError"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/experiment_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/experiment_progress_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/experiment_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/experiment_progress_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/experiment_pause"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="@dimen/touch_min"
+                    android:text="@string/experiment_pause" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/experiment_cancel"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gap_small"
+                    android:layout_weight="1"
+                    android:minHeight="@dimen/touch_min"
+                    android:text="@string/experiment_cancel" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/experiment_chart_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/experiment_chart_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <com.graphlab.ui.common.HistogramView
+            android:id="@+id/experiment_histogram"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/histogram_height"
+            android:layout_marginTop="@dimen/gap_small" />
+
+        <TextView
+            android:id="@+id/experiment_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:id="@+id/experiment_network"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/experiment_compare"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:layout_marginBottom="@dimen/gap"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/experiment_compare" />
+    </LinearLayout>
+</ScrollView>
