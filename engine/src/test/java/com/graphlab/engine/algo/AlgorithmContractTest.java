@@ -28,12 +28,16 @@ import org.junit.Test;
  */
 public class AlgorithmContractTest {
 
+    /** The six algorithms that produce a spanning tree or a shortest-path tree; the strict rules below apply to them. */
+    private static final List<Algorithm> TREE_FAMILY = List.of(Algorithms.byId("bfs"), Algorithms.byId("dfs"),
+            Algorithms.byId("dijkstra"), Algorithms.byId("bellman-ford"), Algorithms.byId("kruskal"), Algorithms.byId("prim"));
+
     private interface Check {
         void run(Algorithm algorithm, String graphName, Graph graph, Trace trace);
     }
 
     private static void forEveryRun(Check check) {
-        for (Algorithm algorithm : Algorithms.all()) {
+        for (Algorithm algorithm : TREE_FAMILY) {
             for (Map.Entry<String, Graph> entry : TestGraphs.undirectedSuite().entrySet()) {
                 Graph graph = entry.getValue();
                 List<Node> nodes = graph.nodes();
@@ -49,25 +53,28 @@ public class AlgorithmContractTest {
     // ---- registry ----
 
     @Test
-    public void sixAlgorithmsWithUniqueIds() {
+    public void twentyEightAlgorithmsWithUniqueIds() {
         Set<String> ids = new HashSet<>();
         for (Algorithm a : Algorithms.all()) {
             assertTrue("duplicate id " + a.id(), ids.add(a.id()));
         }
-        assertEquals(Set.of("bfs", "dfs", "dijkstra", "bellman-ford", "kruskal", "prim"), ids);
+        assertEquals(Set.of("bfs", "dfs", "dijkstra", "bellman-ford", "floyd-warshall", "kruskal", "prim", "edmonds-karp",
+                "fractional-knapsack", "graph-colouring", "merge-sort", "quick-sort", "randomized-quick-sort", "karger",
+                "knapsack-01", "coin-change", "lcs", "edit-distance", "lis", "astar", "topological-sort", "tarjan-scc", "dinic",
+                "bipartite-matching", "huffman", "closest-pair", "reservoir-sampling", "matrix-chain"), ids);
     }
 
     @Test
     public void lookupByIdFindsTheSameInstance() {
-        for (Algorithm a : Algorithms.all()) {
+        for (Algorithm a : TREE_FAMILY) {
             assertEquals(a, Algorithms.byId(a.id()));
         }
-        assertThrows(IllegalArgumentException.class, () -> Algorithms.byId("quicksort"));
+        assertThrows(IllegalArgumentException.class, () -> Algorithms.byId("quicksort-typo"));
     }
 
     @Test
     public void everyAlgorithmHasANameAndPseudocode() {
-        for (Algorithm a : Algorithms.all()) {
+        for (Algorithm a : TREE_FAMILY) {
             assertFalse(a.name().isBlank());
             assertTrue(a.pseudocode().size() >= 5);
             assertTrue(a.pseudocode().stream().noneMatch(String::isBlank));
@@ -209,7 +216,7 @@ public class AlgorithmContractTest {
     @Test
     public void algorithmsThatNeedAStartNodeRejectMissingOrUnknownOnes() {
         Graph g = TestGraphs.undirectedSuite().get("sample");
-        for (Algorithm a : Algorithms.all()) {
+        for (Algorithm a : TREE_FAMILY) {
             if (a.id().equals("kruskal")) {
                 continue;   // Kruskal needs no start node
             }
@@ -231,7 +238,7 @@ public class AlgorithmContractTest {
     public void sixtyNodeGraphsRunToCompletion() {
         Graph big = TestGraphs.ringWithChords(60);
         assertEquals(60, big.nodeCount());
-        for (Algorithm a : Algorithms.all()) {
+        for (Algorithm a : TREE_FAMILY) {
             Trace t = a.run(big, Params.from(0));
             assertTrue(a.id(), t.size() > 60);
         }

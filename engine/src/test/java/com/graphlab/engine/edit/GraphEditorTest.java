@@ -215,6 +215,15 @@ public class GraphEditorTest {
         assertEquals(4.0, ed.toGraph().edge(0).weight(), 1e-9);
     }
 
+    @Test
+    public void storedGraphKeepsTypedWeightsEvenWhenUnweighted() {
+        GraphEditor ed = triangle(false);
+        ed.setWeighted(false);
+        assertEquals(1.0, ed.toGraph().edge(0).weight(), 1e-9);          // what algorithms see
+        assertEquals(4.0, ed.toStoredGraph().edge(0).weight(), 1e-9);    // what is saved
+        assertEquals(6.0, ed.toStoredGraph().edge(2).weight(), 1e-9);
+    }
+
     // ---- derived data for drawing ----
 
     @Test
@@ -291,9 +300,13 @@ public class GraphEditorTest {
 
     @Test
     public void everyAlgorithmAcceptsTheEditedSampleGraph() {
-        Graph g = GraphEditor.from(SampleGraph.sixNodeUndirected(), true).toGraph();
         for (var algorithm : Algorithms.all()) {
-            algorithm.run(g, Params.from(SampleGraph.A));   // must not throw
+            if (algorithm.inputKind() != com.graphlab.engine.input.InputKind.GRAPH) {
+                continue;   // sorting and knapsack do not take a graph
+            }
+            Graph g = GraphEditor.from(algorithm.exampleGraph(), true).toGraph();
+            Params params = Params.from(SampleGraph.A);
+            algorithm.run(g, algorithm.needsTarget() ? params.withTarget(SampleGraph.E) : params);   // must not throw
         }
     }
 }
