@@ -36,6 +36,15 @@ Built with Java 17 and Gradle (Groovy DSL). The project has two modules.
 - Includes Break the algorithm (make one edge negative so Dijkstra fails) and Fog of war (a walker that always takes the cheapest visible road).
 - Content files are in `engine/src/main/resources/content`.
 
+**Experiment engine** (randomized algorithms):
+- Runs many random trials of an algorithm and collects the results in a histogram.
+- Algorithms: randomized quick sort, quick select, balls in bins, secretary problem and Karger min cut.
+
+**Map engine** (the Toolkit map):
+- Road distances come from a cache, then a route service, then OSRM, and last a straight-line estimate.
+- City graphs with readable node spacing, A* routes and a round trip (TSP) over chosen places.
+- Map tools and flow scenarios (flood relief, bus network).
+
 ### `:app` (early Android version)
 
 - Four tabs: Arena, Lab, Toolkit and Me, sharing one base screen and bottom bar.
