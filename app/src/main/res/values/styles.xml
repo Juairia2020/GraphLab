@@ -36,4 +36,13 @@
         <item name="strokeColor">?attr/gl_outline</item>
         <item name="android:minHeight">@dimen/touch_min</item>
     </style>
+
+    <!-- An answer in the Arena: full width, text at the start, readable when it is a long list of nodes. -->
+    <style name="Widget.GraphLab.OptionButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">?attr/gl_text</item>
+        <item name="strokeColor">?attr/gl_outline</item>
+        <item name="android:minHeight">@dimen/touch_min</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
 </resources>

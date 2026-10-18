@@ -6,6 +6,16 @@
     <dimen name="gap">12dp</dimen>
     <dimen name="gap_large">24dp</dimen>
     <dimen name="touch_min">48dp</dimen>
-    <dimen name="canvas_min_height">220dp</dimen>
+    <dimen name="canvas_min_height">300dp</dimen>
     <dimen name="side_panel_width">300dp</dimen>
+    <dimen name="run_canvas_height">420dp</dimen>
+    <dimen name="steps_list_height">240dp</dimen>
+    <dimen name="question_canvas_height">380dp</dimen>
+    <dimen name="question_array_height">160dp</dimen>
+    <dimen name="histogram_height">200dp</dimen>
+    <dimen name="histogram_height_small">130dp</dimen>
+    <!-- each race graph has the full screen width, one above the other, so nodes, weights and labels stay readable -->
+    <dimen name="race_canvas_height">380dp</dimen>
+    <dimen name="match_tile_height">88dp</dimen>
+    <dimen name="table_cell_width">56dp</dimen>
 </resources>

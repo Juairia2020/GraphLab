@@ -828,4 +828,13 @@
     <string name="graphs_more">Add from…</string>
     <string name="arena_more">More ways to play</string>
     <string name="me_more">More options</string>
+
+    <!-- Landscape: the bars are folded into one menu -->
+    <string name="menu_open">Menu</string>
+    <string name="bars_show">Show navigation bar</string>
+    <string name="bars_hide">Hide navigation bar</string>
+    <string name="run_tray_open">Show playback controls</string>
+    <string name="run_tray_close">Hide playback controls</string>
+    <string name="run_panel_open">Show run settings and steps</string>
+    <string name="run_panel_close">Hide run settings and steps</string>
 </resources>
