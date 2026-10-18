@@ -3,6 +3,7 @@ package com.graphlab.ui.common;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.content.res.Configuration;
 import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -12,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.graphlab.R;
+import com.graphlab.data.prefs.AppPrefs;
 import com.graphlab.databinding.ActivityBaseBinding;
+import com.graphlab.ui.onboarding.OnboardingActivity;
 
 /**
  * Shared shell for the four tabs: one layout (activity_base) holds the content area and the
@@ -30,7 +34,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onContentInflated(View content, @Nullable Bundle savedInstanceState) {
     }
 
+    /**
+     * Landscape only: the bottom bar was shown or hidden with the menu button. The Lab uses this to show its
+     * mode bar together with the bottom bar.
+     */
+    protected void onLandscapeBarsToggled(boolean shown) {
+    }
+
     private ActivityBaseBinding base;
+
+    /** Landscape leaves little height, so the bottom bar is folded into a menu button instead. */
+    protected final boolean isLandscape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,10 +61,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         base.content.addView(content);
 
         setUpBottomNav();
+        setUpLandscapeMenu();
         setUpBackNavigation();
         removeTransitionAnimations();
 
         onContentInflated(content, savedInstanceState);
+        maybeShowIntro(savedInstanceState);
+    }
+
+    /**
+     * The first time the app starts (Arena is the launcher tab) the three-screen intro opens on top.
+     * Not on rotation or when returning to the tab (savedInstanceState is not null then), and only once
+     * until the person finishes or skips it. Me can replay it.
+     */
+    private void maybeShowIntro(@Nullable Bundle savedInstanceState) {
+        if (getTab() == Tab.ARENA && savedInstanceState == null && !AppPrefs.isOnboardingDone(this)) {
+            startActivity(new Intent(this, OnboardingActivity.class));
+        }
     }
 
     private void applySystemBarInsets() {
@@ -57,7 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(base.getRoot(), (view, insets) -> {
             Insets bars = insets.getInsets(
                     WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-            view.setPadding(bars.left, bars.top, bars.right, 0);
+            com.graphlab.ui.common.EdgeInsets.pad(view, androidx.core.graphics.Insets.of(bars.left, bars.top, bars.right, 0));
             return insets;
         });
     }
@@ -73,6 +102,23 @@ public abstract class BaseActivity extends AppCompatActivity {
             // false = do not move the highlight here; the target Activity highlights itself.
             return false;
         });
+    }
+
+    /** In landscape the bottom bar starts hidden; the button on the slim rail shows and hides it. */
+    private void setUpLandscapeMenu() {
+        if (!isLandscape()) {
+            return;
+        }
+        base.navRail.setVisibility(View.VISIBLE);
+        setBarsShown(false);
+        base.navMenu.setOnClickListener(v -> setBarsShown(base.bottomNav.getVisibility() != View.VISIBLE));
+    }
+
+    private void setBarsShown(boolean shown) {
+        base.bottomNav.setVisibility(shown ? View.VISIBLE : View.GONE);
+        base.navDivider.setVisibility(shown ? View.VISIBLE : View.GONE);
+        base.navMenu.setContentDescription(getString(shown ? R.string.bars_hide : R.string.bars_show));
+        onLandscapeBarsToggled(shown);
     }
 
     @SuppressWarnings("deprecation")   // overridePendingTransition is the right call below API 34
