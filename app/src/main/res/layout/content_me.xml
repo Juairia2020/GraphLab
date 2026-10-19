@@ -129,6 +129,180 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/me_reminder_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/me_reminder_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_reminder_switch"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_reminder_time"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min" />
+
+        <TextView
+            android:id="@+id/me_reminder_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/me_cloud_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <TextView
+            android:id="@+id/me_cloud_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_cloud_name"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_cloud_open"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_cloud_open" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/me_data_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <TextView
+            android:id="@+id/me_data_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:id="@+id/me_arena_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+                <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_more"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_more" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_lifecycle_log"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_lifecycle_log" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_intro"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_intro" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_arena_reset"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_arena_reset" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/me_effects"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fx_glow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_fx_glow" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fx_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_fx_sound" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fx_haptics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_fx_haptics" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fx_reduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_fx_reduce" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fx_telemetry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_fx_telemetry" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/me_test_crash"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/me_test_crash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
             android:text="@string/state_colours"
             android:textAppearance="@style/TextAppearance.GraphLab.Section" />
 
