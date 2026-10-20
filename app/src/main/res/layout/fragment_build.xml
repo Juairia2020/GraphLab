@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lab, Build mode (MS2, a fragment since MS3). Portrait: canvas in the middle, controls above and below.
+     layout-land/fragment_build.xml has the same ids with the controls in a side column. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/graph_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/graph_name_description"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:minHeight="@dimen/touch_min"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_save"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_save" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_share"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_share" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_more"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:contentDescription="@string/action_more"
+            app:icon="@drawable/ic_more"
+            app:iconTint="@color/gl_icon_tint"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:paddingHorizontal="12dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/graph_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:orientation="horizontal">
+
+        <!-- Each switch sits in its own half and is only as wide as its label plus the thumb,
+             so the label and its switch stay together. (A weighted switch put the thumb at the
+             far end of its half, right beside the other switch's label.) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_directed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/directed"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                app:switchPadding="@dimen/gap" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_weighted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/weighted"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                app:switchPadding="@dimen/gap" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.graphlab.ui.common.GraphView
+        android:id="@+id/canvas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/gap_small"
+        android:layout_weight="1"
+        android:minHeight="@dimen/canvas_min_height" />
+
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:minLines="2"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tool_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tool_node"
+            style="@style/Widget.GraphLab.ToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tool_node" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tool_edge"
+            style="@style/Widget.GraphLab.ToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tool_edge" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tool_move"
+            style="@style/Widget.GraphLab.ToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tool_move" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tool_delete"
+            style="@style/Widget.GraphLab.ToggleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tool_delete" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_undo"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_undo" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_redo"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_redo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_fit"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_fit" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_photo"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_photo" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_sample"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_sample" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_clear"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/action_clear" />
+    </LinearLayout>
+</LinearLayout>
