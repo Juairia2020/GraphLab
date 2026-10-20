@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pseudocode and other code-like text (MS3). -->
+    <style name="TextAppearance.GraphLab.Code" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/gl_text</item>
+    </style>
+
+    <!-- One line of pseudocode; the current line is "selected" and gets a filled background. -->
+    <style name="Widget.GraphLab.CodeLine" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.GraphLab.Code</item>
+        <item name="android:background">@drawable/bg_code_line</item>
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:paddingVertical">3dp</item>
+    </style>
+
+    <!-- The Lab mode bar: the same toggle button, a little tighter so four fit on a phone. -->
+    <style name="Widget.GraphLab.ModeButton" parent="Widget.GraphLab.ToggleButton">
+        <item name="android:textSize">11sp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+</resources>

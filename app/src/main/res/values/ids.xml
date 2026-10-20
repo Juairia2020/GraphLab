@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tag key: the padding a view had in its layout file, before system-bar insets were added. -->
+    <item name="gl_initial_padding" type="id" />
+</resources>
