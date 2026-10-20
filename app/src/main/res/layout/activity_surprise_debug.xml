@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MS12: every activity's score and its parts, with the four weights as sliders. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/gl_bg"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/screen_padding"
+    android:paddingTop="@dimen/gap_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/debug_back"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/puzzle_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/debug_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <View
+            android:layout_width="@dimen/touch_min"
+            android:layout_height="1dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:text="@string/debug_intro"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <TextView
+                android:id="@+id/weight_need_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_need"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/debug_weight_need"
+                android:stepSize="0.05"
+                android:valueFrom="0"
+                android:valueTo="2" />
+
+            <TextView
+                android:id="@+id/weight_weakness_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_weakness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/debug_weight_weakness"
+                android:stepSize="0.05"
+                android:valueFrom="0"
+                android:valueTo="2" />
+
+            <TextView
+                android:id="@+id/weight_novelty_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_novelty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/debug_weight_novelty"
+                android:stepSize="0.05"
+                android:valueFrom="0"
+                android:valueTo="2" />
+
+            <TextView
+                android:id="@+id/weight_due_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_due"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/debug_weight_due"
+                android:stepSize="0.05"
+                android:valueFrom="0"
+                android:valueTo="2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/debug_reset"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/debug_reset" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:text="@string/debug_columns"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <LinearLayout
+                android:id="@+id/debug_rows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/gap_large"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
