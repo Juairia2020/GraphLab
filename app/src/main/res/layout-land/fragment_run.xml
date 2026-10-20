@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Landscape Run mode. Height is scarce, so the graph gets the whole screen and everything else folds away:
+       - the message sits on top of the graph (only while it has text),
+       - the playback bar, step slider and speed slider live in a tray that slides over the bottom of the graph,
+         opened with the button at the bottom right,
+       - the algorithm, source, Run and the Steps / State / Insight panels live in a side column, opened with the
+         button at the top right.
+     Same ids and view types as layout/fragment_run.xml (ViewBinding needs that). run_tray, run_tray_toggle,
+     run_panel_toggle and run_side exist only here, so RunFragment treats them as optional. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.graphlab.ui.common.GraphView
+                android:id="@+id/canvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.graphlab.ui.common.ArrayView
+                android:id="@+id/array_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <com.graphlab.ui.common.GridView
+                android:id="@+id/grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/current_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="@dimen/gap_small"
+            android:layout_marginTop="@dimen/gap_small"
+            android:layout_marginEnd="64dp"
+            android:background="@drawable/bg_overlay"
+            android:maxLines="2"
+            android:padding="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+        <!-- Playback tray: folded until asked for. -->
+        <LinearLayout
+            android:id="@+id/run_tray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/gap_small"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="@dimen/gap_small"
+            android:background="@drawable/bg_overlay"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/gap_small"
+            android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_first"
+                android:visibility="gone"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_min"
+                android:layout_weight="1"
+                android:contentDescription="@string/playback_first"
+                android:enabled="false"
+                app:icon="@drawable/ic_first"
+                app:iconTint="@color/gl_icon_tint" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_prev"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_min"
+                android:layout_weight="1"
+                android:contentDescription="@string/playback_prev"
+                android:enabled="false"
+                app:icon="@drawable/ic_prev"
+                app:iconTint="@color/gl_icon_tint" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_play"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_min"
+                android:layout_weight="1"
+                android:contentDescription="@string/playback_play"
+                android:enabled="false"
+                app:icon="@drawable/ic_play"
+                app:iconTint="@color/gl_icon_tint" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_min"
+                android:layout_weight="1"
+                android:contentDescription="@string/playback_next"
+                android:enabled="false"
+                app:icon="@drawable/ic_next"
+                app:iconTint="@color/gl_icon_tint" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_last"
+                android:visibility="gone"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_min"
+                android:layout_weight="1"
+                android:contentDescription="@string/playback_last"
+                android:enabled="false"
+                app:icon="@drawable/ic_last"
+                app:iconTint="@color/gl_icon_tint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/seek"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/seek_description"
+                android:enabled="false"
+                android:stepSize="1"
+                android:valueFrom="0"
+                android:valueTo="1"
+                app:labelBehavior="gone"
+                app:tickVisible="false" />
+
+            <TextView
+                android:id="@+id/step_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="88dp"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_title"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/speed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/speed_description"
+                android:enabled="false"
+                android:stepSize="0.5"
+                android:value="1"
+                android:valueFrom="0.5"
+                android:valueTo="4"
+                app:labelBehavior="gone"
+                app:tickVisible="false" />
+
+            <TextView
+                android:id="@+id/speed_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_tray_toggle"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="@dimen/touch_min"
+            android:layout_height="@dimen/touch_min"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/gap_small"
+            android:contentDescription="@string/run_tray_open"
+            app:icon="@drawable/ic_tune" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_panel_toggle"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="@dimen/touch_min"
+            android:layout_height="@dimen/touch_min"
+            android:layout_gravity="top|end"
+            android:layout_margin="@dimen/gap_small"
+            android:contentDescription="@string/run_panel_open"
+            app:icon="@drawable/ic_panel" />
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/run_side"
+        android:layout_width="@dimen/side_panel_width"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/gap_small"
+        android:scrollbars="none"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_algorithm"
+            android:ellipsize="end"
+            android:maxLines="1"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_source"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_target"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_go"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/run_go" />
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/run_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/run_export_pdf"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/export_pdf"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/input_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_numbers_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:minHeight="@dimen/touch_min" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/capacity_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/input_capacity_hint"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_capacity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:minHeight="@dimen/touch_min" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/input_random"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gap_small"
+                    android:minHeight="@dimen/touch_min"
+                    android:text="@string/input_random" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/panel_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/panel_steps"
+                style="@style/Widget.GraphLab.ToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/panel_steps" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/panel_state"
+                style="@style/Widget.GraphLab.ToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/panel_state" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/panel_insight"
+                style="@style/Widget.GraphLab.ToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/panel_insight" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/steps_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/steps_list_height"
+                android:contentDescription="@string/steps_list_description"
+                android:nestedScrollingEnabled="true" />
+
+            <LinearLayout
+                android:id="@+id/state_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/counters_title"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/counters_chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/frontier_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap_small"
+                    android:text="@string/frontier_title"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/frontier_chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- MS10: the tables of the running algorithm (queue, stack, priority queue, union-find parents); filled in code. -->
+                <LinearLayout
+                    android:id="@+id/panels_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap_small"
+                    android:text="@string/pseudocode_title"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <LinearLayout
+                    android:id="@+id/pseudocode_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap_small"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/values_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/node_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insight_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/panel_empty"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/steps_list_height"
+                android:gravity="center"
+                android:text="@string/panel_empty"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+        </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
