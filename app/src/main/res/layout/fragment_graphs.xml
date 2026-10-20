@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lab, Graphs mode: the library of saved graphs, with New graph and Import. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/graphs_new"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/graphs_new" />
+
+                <com.google.android.material.button.MaterialButton
+            android:id="@+id/graphs_more"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/graphs_more" />
+
+                <com.google.android.material.button.MaterialButton
+            android:id="@+id/graphs_import"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap_small"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/graphs_import" />
+    </LinearLayout>
+
+    <!-- MS7: graphs from the web and from other users -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/graphs_samples"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/graphs_samples" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/graphs_cloud"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap_small"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/graphs_cloud" />
+    </LinearLayout>
+
+    <!-- MS10: type a graph as text -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/graphs_type"
+        android:visibility="gone"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/graphs_type" />
+
+    <!-- MS16: read a graph from a photo -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/graphs_photo"
+        android:visibility="gone"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/graphs_photo" />
+
+    <TextView
+        android:id="@+id/graphs_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:contentDescription="@string/graphs_categories_description"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/graphs_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/gap_small"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/graphs_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:contentDescription="@string/graphs_list_description"
+            android:paddingBottom="@dimen/gap" />
+
+        <LinearLayout
+            android:id="@+id/graphs_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/gap_large"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/graphs_empty_title"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:gravity="center"
+                android:text="@string/graphs_empty_body"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/graphs_add_sample"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/graphs_add_sample" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One saved graph in the library: thumbnail, name, details and a menu button. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gap_small"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="?attr/gl_surface"
+    app:strokeColor="?attr/gl_outline">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/touch_min"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <com.graphlab.ui.common.ThumbnailView
+            android:id="@+id/graph_thumb"
+            android:layout_width="84dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_thumb"
+            android:importantForAccessibility="no" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/graph_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <TextView
+                android:id="@+id/graph_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <TextView
+                android:id="@+id/graph_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/graph_menu"
+            android:layout_width="@dimen/touch_min"
+            android:layout_height="@dimen/touch_min"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/graph_menu_description"
+            android:src="@drawable/ic_more"
+            app:tint="?attr/gl_text" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
