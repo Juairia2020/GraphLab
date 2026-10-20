@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Landscape Arena round: the graph fills the left half at full height, the question and its answers scroll on
+     the right. The header is one slim row at the top of the right column, so nothing is stacked above the graph.
+     Same ids and view types as layout/activity_question.xml (ViewBinding needs that); question_visual exists only here. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/gl_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/gap_small">
+
+        <FrameLayout
+            android:id="@+id/question_visual"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.15"
+            android:layout_margin="@dimen/gap_small">
+
+            <com.graphlab.ui.common.GraphView
+                android:id="@+id/question_graph"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.graphlab.ui.common.ArrayView
+                android:id="@+id/question_array"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/question_array_height"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/question_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/gl_code_bg"
+                android:padding="@dimen/card_padding"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/question_quit"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    android:text="@string/question_leave" />
+
+                <TextView
+                    android:id="@+id/question_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <TextView
+                    android:id="@+id/question_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/touch_min"
+                    android:gravity="end"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+            </LinearLayout>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/question_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp" />
+
+            <ScrollView
+                android:id="@+id/question_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/question_box"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/gap_small"
+                        android:paddingBottom="@dimen/gap_large">
+
+                        <TextView
+                            android:id="@+id/question_prompt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                            android:textSize="16sp" />
+
+
+                        <!-- MS11: the answer area of the task activities. Only one of these is shown at a time. -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/task_order"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:nestedScrollingEnabled="false"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/task_match"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:orientation="vertical"
+                            android:visibility="gone" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/task_number_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:hint="@string/task_number_hint"
+                            android:visibility="gone">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/task_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="numberSigned"
+                                android:maxLength="7" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <HorizontalScrollView
+                            android:id="@+id/task_table_scroll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:scrollbars="none"
+                            android:visibility="gone">
+
+                            <TableLayout
+                                android:id="@+id/task_table"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </HorizontalScrollView>
+
+                        <TextView
+                            android:id="@+id/task_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_small"
+                            android:accessibilityLiveRegion="polite"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                            android:visibility="gone" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/task_check"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:minHeight="@dimen/touch_min"
+                            android:text="@string/task_check"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/option_0"
+                                style="@style/Widget.GraphLab.OptionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/gap_small" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/option_1"
+                                style="@style/Widget.GraphLab.OptionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/gap_small" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/option_2"
+                                style="@style/Widget.GraphLab.OptionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/gap_small" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/option_3"
+                                style="@style/Widget.GraphLab.OptionButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/gap_small" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/result_box"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/gap_large"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/result_stars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Title"
+                            android:textColor="?attr/gl_primary"
+                            android:textSize="44sp" />
+
+                        <TextView
+                            android:id="@+id/result_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                        <TextView
+                            android:id="@+id/result_note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_small"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/again_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_large"
+                            android:minHeight="@dimen/touch_min"
+                            android:text="@string/result_again" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/done_button"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_small"
+                            android:minHeight="@dimen/touch_min"
+                            android:text="@string/result_done" />
+                    </LinearLayout>
+                </FrameLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+        <!-- MS19: the explanation floats over the bottom of the screen, so the graph keeps its room. Tap it to fold it. -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/feedback_card"
+            style="@style/Widget.GraphLab.Card"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginHorizontal="@dimen/gap_small"
+            android:layout_marginBottom="@dimen/gap"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <TextView
+                    android:id="@+id/feedback_verdict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                <ScrollView
+                    android:id="@+id/feedback_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap_small">
+
+                    <TextView
+                        android:id="@+id/feedback_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+                </ScrollView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/next_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:minHeight="@dimen/touch_min"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
