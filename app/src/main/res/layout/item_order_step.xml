@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One step in "Order the steps": the text, and Up and Down buttons (also a long press drags the row). -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.GraphLab.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gap_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/card_padding">
+
+        <TextView
+            android:id="@+id/step_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/gap"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section"
+            android:textColor="?attr/gl_primary" />
+
+        <TextView
+            android:id="@+id/step_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="@dimen/gap"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/step_up"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/order_move_up"
+            android:minWidth="@dimen/touch_min"
+            android:minHeight="@dimen/touch_min"
+            android:padding="0dp"
+            android:text="@string/order_up_symbol" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/step_down"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/order_move_down"
+            android:minWidth="@dimen/touch_min"
+            android:minHeight="@dimen/touch_min"
+            android:padding="0dp"
+            android:text="@string/order_down_symbol" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
