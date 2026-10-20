@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One row of the node table: dot in the state colour, name, state, value. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="36dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="4dp">
+
+    <View
+        android:id="@+id/node_dot"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/bg_dot" />
+
+    <TextView
+        android:id="@+id/node_name"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+    <TextView
+        android:id="@+id/node_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <TextView
+        android:id="@+id/node_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+</LinearLayout>
