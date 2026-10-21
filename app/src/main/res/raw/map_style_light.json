@@ -1,0 +1,10 @@
+[
+  {"elementType": "geometry", "stylers": [{"color": "#f4f6f4"}]},
+  {"elementType": "labels.text.fill", "stylers": [{"color": "#44504a"}]},
+  {"elementType": "labels.text.stroke", "stylers": [{"color": "#f4f6f4"}]},
+  {"featureType": "water", "elementType": "geometry", "stylers": [{"color": "#cfe3ee"}]},
+  {"featureType": "road", "elementType": "geometry", "stylers": [{"color": "#ffffff"}]},
+  {"featureType": "road.highway", "elementType": "geometry", "stylers": [{"color": "#e3d9c3"}]},
+  {"featureType": "poi", "stylers": [{"visibility": "off"}]},
+  {"featureType": "transit", "stylers": [{"visibility": "off"}]}
+]
