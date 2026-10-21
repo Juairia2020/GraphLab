@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Benchmark (MS15): measured Kruskal time against a scaled n log n curve. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/gl_bg"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/screen_padding"
+    android:paddingTop="@dimen/gap_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bench_back"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/puzzle_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/benchmark_title"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <View
+            android:layout_width="@dimen/touch_min"
+            android:layout_height="1dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:text="@string/benchmark_intro"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <com.graphlab.ui.common.BenchmarkChartView
+        android:id="@+id/bench_chart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/gap"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/benchmark_legend"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+    <TextView
+        android:id="@+id/bench_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:text="@string/benchmark_idle"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/gap"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bench_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/gap_small"
+            android:layout_weight="1"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/benchmark_start" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bench_stop"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/benchmark_stop" />
+    </LinearLayout>
+</LinearLayout>
