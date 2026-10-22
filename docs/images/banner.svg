@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="GraphLab banner">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b1f4b"/><stop offset="1" stop-color="#3a2a7a"/></linearGradient></defs>
+<rect width="1200" height="300" rx="18" fill="url(#g)"/>
+<line x1="930" y1="70" x2="1040" y2="150" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="985.0" y="104.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">7</text>
+<line x1="930" y1="70" x2="900" y2="190" stroke="#ffd166" stroke-width="5" opacity="1"/>
+<text x="915.0" y="124.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">3</text>
+<line x1="930" y1="70" x2="780" y2="120" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="855.0" y="89.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">5</text>
+<line x1="1040" y1="150" x2="1090" y2="70" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="1065.0" y="104.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">4</text>
+<line x1="1040" y1="150" x2="1010" y2="240" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="1025.0" y="189.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">2</text>
+<line x1="900" y1="190" x2="1010" y2="240" stroke="#ffd166" stroke-width="5" opacity="1"/>
+<text x="955.0" y="209.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">6</text>
+<line x1="780" y1="120" x2="900" y2="190" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="840.0" y="149.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">8</text>
+<line x1="1090" y1="70" x2="1130" y2="200" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="1110.0" y="129.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">9</text>
+<line x1="1040" y1="150" x2="1130" y2="200" stroke="#8f95d9" stroke-width="2.5" opacity="0.7"/>
+<text x="1085.0" y="169.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">1</text>
+<line x1="1010" y1="240" x2="1130" y2="200" stroke="#ffd166" stroke-width="5" opacity="1"/>
+<text x="1070.0" y="214.0" fill="#e6e8ff" font-size="14" font-family="Arial,sans-serif" text-anchor="middle">5</text>
+<circle cx="930" cy="70" r="20" fill="#ffd166" stroke="#fff" stroke-width="2"/>
+<text x="930" y="76" fill="#1b1f4b" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">A</text>
+<circle cx="1040" cy="150" r="20" fill="#5b63c9" stroke="#fff" stroke-width="2"/>
+<text x="1040" y="156" fill="#fff" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">B</text>
+<circle cx="900" cy="190" r="20" fill="#ffd166" stroke="#fff" stroke-width="2"/>
+<text x="900" y="196" fill="#1b1f4b" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">C</text>
+<circle cx="1090" cy="70" r="20" fill="#5b63c9" stroke="#fff" stroke-width="2"/>
+<text x="1090" y="76" fill="#fff" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">D</text>
+<circle cx="780" cy="120" r="20" fill="#5b63c9" stroke="#fff" stroke-width="2"/>
+<text x="780" y="126" fill="#fff" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">E</text>
+<circle cx="1010" cy="240" r="20" fill="#ffd166" stroke="#fff" stroke-width="2"/>
+<text x="1010" y="246" fill="#1b1f4b" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">F</text>
+<circle cx="1130" cy="200" r="20" fill="#ffd166" stroke="#fff" stroke-width="2"/>
+<text x="1130" y="206" fill="#1b1f4b" font-size="17" font-weight="bold" font-family="Arial,sans-serif" text-anchor="middle">G</text>
+<text x="60" y="130" fill="#fff" font-size="76" font-weight="bold" font-family="Arial,sans-serif">GraphLab</text>
+<text x="64" y="180" fill="#cfd3ff" font-size="26" font-family="Arial,sans-serif">Learn, test, visualize and compare algorithms</text>
+<text x="64" y="222" fill="#aab0f0" font-size="19" font-family="Arial,sans-serif">28 algorithms  |  34 Arena activities  |  Android, Java 17</text>
+</svg>

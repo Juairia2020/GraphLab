@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 130" width="1200" height="130" role="img" aria-label="The six node states">
+<rect width="1200" height="130" rx="16" fill="#12142e"/>
+<text x="24" y="36" fill="#fff" font-size="20" font-weight="bold" font-family="Arial,sans-serif">Every step colours nodes with one of six states</text>
+<circle cx="70" cy="86" r="22" fill="#9aa0c8" stroke="#fff" stroke-width="2"/>
+<text x="104" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">idle</text>
+<circle cx="260" cy="86" r="22" fill="#3b82f6" stroke="#fff" stroke-width="2"/>
+<text x="294" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">frontier</text>
+<circle cx="450" cy="86" r="22" fill="#10b981" stroke="#fff" stroke-width="2"/>
+<text x="484" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">visited</text>
+<circle cx="640" cy="86" r="22" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+<text x="674" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">chosen</text>
+<circle cx="830" cy="86" r="22" fill="#ffd166" stroke="#fff" stroke-width="2"/>
+<text x="864" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">path</text>
+<circle cx="1020" cy="86" r="22" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+<text x="1054" y="92" fill="#e6e8ff" font-size="17" font-family="Arial,sans-serif">fail</text>
+</svg>

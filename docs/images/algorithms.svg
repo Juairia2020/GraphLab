@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 408" width="1200" height="408" role="img" aria-label="The 28 algorithms by topic">
+<rect width="1200" height="408" rx="16" fill="#12142e"/>
+<text x="24" y="40" fill="#fff" font-size="24" font-weight="bold" font-family="Arial,sans-serif">28 algorithms, each with a step-by-step trace</text>
+<text x="24" y="70" fill="#3b82f6" font-size="15" font-weight="bold" font-family="Arial,sans-serif">Graph search and paths</text>
+<rect x="24" y="82" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="104" fill="#fff" font-size="15" font-family="Arial,sans-serif">BFS</text>
+<rect x="24" y="126" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="148" fill="#fff" font-size="15" font-family="Arial,sans-serif">DFS</text>
+<rect x="24" y="170" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="192" fill="#fff" font-size="15" font-family="Arial,sans-serif">Dijkstra</text>
+<rect x="24" y="214" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="236" fill="#fff" font-size="15" font-family="Arial,sans-serif">Bellman-Ford</text>
+<rect x="24" y="258" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="280" fill="#fff" font-size="15" font-family="Arial,sans-serif">Floyd-Warshall</text>
+<rect x="24" y="302" width="216" height="34" rx="9" fill="#3b82f6" fill-opacity="0.18" stroke="#3b82f6"/>
+<text x="36" y="324" fill="#fff" font-size="15" font-family="Arial,sans-serif">A*</text>
+<text x="258" y="70" fill="#8b5cf6" font-size="15" font-weight="bold" font-family="Arial,sans-serif">Trees, flow, order</text>
+<rect x="258" y="82" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="104" fill="#fff" font-size="15" font-family="Arial,sans-serif">Kruskal</text>
+<rect x="258" y="126" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="148" fill="#fff" font-size="15" font-family="Arial,sans-serif">Prim</text>
+<rect x="258" y="170" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="192" fill="#fff" font-size="15" font-family="Arial,sans-serif">Edmonds-Karp</text>
+<rect x="258" y="214" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="236" fill="#fff" font-size="15" font-family="Arial,sans-serif">Dinic</text>
+<rect x="258" y="258" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="280" fill="#fff" font-size="15" font-family="Arial,sans-serif">Tarjan SCC</text>
+<rect x="258" y="302" width="216" height="34" rx="9" fill="#8b5cf6" fill-opacity="0.18" stroke="#8b5cf6"/>
+<text x="270" y="324" fill="#fff" font-size="15" font-family="Arial,sans-serif">Topological sort</text>
+<text x="492" y="70" fill="#ec4899" font-size="15" font-weight="bold" font-family="Arial,sans-serif">Matching, colouring, cuts</text>
+<rect x="492" y="82" width="216" height="34" rx="9" fill="#ec4899" fill-opacity="0.18" stroke="#ec4899"/>
+<text x="504" y="104" fill="#fff" font-size="15" font-family="Arial,sans-serif">Bipartite matching</text>
+<rect x="492" y="126" width="216" height="34" rx="9" fill="#ec4899" fill-opacity="0.18" stroke="#ec4899"/>
+<text x="504" y="148" fill="#fff" font-size="15" font-family="Arial,sans-serif">Graph colouring</text>
+<rect x="492" y="170" width="216" height="34" rx="9" fill="#ec4899" fill-opacity="0.18" stroke="#ec4899"/>
+<text x="504" y="192" fill="#fff" font-size="15" font-family="Arial,sans-serif">Karger min cut</text>
+<rect x="492" y="214" width="216" height="34" rx="9" fill="#ec4899" fill-opacity="0.18" stroke="#ec4899"/>
+<text x="504" y="236" fill="#fff" font-size="15" font-family="Arial,sans-serif">Closest pair</text>
+<text x="726" y="70" fill="#f59e0b" font-size="15" font-weight="bold" font-family="Arial,sans-serif">Sorting and sampling</text>
+<rect x="726" y="82" width="216" height="34" rx="9" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b"/>
+<text x="738" y="104" fill="#fff" font-size="15" font-family="Arial,sans-serif">Merge sort</text>
+<rect x="726" y="126" width="216" height="34" rx="9" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b"/>
+<text x="738" y="148" fill="#fff" font-size="15" font-family="Arial,sans-serif">Quick sort</text>
+<rect x="726" y="170" width="216" height="34" rx="9" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b"/>
+<text x="738" y="192" fill="#fff" font-size="15" font-family="Arial,sans-serif">Randomized quick sort</text>
+<rect x="726" y="214" width="216" height="34" rx="9" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b"/>
+<text x="738" y="236" fill="#fff" font-size="15" font-family="Arial,sans-serif">Reservoir sampling</text>
+<rect x="726" y="258" width="216" height="34" rx="9" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b"/>
+<text x="738" y="280" fill="#fff" font-size="15" font-family="Arial,sans-serif">Huffman</text>
+<text x="960" y="70" fill="#10b981" font-size="15" font-weight="bold" font-family="Arial,sans-serif">DP and knapsack</text>
+<rect x="960" y="82" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="104" fill="#fff" font-size="15" font-family="Arial,sans-serif">Coin change</text>
+<rect x="960" y="126" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="148" fill="#fff" font-size="15" font-family="Arial,sans-serif">Edit distance</text>
+<rect x="960" y="170" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="192" fill="#fff" font-size="15" font-family="Arial,sans-serif">LCS</text>
+<rect x="960" y="214" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="236" fill="#fff" font-size="15" font-family="Arial,sans-serif">LIS</text>
+<rect x="960" y="258" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="280" fill="#fff" font-size="15" font-family="Arial,sans-serif">Matrix-chain</text>
+<rect x="960" y="302" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="324" fill="#fff" font-size="15" font-family="Arial,sans-serif">0/1 knapsack</text>
+<rect x="960" y="346" width="216" height="34" rx="9" fill="#10b981" fill-opacity="0.18" stroke="#10b981"/>
+<text x="972" y="368" fill="#fff" font-size="15" font-family="Arial,sans-serif">Fractional knapsack</text>
+</svg>
