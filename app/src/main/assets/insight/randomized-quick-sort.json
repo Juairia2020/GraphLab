@@ -1,0 +1,14 @@
+{
+  "id": "randomized-quick-sort",
+  "idea": "Quick sort with the pivot chosen at random. No fixed input can force the bad O(n^2) case, because nobody knows which pivots will be picked. The expected time is O(n log n) for every input.",
+  "time": "O(n log n) expected",
+  "space": "O(log n) for the recursion",
+  "useWhen": [
+    "You cannot trust the order of the input",
+    "You want quick sort without a bad case caused by the data"
+  ],
+  "avoidWhen": [
+    "You need exactly the same behaviour every run without a seed",
+    "You need a guaranteed worst case (use merge sort)"
+  ]
+}

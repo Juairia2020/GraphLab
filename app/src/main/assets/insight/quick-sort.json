@@ -1,0 +1,14 @@
+{
+  "id": "quick-sort",
+  "idea": "Pick a pivot, move the smaller numbers before it and the rest after it, so the pivot is in its final place, then sort each side the same way.",
+  "time": "O(n log n) on average, O(n^2) in the worst case",
+  "space": "O(log n) for the recursion",
+  "useWhen": [
+    "Sorting arrays in memory: it is usually the fastest in practice",
+    "You want little extra memory"
+  ],
+  "avoidWhen": [
+    "The list is already sorted and the pivot is always the last item: that is the worst case (O(n^2))",
+    "You need equal items to keep their order"
+  ]
+}
