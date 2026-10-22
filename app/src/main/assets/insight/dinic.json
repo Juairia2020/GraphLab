@@ -1,0 +1,15 @@
+{
+  "id": "dinic",
+  "idea": "Find the largest flow in a network in phases. Each phase builds a level graph with breadth-first search, then pushes a blocking flow along edges that go up exactly one level, using a depth-first search that never retries a dead end. When the end can no longer be reached, the flow is maximal and the cut is the edges leaving the reachable nodes.",
+  "time": "O(V^2 E) in general, O(E sqrt(V)) on unit-capacity bipartite graphs",
+  "space": "O(V + E)",
+  "useWhen": [
+    "Large flow networks where Edmonds-Karp is too slow",
+    "Matching and assignment problems turned into flow",
+    "Finding a minimum cut in a capacity network"
+  ],
+  "avoidWhen": [
+    "The graph is tiny and clarity matters more than speed: Edmonds-Karp is shorter to follow",
+    "Capacities are negative or the edges have costs: you need a min-cost flow method"
+  ]
+}

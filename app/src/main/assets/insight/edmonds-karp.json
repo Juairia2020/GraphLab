@@ -1,0 +1,15 @@
+{
+  "id": "edmonds-karp",
+  "idea": "Find the shortest route from the source to the sink that still has spare capacity, push as much flow as its tightest edge allows, and repeat. When no route is left the flow is the maximum, and the edges leaving the nodes still reachable form a minimum cut of the same size.",
+  "time": "O(V * E^2)",
+  "space": "O(V + E)",
+  "useWhen": [
+    "How much can move through a network: water, traffic, data",
+    "Finding the cheapest set of edges whose removal disconnects two nodes",
+    "Matching problems that can be turned into flows"
+  ],
+  "avoidWhen": [
+    "Capacities can be negative (they must not be)",
+    "The graph is huge and you need the fastest flow algorithm (Dinic is faster)"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "prim",
+  "idea": "Start from one node and grow a tree. Each time, take the cheapest edge that joins the tree to a node outside it. When every node is in, the tree is a minimum spanning tree.",
+  "time": "O(E log V) with a priority queue",
+  "space": "O(V)",
+  "useWhen": [
+    "Connecting every node as cheaply as possible, especially in dense graphs",
+    "You want to grow the network outward from a starting point"
+  ],
+  "avoidWhen": [
+    "The graph is directed",
+    "The graph is not connected: Prim only reaches the part with the start node"
+  ]
+}
