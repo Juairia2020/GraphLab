@@ -1,0 +1,14 @@
+{
+  "id": "edit-distance",
+  "idea": "Count the fewest single-letter edits (replace, delete or insert) that turn one text into another. Cell (i, j) is the distance between the first i letters of one text and the first j of the other. Equal letters copy the cell up and left; otherwise take one plus the smallest of the replace, delete and insert cells. Walking back from the corner lists the edits.",
+  "time": "O(n * m)",
+  "space": "O(n * m)",
+  "useWhen": [
+    "Spell checking and suggestions: how close is a typed word to a real word",
+    "Comparing sequences when every kind of edit has the same cost"
+  ],
+  "avoidWhen": [
+    "Only the shared letters matter (use the longest common subsequence)",
+    "Edits have different costs: the table needs a weight for each kind of edit"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "huffman",
+  "idea": "Give frequent symbols short codes and rare symbols long codes. Repeatedly merge the two lightest items into one whose weight is their sum. The merges build a tree; reading left as 0 and right as 1 from the top gives a prefix code, so no code starts another and the message can be decoded without gaps. This greedy choice gives the smallest total length.",
+  "time": "O(n log n)",
+  "space": "O(n)",
+  "useWhen": [
+    "Compressing text or data whose symbols have very different frequencies",
+    "Teaching why a greedy choice can be provably best",
+    "Building the tree part of formats such as DEFLATE"
+  ],
+  "avoidWhen": [
+    "All symbols are equally frequent: a fixed-length code is as good",
+    "The frequencies change as the data is read: use an adaptive method"
+  ]
+}

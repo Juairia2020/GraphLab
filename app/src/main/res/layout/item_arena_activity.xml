@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One Arena activity: name, what it asks, the algorithm family and the best stars earned. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gap_small"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="?attr/gl_surface"
+    app:strokeColor="?attr/gl_outline">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/touch_min"
+        android:orientation="horizontal"
+        android:padding="@dimen/card_padding">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/activity_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <TextView
+                android:id="@+id/activity_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <TextView
+                android:id="@+id/activity_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section"
+            android:textColor="?attr/gl_primary" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

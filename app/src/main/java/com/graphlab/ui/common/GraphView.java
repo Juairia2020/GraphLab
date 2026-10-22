@@ -27,11 +27,19 @@ import com.graphlab.engine.edit.HitTester;
 import com.graphlab.engine.edit.Viewport;
 import com.graphlab.engine.edit.WeightFormat;
 import com.graphlab.engine.model.Node;
+import com.graphlab.engine.play.FrameSnapshot;
+import com.graphlab.engine.trace.State;
 
 /**
  * The graph canvas: draws a {@link GraphEditor} through a {@link Viewport} and turns touches
  * into edits. The model and the camera live outside (in the ViewModel), so this View can be
  * thrown away and rebuilt on rotation without losing anything.
+ *
+ * <p>Two modes. EDIT (the Build tab) turns touches into edits. RUN (the Run tab) only pans,
+ * zooms and reports a tap on a node, and paints the states of one algorithm step: the ring of
+ * each node and the colour of each edge come from a {@link FrameSnapshot}. State is never carried
+ * by colour alone: frontier and failed nodes have a dashed ring, the node being looked at has
+ * a halo, finished nodes are tinted, and failed edges are dashed.
  *
  * <p>Colours come from the theme tokens (?attr/gl_*), never from hex values. Everything that
  * onDraw uses is allocated once, so drawing does not create garbage; the only allocation is
@@ -51,7 +59,21 @@ public class GraphView extends View {
 
         /** Nodes or edges were added or removed. */
         void onGraphChanged();
+
+        /** RUN mode only: the user tapped a node (to choose where an algorithm starts). */
+        default void onNodeTapped(int nodeId) {
+        }
+
+        /** RUN mode only: the user tapped an edge (not a node). Used by the puzzle levels to pick edges. */
+        default void onEdgeTapped(int edgeId) {
+        }
     }
+
+    /** EDIT changes the graph; RUN only looks at it. */
+    /** Nodes are drawn at this share of their world radius (MS19: smaller nodes leave room for weights and labels). */
+    private static final double NODE_DRAW_FACTOR = 0.78;
+
+    public enum Mode { EDIT, RUN }
 
     private enum Drag { NONE, PAN, MOVE_NODE, CONNECT }
 
@@ -61,8 +83,19 @@ public class GraphView extends View {
     private GraphEditor editor = new GraphEditor(false, true);
     private Viewport viewport = new Viewport();
     private EditorTool tool = EditorTool.NODE;
+    private Mode mode = Mode.EDIT;
+    /** RUN mode only: a drag that starts on a node moves it (Arena and puzzles), a tap still just selects. */
+    private boolean nodeDragEnabled;
     @Nullable
     private Listener listener;
+    /** The algorithm step being shown (RUN mode), or null for a plain picture. */
+    @Nullable
+    private FrameSnapshot frame;
+    /** Drawn only when it matches the editor's node and edge counts; set at the start of onDraw. */
+    @Nullable
+    private FrameSnapshot drawFrame;
+    private int highlightNodeId = -1;
+    private int[] stateColors = new int[State.values().length];
 
     // ---- drawing tools, created once ----
     private final Paint gridPaint = new Paint();
@@ -78,6 +111,13 @@ public class GraphView extends View {
     private final Paint hintTitlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint hintBodyPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint tintPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint haloPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint glowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private boolean glowOn;
+    private boolean darkTheme;
+    private final DashPathEffect failDash = new DashPathEffect(new float[] {9f, 7f}, 0f);
+    private final DashPathEffect ringDash = new DashPathEffect(new float[] {7f, 5f}, 0f);
     private final Paint.FontMetrics fontMetrics = new Paint.FontMetrics();
     private final EdgeShape shape = new EdgeShape();
     private final Path path = new Path();
@@ -111,6 +151,10 @@ public class GraphView extends View {
     private ScaleGestureDetector scaleDetector;
     private GestureDetector gestureDetector;
     private Drag drag = Drag.NONE;
+    private android.graphics.Bitmap photo;
+    private final Paint photoPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+    private final android.graphics.RectF photoDst = new android.graphics.RectF();
+
     private boolean pinched;
     private int downNodeId = -1;
     private int sourceNodeId = -1;
@@ -140,7 +184,7 @@ public class GraphView extends View {
         nodeSlopPx = (float) (EditorMetrics.NODE_SLOP_DP * dp);
         edgeSlopPx = (float) (EditorMetrics.EDGE_SLOP_DP * dp);
         cornerRadius = 14f * dp;
-        nodeTextMin = sp(11);
+        nodeTextMin = sp(10);
         nodeTextMax = sp(20);
         emptyTitle = context.getString(R.string.canvas_empty_title);
         emptyBody = context.getString(R.string.canvas_empty_body);
@@ -170,6 +214,10 @@ public class GraphView extends View {
         hintBodyPaint.setTextSize(sp(14));
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(1f * dp);
+        tintPaint.setStyle(Paint.Style.FILL);
+        haloPaint.setStyle(Paint.Style.STROKE);
+        haloPaint.setStrokeWidth(3f * dp);
+        glowPaint.setStyle(Paint.Style.FILL);
 
         refreshColors();
 
@@ -218,6 +266,12 @@ public class GraphView extends View {
         hintTitlePaint.setColor(colorText);
         hintBodyPaint.setColor(colorMuted);
         borderPaint.setColor(colorOutline);
+        stateColors = StateColors.resolve(c);
+        haloPaint.setColor(stateColors[State.CHOSEN.ordinal()]);
+        haloPaint.setAlpha(110);
+        glowOn = com.graphlab.data.prefs.EffectsPrefs.glow(c);
+        darkTheme = (c.getResources().getConfiguration().uiMode
+                & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES;
     }
 
     // ---- wiring ----------------------------------------------------------------------
@@ -240,6 +294,45 @@ public class GraphView extends View {
         this.listener = listener;
     }
 
+    /** EDIT turns touches into edits; RUN only pans, zooms and reports taps on nodes. */
+    public void setMode(@NonNull Mode mode) {
+        this.mode = mode;
+        sourceNodeId = -1;
+        hoverNodeId = -1;
+        drag = Drag.NONE;
+        invalidate();
+    }
+
+    /**
+     * RUN mode: lets the player drag nodes to untangle the picture (the edges follow). Taps still pick nodes and edges. Moving a
+     * node only changes how the graph is drawn, never the graph the answer comes from.
+     */
+    public void setNodeDragEnabled(boolean enabled) {
+        this.nodeDragEnabled = enabled;
+    }
+
+    /** The algorithm step to paint, or null for a plain picture. */
+    /**
+     * The photo behind the graph (MS10), or null for none. It is drawn in world space, so it pans and zooms with the
+     * nodes. {@code opacity} is 0 to 1.
+     */
+    public void setPhoto(@Nullable android.graphics.Bitmap bitmap, float opacity) {
+        photo = bitmap;
+        photoPaint.setAlpha(Math.round(255 * Math.max(0f, Math.min(1f, opacity))));
+        invalidate();
+    }
+
+    public void setFrame(@Nullable FrameSnapshot frame) {
+        this.frame = frame;
+        invalidate();
+    }
+
+    /** RUN mode, no frame: draws a ring on this node (the chosen start). -1 for none. */
+    public void setHighlightNode(int nodeId) {
+        this.highlightNodeId = nodeId;
+        invalidate();
+    }
+
     public void setTool(@NonNull EditorTool tool) {
         this.tool = tool;
         sourceNodeId = -1;
@@ -255,7 +348,14 @@ public class GraphView extends View {
 
     /** Centres and zooms so the whole graph is visible. */
     public void fitToGraph() {
-        viewport.fit(editor.bounds(), EditorMetrics.NODE_RADIUS, EditorMetrics.FIT_MARGIN_DP * dp);
+        double[] bounds = editor.bounds();
+        android.graphics.Bitmap bitmap = photo;
+        if (bitmap != null && !bitmap.isRecycled()) {
+            double[] rect = com.graphlab.engine.io.Background.worldRect(bitmap.getWidth(), bitmap.getHeight());
+            bounds = bounds == null ? rect : new double[] {Math.min(bounds[0], rect[0]), Math.min(bounds[1], rect[1]),
+                    Math.max(bounds[2], rect[2]), Math.max(bounds[3], rect[3])};
+        }
+        viewport.fit(bounds, EditorMetrics.NODE_RADIUS, EditorMetrics.FIT_MARGIN_DP * dp);
         invalidate();
     }
 
@@ -284,16 +384,30 @@ public class GraphView extends View {
         int w = getWidth();
         int h = getHeight();
         canvas.drawColor(colorBg);
+        drawFrame = frame != null && frame.fits(editor.nodeCount(), editor.edgeCount()) ? frame : null;
+        drawPhoto(canvas);
         drawGrid(canvas, w, h);
         syncWeightLabels();
         drawEdges(canvas);
         drawWeightPills(canvas);
         drawRubberBand(canvas);
         drawNodes(canvas);
+        drawNodeLabels(canvas);
         if (editor.nodeCount() == 0) {
             drawEmptyHint(canvas, w, h);
         }
         canvas.drawRoundRect(borderRect, cornerRadius, cornerRadius, borderPaint);
+    }
+
+    private void drawPhoto(Canvas canvas) {
+        android.graphics.Bitmap bitmap = photo;
+        if (bitmap == null || bitmap.isRecycled()) {
+            return;
+        }
+        double[] rect = com.graphlab.engine.io.Background.worldRect(bitmap.getWidth(), bitmap.getHeight());
+        photoDst.set((float) viewport.worldToScreenX(rect[0]), (float) viewport.worldToScreenY(rect[1]),
+                (float) viewport.worldToScreenX(rect[2]), (float) viewport.worldToScreenY(rect[3]));
+        canvas.drawBitmap(bitmap, null, photoDst, photoPaint);
     }
 
     private void drawGrid(Canvas canvas, int w, int h) {
@@ -342,7 +456,7 @@ public class GraphView extends View {
     }
 
     private void drawEdges(Canvas canvas) {
-        float radius = (float) (EditorMetrics.NODE_RADIUS * viewport.scale());
+        float radius = (float) (EditorMetrics.NODE_RADIUS * NODE_DRAW_FACTOR * viewport.scale());
         float bend = (float) (EditorMetrics.RECIPROCAL_BEND * viewport.scale());
         boolean directed = editor.isDirected();
         for (int i = 0; i < editor.edgeCount(); i++) {
@@ -357,11 +471,26 @@ public class GraphView extends View {
             } else {
                 path.lineTo(shape.endX, shape.endY);
             }
+            State state = edgeState(i);
+            int color = stateColors[state.ordinal()];
+            edgePaint.setColor(color);
+            arrowPaint.setColor(color);
+            edgePaint.setStrokeWidth((state == State.IDLE ? 2.5f : 4.5f) * dp);
+            edgePaint.setPathEffect(state == State.FAIL ? failDash : null);
             canvas.drawPath(path, edgePaint);
+            edgePaint.setPathEffect(null);
             if (directed) {
                 drawArrowHead(canvas);
             }
         }
+    }
+
+    private State edgeState(int edgeIndex) {
+        return drawFrame == null ? State.IDLE : drawFrame.edgeState(edgeIndex);
+    }
+
+    private State nodeState(int nodeIndex) {
+        return drawFrame == null ? State.IDLE : drawFrame.nodeState(nodeIndex);
     }
 
     private void drawArrowHead(Canvas canvas) {
@@ -380,10 +509,11 @@ public class GraphView extends View {
     }
 
     private void drawWeightPills(Canvas canvas) {
-        if (!editor.isWeighted()) {
+        boolean labels = drawFrame != null && drawFrame.hasEdgeLabels();
+        if (!editor.isWeighted() && !labels) {
             return;
         }
-        float radius = (float) (EditorMetrics.NODE_RADIUS * viewport.scale());
+        float radius = (float) (EditorMetrics.NODE_RADIUS * NODE_DRAW_FACTOR * viewport.scale());
         float bend = (float) (EditorMetrics.RECIPROCAL_BEND * viewport.scale());
         float height = 22f * dp;
         pillTextPaint.getFontMetrics(fontMetrics);
@@ -393,7 +523,8 @@ public class GraphView extends View {
             if (!shape.visible) {
                 continue;
             }
-            String text = weightLabels[i];
+            String text = labels && !drawFrame.edgeLabel(i).isEmpty() ? drawFrame.edgeLabel(i) : weightLabels[i];
+            pillStrokePaint.setColor(stateColors[edgeState(i).ordinal()]);
             float width = Math.max(height, pillTextPaint.measureText(text) + 14f * dp);
             pillRect.set(shape.midX - width / 2f, shape.midY - height / 2f,
                     shape.midX + width / 2f, shape.midY + height / 2f);
@@ -416,31 +547,106 @@ public class GraphView extends View {
     }
 
     private void drawNodes(Canvas canvas) {
-        float radius = (float) (EditorMetrics.NODE_RADIUS * viewport.scale());
-        nodeTextPaint.setTextSize(Math.max(nodeTextMin, Math.min(radius * 0.85f, nodeTextMax)));
+        float radius = (float) (EditorMetrics.NODE_RADIUS * NODE_DRAW_FACTOR * viewport.scale());
+        nodeTextPaint.setTextSize(Math.max(nodeTextMin, Math.min(radius * 0.95f, nodeTextMax)));
         nodeTextPaint.getFontMetrics(fontMetrics);
         float baselineShift = -(fontMetrics.ascent + fontMetrics.descent) / 2f;
         for (int i = 0; i < editor.nodeCount(); i++) {
             Node node = editor.nodeAt(i);
             float cx = (float) viewport.worldToScreenX(node.x());
             float cy = (float) viewport.worldToScreenY(node.y());
-            int ring = colorIdle;
-            float ringWidth = 2.5f * dp;
-            if (node.id() == sourceNodeId) {
-                ring = colorChosen;
-                ringWidth = 4f * dp;
-            } else if (node.id() == hoverNodeId) {
-                ring = colorVisited;
-                ringWidth = 4f * dp;
-            } else if (drag == Drag.MOVE_NODE && node.id() == downNodeId) {
-                ring = colorPath;
-                ringWidth = 4f * dp;
-            }
             canvas.drawCircle(cx, cy, radius, nodeFillPaint);
-            nodeStrokePaint.setColor(ring);
-            nodeStrokePaint.setStrokeWidth(ringWidth);
-            canvas.drawCircle(cx, cy, radius, nodeStrokePaint);
+            if (mode == Mode.RUN) {
+                drawRunNodeRing(canvas, node, i, cx, cy, radius);
+            } else {
+                drawEditNodeRing(canvas, node, cx, cy, radius);
+            }
             canvas.drawText(node.label(), cx, cy + baselineShift, nodeTextPaint);
+        }
+    }
+
+    private void drawEditNodeRing(Canvas canvas, Node node, float cx, float cy, float radius) {
+        int ring = colorIdle;
+        float ringWidth = 2.5f * dp;
+        if (node.id() == sourceNodeId) {
+            ring = colorChosen;
+            ringWidth = 4f * dp;
+        } else if (node.id() == hoverNodeId) {
+            ring = colorVisited;
+            ringWidth = 4f * dp;
+        } else if (drag == Drag.MOVE_NODE && node.id() == downNodeId) {
+            ring = colorPath;
+            ringWidth = 4f * dp;
+        }
+        nodeStrokePaint.setPathEffect(null);
+        nodeStrokePaint.setColor(ring);
+        nodeStrokePaint.setStrokeWidth(ringWidth);
+        canvas.drawCircle(cx, cy, radius, nodeStrokePaint);
+    }
+
+    private void drawRunNodeRing(Canvas canvas, Node node, int index, float cx, float cy, float radius) {
+        State state = nodeState(index);
+        if (drawFrame == null && node.id() == highlightNodeId) {
+            state = State.CHOSEN;   // no run yet: mark the chosen start
+        }
+        int color = stateColors[state.ordinal()];
+        float width = (state == State.IDLE ? 2.5f : 3.5f) * dp;
+        if (glowOn && state != State.IDLE) {
+            if (darkTheme) {
+                // Dark theme: a soft translucent disc behind the node (no software shadow needed).
+                glowPaint.setColor(color);
+                glowPaint.setAlpha(55);
+                canvas.drawCircle(cx, cy, radius + 7f * dp, glowPaint);
+                glowPaint.setAlpha(40);
+                canvas.drawCircle(cx, cy, radius + 4f * dp, glowPaint);
+            } else {
+                width += 1.5f * dp;   // light theme: a heavier stroke reads better than a glow
+            }
+        }
+        if (state == State.VISITED) {
+            tintPaint.setColor(color);
+            tintPaint.setAlpha(70);
+            canvas.drawCircle(cx, cy, radius, tintPaint);
+        } else if (state == State.CHOSEN) {
+            canvas.drawCircle(cx, cy, radius + 5f * dp, haloPaint);
+            width = 5f * dp;
+        } else if (state == State.PATH) {
+            width = 4.5f * dp;
+        }
+        // Dashed ring for frontier and failed nodes, so state is not colour alone.
+        nodeStrokePaint.setPathEffect(state == State.FRONTIER || state == State.FAIL ? ringDash : null);
+        if (drag == Drag.MOVE_NODE && node.id() == downNodeId) {
+            width = Math.max(width, 5f * dp);   // the node under the finger gets a heavier ring
+        }
+        nodeStrokePaint.setColor(color);
+        nodeStrokePaint.setStrokeWidth(width);
+        canvas.drawCircle(cx, cy, radius, nodeStrokePaint);
+        nodeStrokePaint.setPathEffect(null);
+    }
+
+    /** The small value above a node (a distance, a time), drawn last so no node covers it. */
+    private void drawNodeLabels(Canvas canvas) {
+        if (drawFrame == null) {
+            return;
+        }
+        float radius = (float) (EditorMetrics.NODE_RADIUS * NODE_DRAW_FACTOR * viewport.scale());
+        float height = 22f * dp;
+        pillTextPaint.getFontMetrics(fontMetrics);
+        float baselineShift = -(fontMetrics.ascent + fontMetrics.descent) / 2f;
+        for (int i = 0; i < editor.nodeCount(); i++) {
+            String text = drawFrame.nodeLabel(i);
+            if (text.isEmpty()) {
+                continue;
+            }
+            Node node = editor.nodeAt(i);
+            float cx = (float) viewport.worldToScreenX(node.x());
+            float cy = (float) viewport.worldToScreenY(node.y()) - radius - 4f * dp - height / 2f;
+            float width = Math.max(height, pillTextPaint.measureText(text) + 14f * dp);
+            pillRect.set(cx - width / 2f, cy - height / 2f, cx + width / 2f, cy + height / 2f);
+            pillStrokePaint.setColor(stateColors[drawFrame.nodeState(i).ordinal()]);
+            canvas.drawRoundRect(pillRect, height / 2f, height / 2f, pillFillPaint);
+            canvas.drawRoundRect(pillRect, height / 2f, height / 2f, pillStrokePaint);
+            canvas.drawText(text, cx, cy + baselineShift, pillTextPaint);
         }
     }
 
@@ -480,6 +686,10 @@ public class GraphView extends View {
     }
 
     private void startDrag() {
+        if (mode == Mode.RUN) {
+            drag = nodeDragEnabled && downNodeId >= 0 ? Drag.MOVE_NODE : Drag.PAN;
+            return;
+        }
         switch (tool) {
             case MOVE:
                 drag = downNodeId >= 0 ? Drag.MOVE_NODE : Drag.PAN;
@@ -499,6 +709,9 @@ public class GraphView extends View {
     }
 
     private void finishDrag(float x, float y) {
+        if (drag == Drag.MOVE_NODE && listener != null) {
+            listener.onGraphChanged();   // a move is an edit too: the header's Saved/Unsaved text must follow
+        }
         if (drag == Drag.CONNECT && sourceNodeId >= 0) {
             int source = sourceNodeId;
             int target = HitTester.nodeAt(editor, viewport, x, y, nodeSlop(), source);
@@ -524,6 +737,18 @@ public class GraphView extends View {
     }
 
     private void handleTap(float x, float y) {
+        if (mode == Mode.RUN) {
+            int tapped = HitTester.nodeAt(editor, viewport, x, y, nodeSlop(), -1);
+            if (tapped >= 0 && listener != null) {
+                listener.onNodeTapped(tapped);
+            } else if (tapped < 0 && listener != null) {
+                int edge = HitTester.edgeAt(editor, viewport, x, y, edgeSlopPx);
+                if (edge >= 0) {
+                    listener.onEdgeTapped(edge);
+                }
+            }
+            return;
+        }
         int node = HitTester.nodeAt(editor, viewport, x, y, nodeSlop(), -1);
         int edge = node < 0 ? HitTester.edgeAt(editor, viewport, x, y, edgeSlopPx) : -1;
         switch (tool) {

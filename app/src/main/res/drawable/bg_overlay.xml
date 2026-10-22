@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A small card that floats over the graph (landscape Run: message and playback tray). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="?attr/gl_surface" />
+    <stroke android:width="1dp" android:color="?attr/gl_outline" />
+    <corners android:radius="12dp" />
+</shape>

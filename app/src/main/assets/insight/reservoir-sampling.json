@@ -1,0 +1,15 @@
+{
+  "id": "reservoir-sampling",
+  "idea": "Pick a fair random sample from a stream when you do not know its length and can read it only once. Keep the first K items. For the item at position i after that, pick a random number from 1 to i; if it is at most K, the item replaces that slot, otherwise it is dropped. At the end every item had exactly the same chance, K over n.",
+  "time": "O(n) time, O(K) space",
+  "space": "O(K)",
+  "useWhen": [
+    "Sampling from logs or data too large to store",
+    "Choosing a random line from a file you read once",
+    "Any stream whose length is unknown until it ends"
+  ],
+  "avoidWhen": [
+    "The whole list fits in memory and its length is known: shuffle or pick random positions",
+    "You need a sample weighted by importance: use a weighted variant"
+  ]
+}

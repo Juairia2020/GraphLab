@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arena: the list of activities (MS20: no level selector; each activity is one Easy, Medium, Hard round). -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/screen_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_arena"
+            android:textAppearance="@style/TextAppearance.GraphLab.Title" />
+
+        <TextView
+            android:id="@+id/arena_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+        <TextView
+            android:id="@+id/player_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:text="@string/arena_intro"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mixed_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_mixed" />
+
+                <com.google.android.material.button.MaterialButton
+            android:id="@+id/arena_more"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_more" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/plan_button"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_plan" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/daily_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_daily" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ghost_button"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_ghost" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mystery_button"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_mystery" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/debug_button"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/arena_debug" />
+
+        <TextView
+            android:id="@+id/mixed_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_large"
+            android:text="@string/arena_activities"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <!-- A plain vertical list, not a RecyclerView: inside a ScrollView a RecyclerView lays out only the rows that fit the
+             space it is first given, so portrait and landscape showed different numbers of activities. -->
+        <LinearLayout
+            android:id="@+id/activity_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:contentDescription="@string/arena_list_description"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/arena_hidden_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

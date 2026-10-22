@@ -1,0 +1,15 @@
+{
+  "id": "closest-pair",
+  "idea": "Find the two points that are nearest to each other without comparing every pair. Sort by x and split in the middle. The best pair lies in the left half, in the right half, or across the middle. A crossing pair must be in a thin strip around the middle line, and in the strip, sorted by y, each point only needs checking against the next few points.",
+  "time": "O(n log n)",
+  "space": "O(n)",
+  "useWhen": [
+    "Collision detection and nearest-neighbour checks in games and maps",
+    "Clustering, where the closest two points are merged first",
+    "Teaching divide and conquer with a non-obvious combine step"
+  ],
+  "avoidWhen": [
+    "There are very few points: comparing all pairs is simpler and as fast",
+    "The points move all the time: a spatial grid or tree may suit better"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "karger",
+  "idea": "Pick a random edge and merge its two ends into one node, again and again, until two nodes remain. The edges between them are a cut. One run finds the minimum cut with a fair chance, so repeat it and keep the smallest cut.",
+  "time": "O(V^2) per run; about V^2 log V runs for high confidence",
+  "space": "O(V + E)",
+  "useWhen": [
+    "Finding the fewest edges whose removal splits a network in two",
+    "Showing how a simple random choice can solve a hard-looking problem"
+  ],
+  "avoidWhen": [
+    "You need a result you can be sure of after one run: it may return a cut that is not the smallest",
+    "The graph is disconnected: the minimum cut is already 0"
+  ]
+}

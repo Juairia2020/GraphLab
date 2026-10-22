@@ -1,0 +1,14 @@
+{
+  "id": "kruskal",
+  "idea": "Sort the edges from lightest to heaviest and take each one unless it would close a loop. A union-find structure answers 'are these two ends already connected?' very quickly. The edges taken form a minimum spanning tree.",
+  "time": "O(E log E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Connecting every node as cheaply as possible: cables, roads, pipes",
+    "The graph is sparse (few edges)"
+  ],
+  "avoidWhen": [
+    "The graph is directed: spanning trees need undirected edges",
+    "The graph is very dense: Prim with a good queue may be better"
+  ]
+}

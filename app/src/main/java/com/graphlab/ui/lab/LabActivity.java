@@ -1,43 +1,48 @@
 package com.graphlab.ui.lab;
 
-import android.app.Dialog;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.graphlab.GraphLabApp;
 import com.google.android.material.snackbar.Snackbar;
 import com.graphlab.R;
+import com.graphlab.receiver.RunFinishedReceiver;
 import com.graphlab.databinding.ContentLabBinding;
-import com.graphlab.engine.edit.GraphEditor;
-import com.graphlab.engine.model.Edge;
-import com.graphlab.engine.model.Node;
-import com.graphlab.engine.model.SampleGraph;
 import com.graphlab.ui.common.BaseActivity;
-import com.graphlab.ui.common.EditorTool;
-import com.graphlab.ui.common.GraphView;
 import com.graphlab.ui.common.Tab;
 
 /**
- * The Lab tab. In MS2 it is the graph editor (Build mode): a canvas plus the controls that
- * change what a touch does. The graph and the camera live in {@link LabViewModel}, so
- * rotating the phone keeps both. MS3 adds the mode bar and the Run mode around this screen.
+ * The Lab tab: a mode bar (Graphs, Build, Run, Compare, Experiment) above one fragment per mode.
+ * The fragments share one {@link LabViewModel}, so the graph, the camera and the run survive
+ * switching modes and rotating the phone. Compare (MS10) runs two algorithms on the working graph and sets them side
+ * by side; Experiment (MS8) runs long Karger experiments in a foreground service.
+ *
+ * <p>The fragment on screen is the single source of truth for the mode: after a rotation the
+ * FragmentManager brings it back by itself, and the mode bar is set from it.
+ *
+ * <p>This Activity also overrides the lifecycle callbacks and logs each one (Logcat tag
+ * "GraphLab.Lab"), as the coursework checklist asks. The same events, for every Activity, are
+ * written to the database by {@code LifecycleLogger} and listed in Me.
  */
-public class LabActivity extends BaseActivity implements GraphView.Listener {
-
-    /** Positions in SampleGraph run 0 to 100; this spreads them to fit 44 dp nodes. */
-    private static final double SAMPLE_SCALE = 3.0;
+public class LabActivity extends BaseActivity implements LabHost {
+    private static final String TAG = "GraphLab.Lab";
+    /** Set by the experiment notification: open the Lab on its Experiment mode. */
+    public static final String EXTRA_OPEN_EXPERIMENT = "open_experiment";
+    /** MS14: a saved graph to open in Run mode (the map's "Replay in Lab"). */
+    public static final String EXTRA_OPEN_GRAPH_ID = "open_graph_id";
 
     private ContentLabBinding binding;
     private LabViewModel model;
-    private GraphEditor editor;
     private boolean updatingUi;
-    /** The dialog on screen, if any. Dismissed in onDestroy so rotation does not leak its window. */
-    @Nullable
-    private Dialog openDialog;
+    private com.graphlab.ui.common.SoundEffects sounds;
+    /** Hears RUN_FINISHED while the Lab is on screen (registered in onStart, removed in onStop). */
+    private final RunFinishedReceiver runFinishedReceiver = new RunFinishedReceiver(
+            (runId, graphName, summary, partial) -> onExperimentFinished(summary));
 
     @Override
     protected Tab getTab() {
@@ -53,272 +58,229 @@ public class LabActivity extends BaseActivity implements GraphView.Listener {
     protected void onContentInflated(View content, @Nullable Bundle savedInstanceState) {
         binding = ContentLabBinding.bind(content);
         model = new ViewModelProvider(this).get(LabViewModel.class);
-        editor = model.editor();
+        model.attach(GraphLabApp.container(this));
+        sounds = new com.graphlab.ui.common.SoundEffects(this);
 
-        binding.canvas.bind(editor, model.viewport());
-        binding.canvas.setListener(this);
-        binding.canvas.setTool(model.tool());
+        boolean modelWasInUse = model.markInitialized();
+        final boolean fromMap = savedInstanceState == null && getIntent().getLongExtra(EXTRA_OPEN_GRAPH_ID, 0L) != 0L;
+        if (savedInstanceState == null && getIntent().getBooleanExtra(EXTRA_OPEN_EXPERIMENT, false)) {
+            model.setMode(LabMode.EXPERIMENT);   // opened from the experiment notification
+        }
+        Fragment shown = getSupportFragmentManager().findFragmentById(R.id.lab_container);
+        if (savedInstanceState != null && !modelWasInUse && (shown instanceof BuildFragment || shown instanceof RunFragment
+                || shown instanceof CompareFragment)) {
+            // The system killed the process while Build or Run was open: the editor's memory is gone
+            // (unsaved work was filed in the library when the screen stopped), so start from the library.
+            model.setMode(LabMode.GRAPHS);
+            showFragment(LabMode.GRAPHS);
+        } else if (shown instanceof RunFragment) {
+            model.setMode(LabMode.RUN);
+        } else if (shown instanceof BuildFragment) {
+            model.setMode(LabMode.BUILD);
+        } else if (shown instanceof ExperimentFragment) {
+            model.setMode(LabMode.EXPERIMENT);
+        } else if (shown instanceof CompareFragment) {
+            model.setMode(LabMode.COMPARE);
+        } else if (shown instanceof GraphsFragment) {
+            model.setMode(LabMode.GRAPHS);
+        } else {
+            showFragment(model.mode());   // first start
+        }
 
-        setUpToolButtons();
-        setUpSwitches();
-        setUpActions();
-        syncControls();
-    }
-
-    // ---- controls --------------------------------------------------------------------
-
-    private void setUpToolButtons() {
-        binding.toolToggle.check(buttonIdFor(model.tool()));
-        binding.toolToggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (!isChecked) {
+        checkToggle(model.mode());
+        if (isLandscape()) {
+            binding.modeToggle.setVisibility(View.GONE);   // shown with the bottom bar (see onLandscapeBarsToggled)
+        }
+        if (fromMap) {
+            openGraphFromIntent(getIntent());
+        }
+        binding.modeToggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (updatingUi || !isChecked) {
                 return;
             }
-            EditorTool tool = toolFor(checkedId);
-            model.setTool(tool);
-            binding.canvas.setTool(tool);
-            renderHint();
+            LabMode mode = modeFor(checkedId);
+            if (mode != model.mode()) {
+                showMode(mode);
+            }
         });
     }
 
-    private void setUpSwitches() {
-        binding.switchWeighted.setOnCheckedChangeListener((button, checked) -> {
-            if (updatingUi) {
-                return;
+    /** Landscape: the mode bar and the bottom bar are hidden together and shown together by the menu button. */
+    @Override
+    protected void onLandscapeBarsToggled(boolean shown) {
+        if (binding != null) {
+            binding.modeToggle.setVisibility(shown ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (intent.getBooleanExtra(EXTRA_OPEN_EXPERIMENT, false)) {
+            showMode(LabMode.EXPERIMENT);
+        }
+        if (intent.getLongExtra(EXTRA_OPEN_GRAPH_ID, 0L) != 0L) {
+            openGraphFromIntent(intent);
+        }
+    }
+
+    /** Opens the saved graph the intent names and shows Run mode, so the map's graph can be replayed. */
+    private void openGraphFromIntent(@NonNull Intent intent) {
+        long id = intent.getLongExtra(EXTRA_OPEN_GRAPH_ID, 0L);
+        intent.removeExtra(EXTRA_OPEN_GRAPH_ID);
+        model.openGraph(id, new LabViewModel.OpenListener() {
+            @Override
+            public void onOpened() {
+                showMode(LabMode.RUN);
             }
-            editor.setWeighted(checked);
-            binding.canvas.refresh();
-            renderStatus();
-        });
-        binding.switchDirected.setOnCheckedChangeListener((button, checked) -> {
-            if (updatingUi) {
-                return;
+
+            @Override
+            public void onFailed(@NonNull String message) {
+                showMode(LabMode.GRAPHS);
             }
-            onDirectedToggled(checked);
         });
     }
 
-    private void setUpActions() {
-        binding.actionFit.setOnClickListener(v -> binding.canvas.fitToGraph());
-        binding.actionSample.setOnClickListener(v -> loadSample());
-        binding.actionClear.setOnClickListener(v -> confirmClear());
-    }
-
-    private void onDirectedToggled(boolean directed) {
-        if (directed) {
-            editor.setDirected(true);
-            binding.canvas.refresh();
-            renderStatus();
-            return;
+    /** The experiment saved a result: tell the person, whichever Lab mode is open, and offer to look. */
+    private void onExperimentFinished(@NonNull String summary) {
+        if (sounds != null) {
+            sounds.playDone();
         }
-        int pairs = editor.reciprocalPairCount();
-        if (pairs == 0) {
-            editor.setDirected(false);
-            binding.canvas.refresh();
-            renderStatus();
-            return;
+        if (binding == null || model.mode() == LabMode.EXPERIMENT) {
+            return;   // the Experiment screen is already showing it
         }
-        // Undirected graphs cannot hold both A to B and B to A, so tell the user what is lost.
-        openDialog = new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.merge_title)
-                .setMessage(getResources().getQuantityString(R.plurals.merge_message, pairs, pairs))
-                .setNegativeButton(R.string.action_cancel, (dialog, which) -> syncControls())
-                .setPositiveButton(R.string.action_merge, (dialog, which) -> {
-                    editor.setDirected(false);
-                    binding.canvas.refresh();
-                    syncControls();
-                })
-                .setOnCancelListener(dialog -> syncControls())
+        Snackbar.make(binding.getRoot(), getString(R.string.experiment_finished_banner, summary), Snackbar.LENGTH_LONG)
+                .setAction(R.string.experiment_view, v -> showMode(LabMode.EXPERIMENT))
                 .show();
     }
 
-    private void loadSample() {
-        if (editor.isEmpty()) {
-            applySample();
+    @Override
+    public void showMode(@NonNull LabMode mode) {
+        if (mode == model.mode() && getSupportFragmentManager().findFragmentById(R.id.lab_container) != null) {
+            checkToggle(mode);
             return;
         }
-        openDialog = new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.replace_title)
-                .setMessage(R.string.replace_message)
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_replace, (dialog, which) -> applySample())
-                .show();
-    }
-
-    private void applySample() {
-        editor.load(SampleGraph.sixNodeUndirected(), true);
-        editor.scalePositions(SAMPLE_SCALE);
-        binding.canvas.fitToGraph();
-        syncControls();
-    }
-
-    private void confirmClear() {
-        if (editor.isEmpty()) {
-            return;
+        if (model.mode() == LabMode.BUILD) {
+            model.saveIfDirty();   // leaving Build keeps your work, and a run can then be filed under its graph
         }
-        openDialog = new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.clear_title)
-                .setMessage(R.string.clear_message)
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_clear, (dialog, which) -> {
-                    editor.clear();
-                    binding.canvas.fitToGraph();
-                    syncControls();
-                })
-                .show();
+        model.setMode(mode);
+        checkToggle(mode);
+        showFragment(mode);
     }
 
-    /** Brings every control in line with the model (after a load, a clear or a rotation). */
-    private void syncControls() {
+    private void showFragment(@NonNull LabMode mode) {
+        Fragment fragment;
+        switch (mode) {
+            case RUN:
+                fragment = new RunFragment();
+                break;
+            case BUILD:
+                fragment = new BuildFragment();
+                break;
+            case EXPERIMENT:
+                fragment = new ExperimentFragment();
+                break;
+            case COMPARE:
+                fragment = new CompareFragment();
+                break;
+            default:
+                fragment = new GraphsFragment();
+                break;
+        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.lab_container, fragment)
+                .commit();
+    }
+
+    /** Sets the mode bar without triggering its listener. */
+    private void checkToggle(@NonNull LabMode mode) {
         updatingUi = true;
-        binding.switchDirected.setChecked(editor.isDirected());
-        binding.switchWeighted.setChecked(editor.isWeighted());
+        binding.modeToggle.check(buttonIdFor(mode));
         updatingUi = false;
-        binding.canvas.refresh();
-        renderStatus();
-        renderHint();
     }
 
-    private void renderStatus() {
-        Resources res = getResources();
-        String status = getString(R.string.lab_status,
-                res.getQuantityString(R.plurals.nodes, editor.nodeCount(), editor.nodeCount()),
-                res.getQuantityString(R.plurals.edges, editor.edgeCount(), editor.edgeCount()),
-                getString(editor.isDirected() ? R.string.directed : R.string.undirected),
-                getString(editor.isWeighted() ? R.string.weighted : R.string.unweighted));
-        binding.status.setText(status);
-        binding.canvas.setContentDescription(getString(R.string.canvas_description, status));
+    private static int buttonIdFor(LabMode mode) {
+        switch (mode) {
+            case BUILD:
+                return R.id.mode_build;
+            case RUN:
+                return R.id.mode_run;
+            case EXPERIMENT:
+                return R.id.mode_experiment;
+            case COMPARE:
+                return R.id.mode_compare;
+            default:
+                return R.id.mode_graphs;
+        }
     }
 
-    private void renderHint() {
-        binding.hint.setText(hintFor(model.tool()));
+    private static LabMode modeFor(int buttonId) {
+        if (buttonId == R.id.mode_build) {
+            return LabMode.BUILD;
+        }
+        if (buttonId == R.id.mode_run) {
+            return LabMode.RUN;
+        }
+        if (buttonId == R.id.mode_experiment) {
+            return LabMode.EXPERIMENT;
+        }
+        if (buttonId == R.id.mode_compare) {
+            return LabMode.COMPARE;
+        }
+        return LabMode.GRAPHS;
     }
 
-    // ---- GraphView.Listener ----------------------------------------------------------
+    // ---- lifecycle callbacks, logged for the checklist ---------------------------------
 
     @Override
-    public void onConnectRequested(int fromId, int toId) {
-        GraphEditor.ConnectCheck check = editor.checkConnect(fromId, toId);
-        if (check == GraphEditor.ConnectCheck.EXISTS) {
-            onMessage(R.string.msg_already_connected);
-            return;
-        }
-        if (check != GraphEditor.ConnectCheck.OK) {
-            return;
-        }
-        if (!editor.isWeighted()) {
-            editor.addEdge(fromId, toId, GraphEditor.DEFAULT_WEIGHT);
-            onGraphChanged();
-            return;
-        }
-        openDialog = WeightDialog.show(this, edgeTitle(R.string.new_edge_title, R.string.new_edge_title_directed, fromId, toId),
-                GraphEditor.DEFAULT_WEIGHT, false, new WeightDialog.Callback() {
-                    @Override
-                    public void onWeight(double weight) {
-                        // The graph cannot have changed while the dialog was open, but check anyway.
-                        if (editor.checkConnect(fromId, toId) == GraphEditor.ConnectCheck.OK) {
-                            editor.addEdge(fromId, toId, weight);
-                            onGraphChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onDelete() {
-                    }
-                });
+    protected void onStart() {
+        super.onStart();
+        runFinishedReceiver.register(this);
+        Log.d(TAG, "onStart: the Lab is visible");
     }
 
     @Override
-    public void onEdgeWeightRequested(int edgeId) {
-        Edge edge = editor.findEdge(edgeId);
-        if (edge == null) {
-            return;
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: the Lab is in front and can be touched");
+        model.returnToScreen(this);   // a run that kept playing in the background comes back to this screen
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: another screen is taking over");
+        if (!isChangingConfigurations()) {
+            // Done here, while the app is still in front: Android only lets a foreground service start from a visible app.
+            model.leaveScreen(this);
         }
-        String title = edgeTitle(R.string.edit_edge_title, R.string.edit_edge_title_directed, edge.from(), edge.to());
-        openDialog = WeightDialog.show(this, title, edge.weight(), true, new WeightDialog.Callback() {
-            @Override
-            public void onWeight(double weight) {
-                editor.setEdgeWeight(edgeId, weight);
-                onGraphChanged();
-            }
-
-            @Override
-            public void onDelete() {
-                editor.removeEdge(edgeId);
-                onGraphChanged();
-            }
-        });
+        super.onPause();
     }
 
     @Override
-    public void onMessage(@StringRes int message) {
-        Snackbar.make(binding.canvas, message, Snackbar.LENGTH_SHORT).show();
+    protected void onStop() {
+        runFinishedReceiver.unregister(this);
+        Log.d(TAG, "onStop: the Lab is hidden, rotating=" + isChangingConfigurations());
+        if (!isChangingConfigurations()) {
+            // Leaving the screen (another tab, Home, Back): file any unsaved work in the library.
+            model.saveIfDirty();
+        }
+        super.onStop();
     }
 
     @Override
-    public void onGraphChanged() {
-        binding.canvas.refresh();
-        renderStatus();
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: the system may kill this process next");
     }
 
     @Override
     protected void onDestroy() {
-        if (openDialog != null && openDialog.isShowing()) {
-            openDialog.dismiss();
+        Log.d(TAG, "onDestroy: finishing=" + isFinishing() + ", rotating=" + isChangingConfigurations());
+        if (sounds != null) {
+            sounds.release();
+            sounds = null;
         }
-        openDialog = null;
         super.onDestroy();
-    }
-
-    // ---- small helpers ---------------------------------------------------------------
-
-    @NonNull
-    private String edgeTitle(@StringRes int undirected, @StringRes int directed, int fromId, int toId) {
-        return getString(editor.isDirected() ? directed : undirected, nameOf(fromId), nameOf(toId));
-    }
-
-    @NonNull
-    private String nameOf(int nodeId) {
-        Node node = editor.findNode(nodeId);
-        return node == null ? "#" + nodeId : node.label();
-    }
-
-    private static int buttonIdFor(EditorTool tool) {
-        switch (tool) {
-            case EDGE:
-                return R.id.tool_edge;
-            case MOVE:
-                return R.id.tool_move;
-            case DELETE:
-                return R.id.tool_delete;
-            default:
-                return R.id.tool_node;
-        }
-    }
-
-    private static EditorTool toolFor(int buttonId) {
-        if (buttonId == R.id.tool_edge) {
-            return EditorTool.EDGE;
-        }
-        if (buttonId == R.id.tool_move) {
-            return EditorTool.MOVE;
-        }
-        if (buttonId == R.id.tool_delete) {
-            return EditorTool.DELETE;
-        }
-        return EditorTool.NODE;
-    }
-
-    @StringRes
-    private static int hintFor(EditorTool tool) {
-        switch (tool) {
-            case EDGE:
-                return R.string.hint_edge;
-            case MOVE:
-                return R.string.hint_move;
-            case DELETE:
-                return R.string.hint_delete;
-            default:
-                return R.string.hint_node;
-        }
     }
 }

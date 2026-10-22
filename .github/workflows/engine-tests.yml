@@ -1,0 +1,52 @@
+name: Engine tests
+
+# G13 (MS18): the engine tests, including the fuzz tests that compare every algorithm with a brute-force version, run on every push
+# and pull request. A nightly run uses ten times as many random rounds.
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  fuzz:
+    name: Fuzz tests (every algorithm against brute force)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.6.0'   # the version in gradle/wrapper/gradle-wrapper.properties
+      - name: Fuzz tests
+        # The nightly run (schedule) uses 3000 rounds, other runs the default 300.
+        run: gradle :engine:test --tests 'com.graphlab.engine.algo.AlgorithmFuzzTest' ${{ github.event_name == 'schedule' && '-Dfuzz.rounds=3000' || '' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fuzz-test-report
+          path: engine/build/reports/tests/test
+
+  engine:
+    name: All engine tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.6.0'   # the version in gradle/wrapper/gradle-wrapper.properties
+      - name: Engine tests
+        run: gradle :engine:test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engine-test-report
+          path: engine/build/reports/tests/test

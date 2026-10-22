@@ -1,0 +1,14 @@
+{
+  "id": "lcs",
+  "idea": "Find the longest set of letters that appear in both texts in the same order, not necessarily next to each other. Cell (i, j) holds the answer for the first i letters of one text and the first j of the other. If the two letters match, add one to the cell up and left; if not, take the larger of the cell above and the cell on the left. Walking back from the corner reads the letters.",
+  "time": "O(n * m)",
+  "space": "O(n * m)",
+  "useWhen": [
+    "Comparing two texts or files to see what they share (the idea behind diff)",
+    "Measuring how similar two sequences are, such as DNA strings"
+  ],
+  "avoidWhen": [
+    "You need the fewest edits, not the shared part (use edit distance)",
+    "The texts are very long: the table needs n times m cells"
+  ]
+}

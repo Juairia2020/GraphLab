@@ -6,7 +6,7 @@ Built with Java 17 and Gradle (Groovy DSL). The project has two modules.
 
 ## What is done
 
-### `:engine` (plain Java, no Android code)
+### `:engine`
 
 **Algorithms** (each one produces a step-by-step trace that a screen can replay):
 - Graph: BFS, DFS, Dijkstra, Bellman-Ford, Floyd-Warshall, A*, Kruskal, Prim, Edmonds-Karp, Dinic, Tarjan SCC,

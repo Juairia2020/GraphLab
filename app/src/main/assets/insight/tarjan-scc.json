@@ -1,0 +1,15 @@
+{
+  "id": "tarjan-scc",
+  "idea": "Find the groups of nodes in a directed graph that can all reach each other. One depth-first search gives every node an index and a low-link, the smallest index it can reach through the search and one back edge to a node still on the stack. When a node's low-link equals its own index, it is the root of a group, and everything above it on the stack belongs to that group.",
+  "time": "O(V + E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Finding mutually dependent modules or cyclic dependencies",
+    "Shrinking a directed graph to a graph of groups with no cycles",
+    "Solving problems where every cycle must be treated as one unit"
+  ],
+  "avoidWhen": [
+    "The graph is undirected: use plain connected components instead",
+    "You only need to know whether any cycle exists: a simple search is enough"
+  ]
+}

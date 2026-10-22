@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/row_open"
+        android:title="@string/row_open" />
+    <item
+        android:id="@+id/row_rename"
+        android:title="@string/row_rename" />
+    <item
+        android:id="@+id/row_duplicate"
+        android:title="@string/row_duplicate" />
+    <item
+        android:id="@+id/row_share_json"
+        android:title="@string/row_share_json" />
+    <item
+        android:id="@+id/row_share_graphml"
+        android:title="@string/row_share_graphml" />
+    <item
+        android:id="@+id/row_delete"
+        android:title="@string/row_delete" />
+</menu>

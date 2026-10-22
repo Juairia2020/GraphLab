@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Toolkit tab (MS14, free: osmdroid): one screen. Top bar menu picks the action, tap the map to pick places, the answer is drawn on the map and written on the result sheet. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/screen_padding"
+    android:paddingTop="@dimen/gap_small">
+
+    <!-- Top bar: the screen title and one menu with every Toolkit action (four tools and two scenarios). -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/map_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tab_toolkit"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/map_tool_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/tool_name_route" />
+    </LinearLayout>
+
+    <!-- What the first and last place mean in a scenario (flood relief, city bus). Hidden for the plain tools. -->
+    <TextView
+        android:id="@+id/map_scenario_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_small"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/map_area"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/gap_small"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/map_area" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/map_pick"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/map_pick" />
+
+        <TextView
+            android:id="@+id/map_places"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/gap_small"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/map_clear"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/map_clear" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/map_run"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/map_run" />
+    </LinearLayout>
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/gap_small"
+        android:layout_weight="3"
+        android:contentDescription="@string/map_title" />
+
+    <!-- OpenStreetMap asks everyone who shows its map to credit it. -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/map_attribution"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/gap_small">
+
+        <TextView
+            android:id="@+id/map_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/map_sheet_empty"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/map_replay"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:enabled="false"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/map_replay" />
+</LinearLayout>

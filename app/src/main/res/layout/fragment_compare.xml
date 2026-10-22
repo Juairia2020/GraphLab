@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lab, Compare mode (MS10): two algorithms on the working graph, side by side. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/compare_graph_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+        <TextView
+            android:id="@+id/compare_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:text="@string/compare_mode_intro"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:id="@+id/compare_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:text="@string/compare_mode_empty"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/compare_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:text="@string/compare_first"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <Spinner
+                android:id="@+id/compare_spinner_a"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:contentDescription="@string/compare_first" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:text="@string/compare_second"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <Spinner
+                android:id="@+id/compare_spinner_b"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:contentDescription="@string/compare_second" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:text="@string/compare_start"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+            <Spinner
+                android:id="@+id/compare_spinner_source"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:contentDescription="@string/compare_start" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/compare_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/compare_mode_run" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/compare_dynamic"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:minHeight="@dimen/touch_min"
+            android:text="@string/dynamic_open" />
+
+        <LinearLayout
+            android:id="@+id/compare_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/compare_verdict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <TextView
+                android:id="@+id/compare_verdict_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.GraphLab.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/card_padding">
+
+                        <TextView
+                            android:id="@+id/side_a_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                        <TextView
+                            android:id="@+id/side_a_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_small"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/side_a_open"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="@dimen/touch_min"
+                            android:text="@string/compare_open_run" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.GraphLab.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gap_small"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/card_padding">
+
+                        <TextView
+                            android:id="@+id/side_b_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+                        <TextView
+                            android:id="@+id/side_b_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_small"
+                            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/side_b_open"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="@dimen/touch_min"
+                            android:text="@string/compare_open_run" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- The race (MS10): both runs play together, one step index for both. -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap"
+                android:text="@string/race_title"
+                android:textAppearance="@style/TextAppearance.GraphLab.Section" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/race_first"
+                    android:visibility="gone"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/playback_first"
+                    app:icon="@drawable/ic_first"
+                    app:iconTint="@color/gl_icon_tint" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/race_prev"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/playback_prev"
+                    app:icon="@drawable/ic_prev"
+                    app:iconTint="@color/gl_icon_tint" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/race_play"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/playback_play"
+                    app:icon="@drawable/ic_play"
+                    app:iconTint="@color/gl_icon_tint" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/race_next"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/playback_next"
+                    app:icon="@drawable/ic_next"
+                    app:iconTint="@color/gl_icon_tint" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/race_seek"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/seek_description"
+                    android:stepSize="1"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    app:labelBehavior="gone"
+                    app:tickVisible="false" />
+
+                <TextView
+                    android:id="@+id/race_step_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="88dp"
+                    android:gravity="end"
+                    android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_small"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.graphlab.ui.common.GraphView
+                        android:id="@+id/race_canvas_a"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/race_canvas_height"
+                        android:contentDescription="@string/race_canvas_a" />
+
+                    <TextView
+                        android:id="@+id/race_counters_a"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gap_small"
+                        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:orientation="vertical">
+
+                    <com.graphlab.ui.common.GraphView
+                        android:id="@+id/race_canvas_b"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/race_canvas_height"
+                        android:contentDescription="@string/race_canvas_b" />
+
+                    <TextView
+                        android:id="@+id/race_counters_b"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gap_small"
+                        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

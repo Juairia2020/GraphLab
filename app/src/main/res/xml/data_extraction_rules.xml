@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12 and newer: the same files go to Google Drive backup and to a device-to-device transfer.
+     The map tile cache, downloaded content and everything else stay on the device. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="sharedpref" path="graphlab_prefs.xml" />
+        <include domain="database" path="graphlab.db" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="sharedpref" path="graphlab_prefs.xml" />
+        <include domain="database" path="graphlab.db" />
+    </device-transfer>
+</data-extraction-rules>

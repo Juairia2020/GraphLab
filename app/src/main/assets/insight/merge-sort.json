@@ -1,0 +1,15 @@
+{
+  "id": "merge-sort",
+  "idea": "Split the list in half, sort each half the same way, then merge the two sorted halves by repeatedly taking the smaller front element. Splitting costs nothing; the work is in the merging.",
+  "time": "O(n log n) always",
+  "space": "O(n) extra",
+  "useWhen": [
+    "You need a guaranteed O(n log n) time",
+    "Sorting linked lists or data that does not fit in memory",
+    "The order of equal items must stay as it was (it is stable)"
+  ],
+  "avoidWhen": [
+    "Memory is tight: it needs extra space for the merge",
+    "The list is tiny: a simple insertion sort is quicker in practice"
+  ]
+}

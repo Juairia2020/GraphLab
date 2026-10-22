@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Folders GraphLab may hand to other apps through FileProvider. Only the shared graphs folder, nothing else. -->
+<paths>
+    <cache-path
+        name="shared_graphs"
+        path="shared/" />
+</paths>

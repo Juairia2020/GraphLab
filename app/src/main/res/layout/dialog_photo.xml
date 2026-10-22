@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The photo behind the graph (MS10): choose or replace, remove, opacity, lock. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/photo_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/photo_help"
+        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_convert"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/photo_convert" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_choose"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/photo_choose" />
+
+    <TextView
+        android:id="@+id/photo_opacity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/photo_opacity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/photo_opacity_description"
+        android:stepSize="5"
+        android:valueFrom="5"
+        android:valueTo="100"
+        app:labelBehavior="gone" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/photo_lock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/photo_lock"
+        android:textAppearance="@style/TextAppearance.GraphLab.Label"
+        app:switchPadding="@dimen/gap" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_remove"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_min"
+        android:text="@string/photo_remove" />
+</LinearLayout>

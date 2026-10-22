@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The one shared shell: content area + the single bottom bar used by all four tabs. -->
+<!-- The one shared shell: content area + the single bottom bar used by all four tabs.
+     In landscape the bottom bar is hidden and a slim rail with one menu button takes its place
+     (BaseActivity does this), so the content gets the full height. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,13 +9,39 @@
     android:background="?attr/gl_bg"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/content"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- Landscape only (shown by BaseActivity): the folded menu. -->
+        <FrameLayout
+            android:id="@+id/nav_rail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/gl_surface"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nav_menu"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="@dimen/touch_min"
+                android:layout_height="@dimen/touch_min"
+                android:contentDescription="@string/menu_open"
+                app:icon="@drawable/ic_menu"
+                app:iconTint="@color/gl_icon_tint" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <View
+        android:id="@+id/nav_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/gl_outline" />

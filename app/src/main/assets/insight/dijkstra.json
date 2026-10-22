@@ -1,0 +1,14 @@
+{
+  "id": "dijkstra",
+  "idea": "Grow a set of finished nodes. Always finish the closest unfinished node next, then see whether it gives its neighbours a shorter way. Once a node is finished its distance never changes.",
+  "time": "O((V + E) log V) with a priority queue",
+  "space": "O(V)",
+  "useWhen": [
+    "All weights are zero or positive and you need the shortest routes from one start node",
+    "Maps and road networks: shortest or fastest route"
+  ],
+  "avoidWhen": [
+    "Any edge is negative: the answer can be wrong without any warning (use Bellman-Ford)",
+    "You need the distance between every pair of nodes (use Floyd-Warshall)"
+  ]
+}

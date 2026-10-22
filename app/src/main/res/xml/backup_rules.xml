@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older: Auto Backup. Progress, settings and saved graphs follow the person to a new phone. -->
+<full-backup-content>
+    <include domain="sharedpref" path="graphlab_prefs.xml" />
+    <include domain="database" path="graphlab.db" />
+</full-backup-content>

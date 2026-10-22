@@ -1,0 +1,15 @@
+{
+  "id": "matrix-chain",
+  "idea": "Choose the order in which to multiply a chain of matrices so that the fewest scalar multiplications are needed. The result is the same for every order, but the cost is not. The cheapest cost of the sub-chain from i to j is the best over all split points of the two smaller chains plus the cost of joining them. Short chains are solved first.",
+  "time": "O(n^3)",
+  "space": "O(n^2)",
+  "useWhen": [
+    "Planning the order of large matrix products in graphics and machine learning",
+    "Teaching dynamic programming over intervals",
+    "Problems about the best way to bracket a sequence of operations"
+  ],
+  "avoidWhen": [
+    "The chain is only two or three matrices: try every order by hand",
+    "You need to multiply the matrices, not just plan the order: this only gives the plan"
+  ]
+}

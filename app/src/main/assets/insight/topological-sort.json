@@ -1,0 +1,15 @@
+{
+  "id": "topological-sort",
+  "idea": "Put the nodes of a directed graph in a line so that every arrow points forward. Count the arrows coming into every node. A node with none can go first: place it, remove its outgoing arrows, and repeat. If nodes remain but none is free, the graph has a cycle and no such line exists.",
+  "time": "O(V + E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Ordering tasks that depend on each other, such as courses and their prerequisites",
+    "Build systems that must compile files after the files they use",
+    "Checking that a set of dependencies has no cycle"
+  ],
+  "avoidWhen": [
+    "The graph has cycles and you still need an order: first find the strongly connected components",
+    "The graph is undirected: there is no arrow direction to respect"
+  ]
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Lab, Build mode (MS2). Portrait: canvas in the middle, controls above and below.
-     layout-land/content_lab.xml has the same ids with the controls in a side column. -->
+<!-- The Lab host (MS3): a title, the mode bar and the fragment for the current mode.
+     layout-land/content_lab.xml has the same ids without the title. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -17,56 +17,8 @@
         android:text="@string/tab_lab"
         android:textAppearance="@style/TextAppearance.GraphLab.Title" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_small"
-        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_small"
-        android:orientation="horizontal">
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switch_directed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="@dimen/touch_min"
-            android:text="@string/directed"
-            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switch_weighted"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="@dimen/touch_min"
-            android:text="@string/weighted"
-            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
-    </LinearLayout>
-
-    <com.graphlab.ui.common.GraphView
-        android:id="@+id/canvas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/gap_small"
-        android:layout_weight="1"
-        android:minHeight="@dimen/canvas_min_height" />
-
-    <TextView
-        android:id="@+id/hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_small"
-        android:minLines="2"
-        android:textAppearance="@style/TextAppearance.GraphLab.Body" />
-
     <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/tool_toggle"
+        android:id="@+id/mode_toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/gap_small"
@@ -74,68 +26,50 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tool_node"
-            style="@style/Widget.GraphLab.ToggleButton"
+            android:id="@+id/mode_graphs"
+            style="@style/Widget.GraphLab.ModeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tool_node" />
+            android:text="@string/mode_graphs" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tool_edge"
-            style="@style/Widget.GraphLab.ToggleButton"
+            android:id="@+id/mode_build"
+            style="@style/Widget.GraphLab.ModeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tool_edge" />
+            android:text="@string/mode_build" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tool_move"
-            style="@style/Widget.GraphLab.ToggleButton"
+            android:id="@+id/mode_run"
+            style="@style/Widget.GraphLab.ModeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tool_move" />
+            android:layout_weight="0.8"
+            android:text="@string/mode_run" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tool_delete"
-            style="@style/Widget.GraphLab.ToggleButton"
+            android:id="@+id/mode_compare"
+            style="@style/Widget.GraphLab.ModeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tool_delete" />
+            android:text="@string/mode_compare" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mode_experiment"
+            style="@style/Widget.GraphLab.ModeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3"
+            android:text="@string/mode_experiment" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/lab_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_fit"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="@dimen/touch_min"
-            android:text="@string/action_fit" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_sample"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="@dimen/touch_min"
-            android:text="@string/action_sample" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_clear"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="@dimen/touch_min"
-            android:text="@string/action_clear" />
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/gap_small"
+        android:layout_weight="1" />
 </LinearLayout>
