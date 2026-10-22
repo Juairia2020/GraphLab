@@ -1,0 +1,15 @@
+{
+  "id": "floyd-warshall",
+  "idea": "Keep a table of distances between every pair of nodes. Allow the nodes one at a time as a stop on the way, and replace a distance whenever going through that node is shorter. A negative number on the diagonal means a negative cycle.",
+  "time": "O(V^3)",
+  "space": "O(V^2)",
+  "useWhen": [
+    "You need the shortest distance between every pair of nodes",
+    "The graph is small or dense",
+    "Negative edges are allowed but there are no negative cycles"
+  ],
+  "avoidWhen": [
+    "The graph is large: the table and the cubic time grow fast",
+    "You only need distances from one start node (use Dijkstra or Bellman-Ford)"
+  ]
+}

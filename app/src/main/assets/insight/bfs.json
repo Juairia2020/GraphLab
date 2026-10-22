@@ -1,0 +1,15 @@
+{
+  "id": "bfs",
+  "idea": "Explore the graph in rings around the start: first the start, then everything one edge away, then two edges away, using a queue. Every node is reached by the route with the fewest edges.",
+  "time": "O(V + E)",
+  "space": "O(V)",
+  "useWhen": [
+    "You need the fewest number of edges from one node to every other",
+    "The edges are unweighted, or all weights are equal",
+    "Checking whether the graph is connected"
+  ],
+  "avoidWhen": [
+    "The edges have different weights and you need the lightest route (use Dijkstra)",
+    "The graph is huge and very wide: the queue grows with the widest ring"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "bellman-ford",
+  "idea": "Relax every edge again and again: a shorter way to a node may exist through a neighbour. After V - 1 rounds all shortest distances are final. One more round that still improves something proves a negative cycle.",
+  "time": "O(V * E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Some edges have negative weights",
+    "You must detect negative cycles, for example in currency exchange"
+  ],
+  "avoidWhen": [
+    "All weights are positive and speed matters (Dijkstra is faster)",
+    "The graph is huge: V * E grows quickly"
+  ]
+}

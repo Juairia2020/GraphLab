@@ -1,0 +1,15 @@
+{
+  "id": "astar",
+  "idea": "Dijkstra with a guide. Each node gets a score f = g + h: g is the distance found so far, h is the straight-line distance to the end. Always settle the node with the smallest f, so the search leans toward the goal and often looks at fewer nodes.",
+  "time": "O((V + E) log V) worst case, usually far fewer nodes are settled than with Dijkstra",
+  "space": "O(V)",
+  "useWhen": [
+    "Nodes have positions (a map) and you need the shortest route to one end node",
+    "The straight line is never longer than any real edge, so the guide never overestimates"
+  ],
+  "avoidWhen": [
+    "Some edge is shorter than the straight line between its nodes: the guide can overestimate and the route can be wrong (this app scales the guide down and warns)",
+    "You need the distance to every node, not one end node (use Dijkstra)",
+    "An edge is negative (use Bellman-Ford)"
+  ]
+}

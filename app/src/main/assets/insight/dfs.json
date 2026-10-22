@@ -1,0 +1,15 @@
+{
+  "id": "dfs",
+  "idea": "Go as deep as possible along one path, then back up and try the next branch, using a stack (or recursion). It records when each node is found and finished.",
+  "time": "O(V + E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Finding connected components, cycles or a topological order",
+    "Exploring every possibility, as in mazes and puzzles",
+    "You do not care which route is shortest"
+  ],
+  "avoidWhen": [
+    "You need the shortest route in edges (use BFS)",
+    "The graph is very deep and recursion could overflow"
+  ]
+}
