@@ -1,0 +1,14 @@
+{
+  "id": "knapsack-01",
+  "idea": "Each item goes in whole or stays out. Build a table: row i, column w holds the best value using the first i items with room w. Each cell is the better of skipping item i (the cell above) or taking it (value plus the cell above and to the left by its weight).",
+  "time": "O(n * W)",
+  "space": "O(n * W)",
+  "useWhen": [
+    "Choosing the best set of whole items under a weight limit",
+    "Budget problems where each option is all or nothing"
+  ],
+  "avoidWhen": [
+    "Items can be split (use the fractional version: it is faster and simpler)",
+    "The capacity W is huge: the table grows with it"
+  ]
+}

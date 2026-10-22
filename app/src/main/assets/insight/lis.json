@@ -1,0 +1,14 @@
+{
+  "id": "lis",
+  "idea": "Find the longest run of numbers that keeps growing when read from left to right, skipping any numbers in between. For each position, L is one more than the best L among the earlier positions that hold a smaller number. The position with the largest L ends the answer, and the saved previous positions let you walk back to read it.",
+  "time": "O(n^2) here (O(n log n) with a smarter search)",
+  "space": "O(n)",
+  "useWhen": [
+    "Finding the longest rising trend inside a noisy list",
+    "Problems that ask how many items can be kept in order, such as stacking boxes"
+  ],
+  "avoidWhen": [
+    "The list is very long: the O(n log n) method is much faster",
+    "Equal numbers must count as rising: this version needs strictly bigger numbers"
+  ]
+}

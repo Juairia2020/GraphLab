@@ -1,0 +1,13 @@
+{
+  "id": "fractional-knapsack",
+  "idea": "Items can be cut into pieces. Rank them by value per unit of weight, take the best first, and a piece of the next one to fill the bag exactly. The greedy choice is provably the best.",
+  "time": "O(n log n) for the sort",
+  "space": "O(n)",
+  "useWhen": [
+    "The things you pack can be divided: liquids, grains, time",
+    "A quick, provably optimal plan is needed"
+  ],
+  "avoidWhen": [
+    "Items must be taken whole or not at all (use 0/1 knapsack): this plan may split an item"
+  ]
+}

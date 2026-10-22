@@ -1,0 +1,14 @@
+{
+  "id": "coin-change",
+  "idea": "Find the fewest coins that add up to an amount. Row i, column a of the table holds the fewest coins for amount a using only the first i coin values. Each cell is the smaller of skipping coin i (the cell above) or using it once more (the cell on the left by the coin's value, plus one coin). Walking back through the table shows which coins were used.",
+  "time": "O(n * A)",
+  "space": "O(n * A)",
+  "useWhen": [
+    "Making change with the fewest coins when the greedy choice can fail, for example coins 1, 3, 4 for 6",
+    "Counting the cheapest way to build a total from reusable parts"
+  ],
+  "avoidWhen": [
+    "The coin values are such that greedy is known to be right (like most real currencies): greedy is simpler",
+    "The amount is huge: the table grows with it"
+  ]
+}
