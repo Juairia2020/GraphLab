@@ -1,23 +1,72 @@
-# GraphLab
+<p align="center">
+  <img src="docs/images/banner.svg" alt="GraphLab: learn, test, visualize and compare algorithms" width="100%">
+</p>
 
-An Android app for learning, testing, visualizing, comparing and applying algorithms.
+<p align="center">
+  <img alt="Java 17" src="https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white">
+  <img alt="Android 8.0+" src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white">
+  <img alt="Material 3" src="https://img.shields.io/badge/Material-3-6750A4?logo=materialdesign&logoColor=white">
+  <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Auth%20%2B%20Firestore-FFCA28?logo=firebase&logoColor=black">
+  <a href="https://github.com/Juairia2020/GraphLab/actions/workflows/engine-tests.yml"><img alt="Engine tests" src="https://github.com/Juairia2020/GraphLab/actions/workflows/engine-tests.yml/badge.svg"></a>
+  <img alt="Algorithms" src="https://img.shields.io/badge/algorithms-28-blue">
+  <img alt="Arena activities" src="https://img.shields.io/badge/Arena%20activities-34-purple">
+</p>
+
+GraphLab is an Android app for learning, testing, visualizing, comparing and applying algorithms.
 It looks like a puzzle game, but every answer is checked by a real algorithm engine.
 
-Built with Java 17, XML views, ViewBinding and Material 3. The project has no Kotlin.
-The Gradle scripts use the Groovy DSL.
+## Features
 
-## Modules
-
-| Module | Content |
+| Tab | What it does |
 |---|---|
-| `:engine` | Plain Java. No Android imports. Algorithms, step traces, graph editing rules, Arena questions and scoring, map and route logic. Tested with JUnit 4. |
-| `:app` | Android. Screens, SQLite storage, Firebase, WorkManager, services and receivers. |
-| `cloud/routes-proxy` | Optional small proxy in front of the Google Routes API. |
-| `tools/import-testset` | Script that makes the 20 test photos for the graph-photo import. |
+| **Lab** | **Build** graphs with an editor (undo and redo, typed edge lists, photo import). **Run** any algorithm with step playback, a step log, state tables, pseudocode and an Insight page, and export the run as a PDF. **Compare** two algorithms side by side. **Experiment** repeats a randomized algorithm many times and draws a histogram. **Graphs** is the library: save, rename, share, import files, sample library and cloud gallery. |
+| **Arena** | 34 activities, each a ladder of Easy, Medium and Hard questions with stars, points and unlocks. Includes Break the algorithm, Fog of war, a daily puzzle and a leaderboard. |
+| **Toolkit** | Real-world scenarios on a map: route, round trip, network, flow, flood relief and bus network, with road distances. |
+| **Me** | Theme (system, light, dark), daily reminder, cloud sharing, effects (glow, sound, haptics, reduced motion), lifecycle log. |
 
-Engine packages: `model`, `trace`, `algo`, `edit`, `compare`, `play`, `input`, `arena`, `insight`, `io`,
-`net`, `remind`, `content`, `progress`, `dynamic`, `bench`, `geo`, `preset`, `imageimport`, `effects`,
-`report`, `experiment`.
+More:
+- **Photo import**: take or pick a photo of a graph and GraphLab detects the nodes, edges and weights. You review the result before it opens in the editor.
+- **Landscape mode**: the bars fold away so the graph gets the whole screen. Run keeps its playback and settings in slide-over panels.
+- **Sounds** for correct and wrong answers, finished rounds, finished runs and finished experiments.
+- **Cloud gallery**: publish a graph and open graphs from other players.
+
+## Algorithms
+
+<p align="center"><img src="docs/images/algorithms.svg" alt="The 28 algorithms by topic" width="100%"></p>
+
+Every algorithm produces a trace of steps. The screens only replay the trace, so the picture on the screen is
+always what the algorithm really did.
+
+<p align="center"><img src="docs/images/states.svg" alt="The six node states" width="100%"></p>
+
+## How it works
+
+```mermaid
+flowchart LR
+    G["Random graph"] --> R["Real algorithm run"]
+    R --> K["Correct answer"]
+    G --> O["Question with 4 options"]
+    K --> C{"Player's choice"}
+    O --> C
+    C --> S["Stars, points, unlocks"]
+```
+
+```mermaid
+flowchart LR
+    subgraph engine [":engine (pure Java, JUnit 4)"]
+        A["Algorithms and traces"] --> Q["Arena questions"]
+        A --> P["Playback and compare"]
+        M["Map and routes"]
+        X["Experiment trials"]
+    end
+    subgraph app [":app (Android)"]
+        U["Screens"] --> D[("SQLite")]
+        U --> B["WorkManager, services, receivers"]
+    end
+    engine --> app
+    app --> F["Firebase gallery"]
+    app --> R["Routes proxy and OSRM"]
+```
 
 ## Requirements
 
@@ -29,116 +78,47 @@ Engine packages: `model`, `trace`, `algo`, `edit`, `compare`, `play`, `input`, `
 | Gradle | 9.6.0 (downloaded by the wrapper) |
 | Device | Emulator or phone, Android 8.0 (API 26) or newer |
 
-All library versions are in `gradle/libs.versions.toml`.
+Library versions are in `gradle/libs.versions.toml`.
 
-## Build and run
+## Run
 
-1. In Android Studio choose **File > Open** and select this folder. Wait for the Gradle sync.
+1. Open the folder in Android Studio and wait for the Gradle sync.
 2. Run the `app` configuration on an emulator or a phone.
 
-The project has no `gradlew` script. Android Studio uses `gradle/wrapper/gradle-wrapper.properties`.
-To get the script, run `gradle wrapper` once. Then, on the command line:
+Engine tests need no phone: `./gradlew :engine:test` (run `gradle wrapper` once to create the script).
 
-```
-./gradlew :engine:test          # engine tests, no phone needed
-./gradlew :app:assembleDebug    # debug APK
-./gradlew :engine:run           # prints a sample trace (TraceDemo)
-```
+GraphLab runs with no keys. These optional values go in `local.properties` (not tracked by Git; see `local.properties.example`):
 
-## Optional settings
-
-GraphLab builds and runs with no keys. Features that need a key show a "not set up" message.
-Put the values below in `local.properties` (the file is ignored by Git).
-`local.properties.example` lists the same lines.
-
-| Key | Purpose |
+| Key | Unlocks |
 |---|---|
-| `sampleLibraryUrl` | Address of your hosted `sample-library.json` (https only). |
-| `firebase.projectId`, `firebase.apiKey`, `firebase.appId` | Cloud gallery and player progress. |
-| `MAPS_API_KEY` | Google Maps key for the map screen. Without it the map is blank. |
-| `routesProxyUrl` | Address of the deployed `cloud/routes-proxy`. |
+| `firebase.projectId`, `firebase.apiKey`, `firebase.appId` | Cloud gallery and player progress (rules in `docs/firestore.rules`) |
+| `MAPS_API_KEY` | Google Maps on the Toolkit screen |
+| `routesProxyUrl` | Road distances through `cloud/routes-proxy` (OSRM is the free fallback) |
+| `sampleLibraryUrl` | A hosted `sample-library.json` (the app has a built-in copy) |
 
-### Cloud gallery (Firebase, about ten minutes)
+## Course coverage
 
-The app does not use `google-services.json`. It reads the three values above and starts Firebase itself.
+### Algorithm topics
 
-1. Open <https://console.firebase.google.com> and add a project (the free Spark plan is enough).
-2. Add an Android app with the package name `com.graphlab`. Skip the other wizard steps.
-3. Copy the Project ID, the Web API Key and the App ID into `local.properties`. Sync and rebuild.
-4. **Build > Authentication > Sign-in method > Anonymous > Enable.**
-5. **Build > Firestore Database > Create database** (production mode). Open the **Rules** tab,
-   paste the content of `docs/firestore.rules` and publish.
-6. Open Lab > Graphs > Cloud gallery and publish a graph.
-
-Notes:
-- Everything published is public. There is no moderation. As owner you can delete any post in the console.
-- Clearing the app data creates a new anonymous user. Old posts then need to be deleted in the console.
-- The API key identifies the project. It is not a password. The Firestore rules protect the data.
-
-| Message in the app | Likely cause |
+| Topic | Covered by |
 |---|---|
-| The cloud is not set up in this build | A value is missing, or the project was not rebuilt. |
-| Sign-in failed | Anonymous sign-in is not enabled. |
-| The cloud refused the request | The rules are not published, or the post breaks a rule. |
-| No connection to the cloud | The phone is offline. |
+| Graph traversal | BFS, DFS |
+| Shortest paths | Dijkstra, Bellman-Ford, Floyd-Warshall, A* |
+| Minimum spanning tree | Kruskal, Prim |
+| Network flow and matching | Edmonds-Karp, Dinic, bipartite matching |
+| Components and ordering | Tarjan SCC, topological sort |
+| Greedy | Huffman, fractional knapsack, Kruskal, Prim |
+| Dynamic programming | Coin change, edit distance, LCS, LIS, matrix-chain, 0/1 knapsack |
+| Divide and conquer | Merge sort, quick sort, closest pair |
+| Randomized algorithms | Randomized quick sort, quick select, Karger min cut, reservoir sampling, balls in bins, secretary problem |
+| Graph colouring | Graph colouring |
 
-### Sample library
-
-Lab > Graphs > Sample library reads a JSON file from `sampleLibraryUrl`. If there is no address, no
-connection or the file is invalid, the app uses its built-in copy (`app/src/main/assets/sample-library.json`).
-`docs/sample-library.json` is an identical copy for hosting. A test checks that the two files match.
-To host it: put the file in a public GitHub repository, open it, press **Raw**, and use that address.
-
-### Map and road distances
-
-Road distances come from the first source that answers: cache, the Google proxy (if `routesProxyUrl` is set),
-then the free OSRM service. If all fail, the app shows a straight-line estimate and the reason ("Why: ...").
-Map nodes are spread out and the graph keeps only the useful links, so it stays readable.
-
-## The four tabs
-
-- **Lab**: Build (editor with undo and redo, typed edge lists, photo import), Run (step playback, step log,
-  state tables, Insight tab, PDF export), Compare (two algorithms side by side), Graphs (library, files, sample library, cloud gallery).
-- **Arena**: 34 activities, including Break the algorithm (change one edge so Dijkstra fails; Bellman-Ford checks it)
-  and Fog of war (a walker sees only nearby roads and always takes the cheapest; greedy versus best trip). One activity per topic. Each activity is a ladder of Easy, Medium and Hard questions
-  (10, 20 and 30 points). Stars are given by points. Only unlocked activities and the next locked one are shown.
-- **Toolkit**: ready-made scenarios (route, trip, network, flow, flood, bus) on a map, plus presets.
-- **Experiment** (Lab): repeats a randomized algorithm many times in a foreground service and draws a histogram.
-  Algorithms: Karger min cut (on a saved graph), randomized quick sort, randomized quick select, random hashing
-  (balls in bins) and the hiring rule (secretary problem).
-- **Me**: theme, daily reminder, cloud sharing, effects (glow, sound, haptics, reduced motion, telemetry),
-  lifecycle log, intro and Arena reset.
-
-## Sounds
-
-Short sounds play for a correct answer, a wrong answer, a round finished with two or more stars, the end of a Run
-playback and the end of an experiment. They use the media volume. Me > Effects > Sound (or Reduce effects) turns them off.
-The files are in `app/src/main/res/raw`.
-
-## Landscape mode
-
-Phones in landscape have little height, so the bars are folded away:
-
-- The bottom bar is hidden. A slim button on the left edge shows and hides it. In the Lab it also shows and hides the mode bar (Graphs, Build, Run, Compare, Experiment).
-- **Run**: the graph fills the screen. The step message floats on top of it. A button at the bottom right opens a tray with the playback buttons, the step slider and the speed slider. A button at the top right opens the side column (algorithm, source, Run button, Steps, State and Insight). The side column starts open until the first run. After Run it closes and the tray opens.
-- **Arena question**: the graph takes the left half at full height. The question and the answers scroll on the right, with a slim header (Leave, title, count, progress).
-
-Portrait layouts are unchanged.
-
-## Algorithms
-
-Graph: BFS, DFS, Dijkstra, Bellman-Ford, Kruskal, Prim, A*, and flow and DP packs.
-Array: merge sort, quick sort, randomized quick sort.
-Knapsack: fractional and 0/1.
-Every algorithm produces a `Trace` of `Step` frames. The screens only replay the trace.
-Each node or cell has one of six states, drawn with colours from the theme tokens.
-
-## Android checklist (17 items)
+### Android course checklist (17 of 17)
 
 | # | Item | Where |
 |---|---|---|
-| 1 | Multi-activity app, explicit intents | `ui/common/BaseActivity.navigateTo`, tab Activities |
-| 2 | Implicit intents | `ui/common/GraphShare` (`ACTION_SEND`, `FileProvider`); `ACTION_OPEN_DOCUMENT` import |
+| 1 | Multi-activity app, explicit intents | `ui/common/BaseActivity.navigateTo`, the tab Activities |
+| 2 | Implicit intents | `ui/common/GraphShare` (`ACTION_SEND`, `FileProvider`), `ACTION_OPEN_DOCUMENT` import |
 | 3 | Lifecycle callbacks | `LabActivity`, `data/LifecycleLogger`, `LifecycleLogActivity` |
 | 4 | XML layouts, ViewBinding, click listeners | `res/layout/*` |
 | 5 | RecyclerView | `StepLogAdapter`, `NodeTableAdapter` (`ListAdapter`, `DiffUtil`) |
@@ -159,48 +139,9 @@ Each node or cell has one of six states, drawn with colours from the theme token
 
 ```
 GraphLab/
-  engine/        pure Java engine and its JUnit tests
-  app/           Android app (java/com/graphlab: data, work, service, receiver, provider, ui)
-  cloud/         optional routes proxy
-  docs/          firestore.rules, sample-library.json
-  tools/         import test-set generator
-  gradle/libs.versions.toml
-  local.properties.example
-```
-
-## Colour tokens and theme
-
-Colours are defined once as tokens in `res/values/colors.xml` (light) and `res/values-night/colors.xml` (dark).
-The six algorithm states (idle, frontier, visited, chosen, path, fail) have their own tokens.
-The theme (System, Light, Dark) is saved in preferences and applied at startup by `GraphLabApp`.
-Screens use `EdgeInsets.pad` so content keeps its layout padding under the system bars.
-
-## Testing
-
-Engine (no phone needed):
-
-```
-./gradlew :engine:test
-```
-
-Device checks (do these on a phone or emulator after a build):
-
-1. **Lab**: build a graph, undo and redo, run each algorithm, step forward and back, open Insight, export a PDF.
-   Rotate the phone on Build and Run. Landscape hides the bars (see Landscape mode); check that every control is still reachable.
-2. **Photo import**: import a graph photo, confirm the detected nodes and edges, open it in the editor.
-3. **Graphs**: save, rename, delete with Undo, share a file, import a file, open the sample library.
-4. **Arena**: finish a ladder. Stars and unlocks must be the same in portrait and landscape.
-   Check the floating explanation card and that rotation does not lose the round.
-5. **Toolkit**: run each scenario. Check road distances, the "Why" note when the estimate is used, and the readable graph.
-6. **Me**: switch theme, effects, reminder (permission prompt), cloud sharing, intro, Arena reset.
-7. **Android parts**: lifecycle log, experiment service with notification actions, battery receiver, Compare runs (ContentProvider).
-8. **Cloud**: with Firebase set up, publish and delete a graph from the gallery.
-
-## Release
-
-Before tagging a release: run `./gradlew test connectedAndroidTest lint`, check the device list above, then
-
-```
-git tag -a v1.0 -m "Release"
-git push origin main --tags
+  engine/    pure Java engine and its JUnit tests (model, trace, algo, arena, geo, experiment, ...)
+  app/       Android app (data, work, service, receiver, provider, ui)
+  cloud/     optional routes proxy
+  docs/      firestore.rules, sample-library.json, README images
+  tools/     test-photo generator for the photo import
 ```
