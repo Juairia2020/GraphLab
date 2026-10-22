@@ -17,80 +17,7 @@ It looks like a puzzle game, but every answer is checked by a real algorithm eng
 
 ## Features
 
-```mermaid
-mindmap
-  root((GraphLab))
-    Lab
-      Build
-        Graph editor
-        Undo and redo
-        Typed edge lists
-        Photo import
-          Camera or gallery
-          Review before opening
-      Run
-        Step playback
-        Step log
-        State tables
-        Pseudocode
-        Insight page
-        PDF export
-      Compare
-        Two algorithms side by side
-        Saved comparison runs
-      Experiment
-        Karger min cut
-        Randomized quick sort
-        Quick select
-        Balls in bins
-        Secretary problem
-        Histogram of results
-      Graphs
-        Library
-        Share and import files
-        Sample library
-        Cloud gallery
-      More
-        Benchmark
-        Dynamic graph
-    Arena
-      34 activities
-        Easy, Medium, Hard ladder
-        Stars and points
-        Unlock order
-      Specials
-        Break the algorithm
-        Fog of war
-        Mystery cards
-        Daily puzzle
-      Leaderboard
-    Toolkit
-      Map scenarios
-        Route
-        Round trip
-        Network
-        Flow
-        Flood relief
-        Bus network
-      Road distances
-      Presets
-    Me
-      Theme
-        System
-        Light
-        Dark
-      Daily reminder
-      Cloud sharing
-      Effects
-        Glow
-        Sounds
-        Haptics
-        Reduced motion
-      Lifecycle log
-    Everywhere
-      Landscape mode
-      Edge to edge layout
-```
+<p align="center"><img src="docs/images/features.svg" alt="GraphLab features as a mind map: Lab, Arena, Toolkit, Me and features that work everywhere" width="100%"></p>
 
 ## Algorithms
 
@@ -103,32 +30,9 @@ always what the algorithm really did.
 
 ## How it works
 
-```mermaid
-flowchart LR
-    G["Random graph"] --> R["Real algorithm run"]
-    R --> K["Correct answer"]
-    G --> O["Question with 4 options"]
-    K --> C{"Player's choice"}
-    O --> C
-    C --> S["Stars, points, unlocks"]
-```
+<p align="center"><img src="docs/images/arena-flow.svg" alt="An Arena question: a random graph, a real algorithm run for the correct answer, four options, the player's choice, stars and points" width="100%"></p>
 
-```mermaid
-flowchart LR
-    subgraph engine [":engine (pure Java, JUnit 4)"]
-        A["Algorithms and traces"] --> Q["Arena questions"]
-        A --> P["Playback and compare"]
-        M["Map and routes"]
-        X["Experiment trials"]
-    end
-    subgraph app [":app (Android)"]
-        U["Screens"] --> D[("SQLite")]
-        U --> B["WorkManager, services, receivers"]
-    end
-    engine --> app
-    app --> F["Firebase gallery"]
-    app --> R["Routes proxy and OSRM"]
-```
+<p align="center"><img src="docs/images/architecture.svg" alt="Architecture: the pure Java engine, the Android app and the optional cloud services" width="100%"></p>
 
 ## Requirements
 
