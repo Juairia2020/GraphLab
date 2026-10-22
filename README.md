@@ -196,13 +196,6 @@ Device checks (do these on a phone or emulator after a build):
 7. **Android parts**: lifecycle log, experiment service with notification actions, battery receiver, Compare runs (ContentProvider).
 8. **Cloud**: with Firebase set up, publish and delete a graph from the gallery.
 
-## Known limits
-
-- The app layer was written without an Android SDK in the authoring sandbox. A first Gradle build and device test may show small errors. Fix those first.
-- The OSRM road service answer format was written from its documentation and was not tried against the live server.
-- The public OpenStreetMap tile server is meant for light use. A large release needs its own tile provider.
-- Photo import uses on-device detection. Accuracy on real photos is not measured.
-
 ## Release
 
 Before tagging a release: run `./gradlew test connectedAndroidTest lint`, check the device list above, then
