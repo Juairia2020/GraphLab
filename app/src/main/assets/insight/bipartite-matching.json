@@ -1,0 +1,15 @@
+{
+  "id": "bipartite-matching",
+  "idea": "Pair up the nodes of a two-sided graph so that no node is used twice, and as many pairs as possible. For each left node, search for an alternating path: a free right node, or a right node whose partner can move to another one. Each successful search adds one pair.",
+  "time": "O(V E)",
+  "space": "O(V)",
+  "useWhen": [
+    "Assigning workers to jobs, students to projects or tasks to machines",
+    "Checking whether every left node can be given its own partner",
+    "Teaching how matching relates to maximum flow"
+  ],
+  "avoidWhen": [
+    "The graph has an odd cycle: it is not bipartite and this method does not apply",
+    "Pairs have weights and the total weight must be best: you need the Hungarian method"
+  ]
+}

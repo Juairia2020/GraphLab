@@ -1,0 +1,14 @@
+{
+  "id": "graph-colouring",
+  "idea": "Give each node a colour so that neighbours never share one, using as few colours as possible. Try 2 colours, then 3 and so on; colour the nodes one by one and, when a node has no colour left, go back and change an earlier choice.",
+  "time": "Exponential in the worst case",
+  "space": "O(V)",
+  "useWhen": [
+    "Scheduling: exams, classes or tasks that must not clash",
+    "Assigning frequencies or registers so neighbours differ"
+  ],
+  "avoidWhen": [
+    "The graph is large and you must be certain of the fewest colours: it can take very long",
+    "A quick answer that is good enough is fine (a greedy colouring is much faster)"
+  ]
+}
