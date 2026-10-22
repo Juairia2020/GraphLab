@@ -17,18 +17,80 @@ It looks like a puzzle game, but every answer is checked by a real algorithm eng
 
 ## Features
 
-| Tab | What it does |
-|---|---|
-| **Lab** | **Build** graphs with an editor (undo and redo, typed edge lists, photo import). **Run** any algorithm with step playback, a step log, state tables, pseudocode and an Insight page, and export the run as a PDF. **Compare** two algorithms side by side. **Experiment** repeats a randomized algorithm many times and draws a histogram. **Graphs** is the library: save, rename, share, import files, sample library and cloud gallery. |
-| **Arena** | 34 activities, each a ladder of Easy, Medium and Hard questions with stars, points and unlocks. Includes Break the algorithm, Fog of war, a daily puzzle and a leaderboard. |
-| **Toolkit** | Real-world scenarios on a map: route, round trip, network, flow, flood relief and bus network, with road distances. |
-| **Me** | Theme (system, light, dark), daily reminder, cloud sharing, effects (glow, sound, haptics, reduced motion), lifecycle log. |
-
-More:
-- **Photo import**: take or pick a photo of a graph and GraphLab detects the nodes, edges and weights. You review the result before it opens in the editor.
-- **Landscape mode**: the bars fold away so the graph gets the whole screen. Run keeps its playback and settings in slide-over panels.
-- **Sounds** for correct and wrong answers, finished rounds, finished runs and finished experiments.
-- **Cloud gallery**: publish a graph and open graphs from other players.
+```mermaid
+mindmap
+  root((GraphLab))
+    Lab
+      Build
+        Graph editor
+        Undo and redo
+        Typed edge lists
+        Photo import
+          Camera or gallery
+          Review before opening
+      Run
+        Step playback
+        Step log
+        State tables
+        Pseudocode
+        Insight page
+        PDF export
+      Compare
+        Two algorithms side by side
+        Saved comparison runs
+      Experiment
+        Karger min cut
+        Randomized quick sort
+        Quick select
+        Balls in bins
+        Secretary problem
+        Histogram of results
+      Graphs
+        Library
+        Share and import files
+        Sample library
+        Cloud gallery
+      More
+        Benchmark
+        Dynamic graph
+    Arena
+      34 activities
+        Easy, Medium, Hard ladder
+        Stars and points
+        Unlock order
+      Specials
+        Break the algorithm
+        Fog of war
+        Mystery cards
+        Daily puzzle
+      Leaderboard
+    Toolkit
+      Map scenarios
+        Route
+        Round trip
+        Network
+        Flow
+        Flood relief
+        Bus network
+      Road distances
+      Presets
+    Me
+      Theme
+        System
+        Light
+        Dark
+      Daily reminder
+      Cloud sharing
+      Effects
+        Glow
+        Sounds
+        Haptics
+        Reduced motion
+      Lifecycle log
+    Everywhere
+      Landscape mode
+      Edge to edge layout
+```
 
 ## Algorithms
 
