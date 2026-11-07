@@ -19,21 +19,6 @@ It looks like a puzzle game, but every answer is checked by a real algorithm eng
 
 <p align="center"><img src="docs/images/features.svg" alt="GraphLab features as a mind map: Lab, Arena, Toolkit, Me and features that work everywhere" width="100%"></p>
 
-### Algorithm topics
-
-| Topic | Covered by |
-|---|---|
-| Graph traversal | BFS, DFS |
-| Shortest paths | Dijkstra, Bellman-Ford, Floyd-Warshall, A* |
-| Minimum spanning tree | Kruskal, Prim |
-| Network flow and matching | Edmonds-Karp, Dinic, bipartite matching |
-| Components and ordering | Tarjan SCC, topological sort |
-| Greedy | Huffman, fractional knapsack, Kruskal, Prim |
-| Dynamic programming | Coin change, edit distance, LCS, LIS, matrix-chain, 0/1 knapsack |
-| Divide and conquer | Merge sort, quick sort, closest pair |
-| Randomized algorithms | Randomized quick sort, quick select, Karger min cut, reservoir sampling, balls in bins, secretary problem |
-| Graph colouring | Graph colouring |
-
 ## Algorithms
 
 <p align="center"><img src="docs/images/algorithms.svg" alt="The 28 algorithms by topic" width="100%"></p>
