@@ -8,6 +8,8 @@
 # firebase.projectId=your-project-id
 # firebase.apiKey=AIza...
 # firebase.appId=1:1234567890:android:abc123
+# Realtime Database URL (Build > Realtime Database in the console). Optional: it only adds the live "players online" count.
+# firebase.databaseUrl=https://your-project-id-default-rtdb.firebaseio.com
 
 # MS14: the Maps SDK key (restricted to the package name and SHA-1) and the route proxy. See the README.
 # MAPS_API_KEY=AIza...

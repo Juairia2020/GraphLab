@@ -41,6 +41,8 @@ android {
         // MS14: the small proxy in front of the Routes API (see the README). Empty = the offline estimate is used.
         buildConfigField 'String', 'ROUTES_PROXY_URL', "\"${setting('routesProxyUrl')}\""
         buildConfigField 'String', 'FIREBASE_PROJECT_ID', "\"${setting('firebase.projectId')}\""
+        // Realtime Database (live "players online" count). Empty = that one feature is switched off.
+        buildConfigField 'String', 'FIREBASE_DATABASE_URL', "\"${setting('firebase.databaseUrl')}\""
     }
 
     buildTypes {
@@ -72,6 +74,7 @@ dependencies {
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.auth
     implementation libs.firebase.firestore
+    implementation libs.firebase.database
     implementation libs.firebase.messaging
     implementation libs.firebase.crashlytics
     implementation libs.firebase.analytics

@@ -16,6 +16,11 @@ public final class CloudConfig {
         return isConfigured() && !BuildConfig.FIREBASE_SENDER_ID.isEmpty();
     }
 
+    /** The live "players online" count needs the Realtime Database URL as well. */
+    public static boolean isDatabaseConfigured() {
+        return isConfigured() && !BuildConfig.FIREBASE_DATABASE_URL.isEmpty();
+    }
+
     public static boolean isConfigured() {
         return !BuildConfig.FIREBASE_API_KEY.isEmpty()
                 && !BuildConfig.FIREBASE_APP_ID.isEmpty()

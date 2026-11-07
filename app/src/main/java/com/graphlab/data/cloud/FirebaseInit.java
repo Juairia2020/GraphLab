@@ -25,6 +25,7 @@ public final class FirebaseInit {
                     .setApplicationId(BuildConfig.FIREBASE_APP_ID)
                     .setProjectId(BuildConfig.FIREBASE_PROJECT_ID)
                     .setGcmSenderId(BuildConfig.FIREBASE_SENDER_ID.isEmpty() ? null : BuildConfig.FIREBASE_SENDER_ID)
+                    .setDatabaseUrl(BuildConfig.FIREBASE_DATABASE_URL.isEmpty() ? null : BuildConfig.FIREBASE_DATABASE_URL)
                     .build();
             FirebaseApp.initializeApp(context, options);
         }
