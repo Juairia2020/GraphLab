@@ -490,6 +490,7 @@
     <string name="experiment_banner_battery">Paused because the battery is low. It continues when the battery is okay again, or press Resume.</string>
     <string name="experiment_notifications_off">Notifications are off for GraphLab, so the progress is not shown outside the app. The experiment still runs.</string>
     <string name="experiment_network_online">Network: online. Experiments run on the phone and need no connection.</string>
+    <string name="experiment_network_airplane">Airplane mode is on. Experiments run on the phone and need no connection; only the cloud features wait.</string>
     <string name="experiment_network_offline">Network: offline. Experiments run on the phone and need no connection; only the cloud features wait.</string>
     <string name="experiment_failed">The experiment could not run: %1$s</string>
     <string name="experiment_finished_banner">Experiment finished. %1$s</string>
@@ -771,6 +772,17 @@
     <string name="import_err_no_text">No graph text was found. Check that every row is on its own line and the photo is sharp.</string>
     <string name="import_err_opencv">The picture reader could not start on this phone.</string>
     <string name="import_err_no_circles">No circles were found. Draw each node as a clear circle and keep the whole drawing in the photo.</string>
+    <string name="recent_title">Recent photos</string>
+    <string name="recent_show">Show recent photos</string>
+    <string name="recent_empty">No photos found on this phone.</string>
+    <string name="recent_item_description">Recent photo %1$s</string>
+    <string name="recent_why_title">Allow access to photos?</string>
+    <string name="recent_why_body">GraphLab reads your photo list (Android\'s media database) to show your latest pictures here, so you can pick one with a single tap. Photos stay on the phone and are not uploaded.</string>
+    <string name="recent_denied">Photo access was not allowed. You can still use "Choose a photo".</string>
+    <string name="me_presence_online">Players online now: %1$d</string>
+    <string name="me_presence_off">Live player count is off. Add firebase.databaseUrl to local.properties to turn it on.</string>
+    <string name="me_presence_wait">Connecting to the live player count...</string>
+    <string name="me_auth_signed_in">Signed in anonymously (user %1$s)</string>
     <string name="import_camera_why_title">Allow the camera?</string>
     <string name="import_camera_why_body">GraphLab needs the camera to take a photo of your graph. The photo is read on your phone and is not uploaded.</string>
     <string name="import_camera_why_yes">Continue</string>

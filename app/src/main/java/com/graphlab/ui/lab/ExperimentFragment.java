@@ -33,6 +33,7 @@ import com.graphlab.engine.io.GraphDocument;
 import com.graphlab.engine.io.GraphJson;
 import com.graphlab.engine.io.GraphNames;
 import com.graphlab.data.db.GraphRepository;
+import com.graphlab.receiver.AirplaneModeReceiver;
 import com.graphlab.receiver.ConnectivityReceiver;
 import com.graphlab.service.ExperimentMonitor;
 import com.graphlab.service.ExperimentService;
@@ -71,6 +72,8 @@ public class ExperimentFragment extends Fragment {
     private String shownError;
     private boolean online = true;
     private ConnectivityReceiver connectivityReceiver;
+    private AirplaneModeReceiver airplaneReceiver;
+    private boolean airplane;
     private final ExperimentMonitor.Listener listener = this::render;
 
     private final ActivityResultLauncher<String> notificationPermission =
@@ -120,6 +123,10 @@ public class ExperimentFragment extends Fragment {
             online = isOnline;
             showNetwork();
         });
+        airplaneReceiver = new AirplaneModeReceiver(on -> {
+            airplane = on;
+            showNetwork();
+        });
         loadChoices();
     }
 
@@ -128,6 +135,7 @@ public class ExperimentFragment extends Fragment {
         super.onStart();
         monitor.addListener(listener);
         connectivityReceiver.register(requireContext());
+        airplaneReceiver.register(requireContext());
         render(monitor.current());   // the experiment may have moved on, or finished, while we were away
         loadLatest();
     }
@@ -136,6 +144,7 @@ public class ExperimentFragment extends Fragment {
     public void onStop() {
         monitor.removeListener(listener);
         connectivityReceiver.unregister(requireContext());
+        airplaneReceiver.unregister(requireContext());
         super.onStop();
     }
 
@@ -394,7 +403,8 @@ public class ExperimentFragment extends Fragment {
 
     private void showNetwork() {
         if (binding != null) {
-            binding.experimentNetwork.setText(online ? R.string.experiment_network_online : R.string.experiment_network_offline);
+            binding.experimentNetwork.setText(airplane ? R.string.experiment_network_airplane
+                    : online ? R.string.experiment_network_online : R.string.experiment_network_offline);
         }
     }
 
