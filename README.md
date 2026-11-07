@@ -19,6 +19,21 @@ It looks like a puzzle game, but every answer is checked by a real algorithm eng
 
 <p align="center"><img src="docs/images/features.svg" alt="GraphLab features as a mind map: Lab, Arena, Toolkit, Me and features that work everywhere" width="100%"></p>
 
+### Algorithm topics
+
+| Topic | Covered by |
+|---|---|
+| Graph traversal | BFS, DFS |
+| Shortest paths | Dijkstra, Bellman-Ford, Floyd-Warshall, A* |
+| Minimum spanning tree | Kruskal, Prim |
+| Network flow and matching | Edmonds-Karp, Dinic, bipartite matching |
+| Components and ordering | Tarjan SCC, topological sort |
+| Greedy | Huffman, fractional knapsack, Kruskal, Prim |
+| Dynamic programming | Coin change, edit distance, LCS, LIS, matrix-chain, 0/1 knapsack |
+| Divide and conquer | Merge sort, quick sort, closest pair |
+| Randomized algorithms | Randomized quick sort, quick select, Karger min cut, reservoir sampling, balls in bins, secretary problem |
+| Graph colouring | Graph colouring |
+
 ## Algorithms
 
 <p align="center"><img src="docs/images/algorithms.svg" alt="The 28 algorithms by topic" width="100%"></p>
@@ -65,21 +80,6 @@ GraphLab runs with no keys. These optional values go in `local.properties` (not 
 
 ## Course coverage
 
-### Algorithm topics
-
-| Topic | Covered by |
-|---|---|
-| Graph traversal | BFS, DFS |
-| Shortest paths | Dijkstra, Bellman-Ford, Floyd-Warshall, A* |
-| Minimum spanning tree | Kruskal, Prim |
-| Network flow and matching | Edmonds-Karp, Dinic, bipartite matching |
-| Components and ordering | Tarjan SCC, topological sort |
-| Greedy | Huffman, fractional knapsack, Kruskal, Prim |
-| Dynamic programming | Coin change, edit distance, LCS, LIS, matrix-chain, 0/1 knapsack |
-| Divide and conquer | Merge sort, quick sort, closest pair |
-| Randomized algorithms | Randomized quick sort, quick select, Karger min cut, reservoir sampling, balls in bins, secretary problem |
-| Graph colouring | Graph colouring |
-
 ### Android course checklist (17 of 17)
 
 | # | Item | Where |
@@ -88,19 +88,19 @@ GraphLab runs with no keys. These optional values go in `local.properties` (not 
 | 2 | Implicit intents | `ui/common/GraphShare` (`ACTION_SEND`, `FileProvider`), `ACTION_OPEN_DOCUMENT` import |
 | 3 | Lifecycle callbacks | `LabActivity`, `data/LifecycleLogger`, `LifecycleLogActivity` |
 | 4 | XML layouts, ViewBinding, click listeners | `res/layout/*` |
-| 5 | RecyclerView | `StepLogAdapter`, `NodeTableAdapter` (`ListAdapter`, `DiffUtil`) |
+| 5 | RecyclerView | `StepLogAdapter`, `NodeTableAdapter` (`ListAdapter`, `DiffUtil`), `RecentPhotoAdapter` (horizontal photo strip) |
 | 6 | Custom View | `ui/common/GraphView` |
 | 7 | Mobile UX | Light and dark theme, edge-to-edge insets, 48 dp targets, empty states, swipe to delete with Undo |
 | 8 | Service | `service/ExperimentService` (foreground service with notification actions) |
-| 9 | BroadcastReceiver | `RunFinishedReceiver`, `BatteryStateReceiver`, `ConnectivityReceiver`, `AirplaneModeReceiver` |
-| 10 | ContentProvider | own `provider/GraphProvider` (client `CompareRunsActivity`); system MediaStore through `data/imports/RecentPhotos` |
-| 11 | Permissions and component communication | `ui/me/ReminderController`, `work/Notifications` |
+| 9 | BroadcastReceiver | `RunFinishedReceiver`, `BatteryStateReceiver` (low battery), `ConnectivityReceiver`, `AirplaneModeReceiver` (airplane mode) |
+| 10 | ContentProvider | Own `provider/GraphProvider` (client `CompareRunsActivity`); system MediaStore (shared photos) through `data/imports/RecentPhotos` |
+| 11 | Permissions and component communication | Runtime permissions: `ui/me/ReminderController` (notifications), `ui/imports/CameraPermission` (camera), `ui/imports/MediaPermission` (photos); `work/Notifications` |
 | 12 | HTTP and API requests | `data/net/HttpFetcher`, `data/cloud/OsrmClient` |
 | 13 | JSON and XML parsing | `engine/io/MiniJson`, `GraphJson`, `GraphMl` |
 | 14 | Database | `data/db/GraphDb`, `GraphRepository` (SQLite) |
 | 15 | Background operations | `AppExecutors`, `LabViewModel.startRun`, `ExperimentService` |
 | 16 | Advanced API | `work/ReminderScheduler`, `ReminderWorker` (WorkManager), notifications |
-| 17 | Firebase | `data/cloud/FirebaseGallery` (Authentication and Firestore), `PresenceCounter` (Realtime Database) |
+| 17 | Firebase | `data/cloud/FirebaseGallery` (anonymous Authentication, Firestore), `PresenceCounter` (Realtime Database live player count) |
 
 ## Project layout
 
