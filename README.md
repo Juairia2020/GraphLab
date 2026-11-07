@@ -58,6 +58,7 @@ GraphLab runs with no keys. These optional values go in `local.properties` (not 
 | Key | Unlocks |
 |---|---|
 | `firebase.projectId`, `firebase.apiKey`, `firebase.appId` | Cloud gallery and player progress (rules in `docs/firestore.rules`) |
+| `firebase.databaseUrl` | Optional live "players online" count on the Realtime Database (rules in `docs/database.rules.json`) |
 | `MAPS_API_KEY` | Google Maps on the Toolkit screen |
 | `routesProxyUrl` | Road distances through `cloud/routes-proxy` (OSRM is the free fallback) |
 | `sampleLibraryUrl` | A hosted `sample-library.json` (the app has a built-in copy) |
@@ -91,15 +92,15 @@ GraphLab runs with no keys. These optional values go in `local.properties` (not 
 | 6 | Custom View | `ui/common/GraphView` |
 | 7 | Mobile UX | Light and dark theme, edge-to-edge insets, 48 dp targets, empty states, swipe to delete with Undo |
 | 8 | Service | `service/ExperimentService` (foreground service with notification actions) |
-| 9 | BroadcastReceiver | `RunFinishedReceiver`, `BatteryStateReceiver`, `ConnectivityReceiver` |
-| 10 | ContentProvider | `provider/GraphProvider`, client `CompareRunsActivity` |
+| 9 | BroadcastReceiver | `RunFinishedReceiver`, `BatteryStateReceiver`, `ConnectivityReceiver`, `AirplaneModeReceiver` |
+| 10 | ContentProvider | own `provider/GraphProvider` (client `CompareRunsActivity`); system MediaStore through `data/imports/RecentPhotos` |
 | 11 | Permissions and component communication | `ui/me/ReminderController`, `work/Notifications` |
 | 12 | HTTP and API requests | `data/net/HttpFetcher`, `data/cloud/OsrmClient` |
 | 13 | JSON and XML parsing | `engine/io/MiniJson`, `GraphJson`, `GraphMl` |
 | 14 | Database | `data/db/GraphDb`, `GraphRepository` (SQLite) |
 | 15 | Background operations | `AppExecutors`, `LabViewModel.startRun`, `ExperimentService` |
 | 16 | Advanced API | `work/ReminderScheduler`, `ReminderWorker` (WorkManager), notifications |
-| 17 | Firebase | `data/cloud/FirebaseGallery` (Authentication and Firestore) |
+| 17 | Firebase | `data/cloud/FirebaseGallery` (Authentication and Firestore), `PresenceCounter` (Realtime Database) |
 
 ## Project layout
 
@@ -108,6 +109,6 @@ GraphLab/
   engine/    pure Java engine and its JUnit tests (model, trace, algo, arena, geo, experiment, ...)
   app/       Android app (data, work, service, receiver, provider, ui)
   cloud/     optional routes proxy
-  docs/      firestore.rules, sample-library.json, README images
+  docs/      firestore.rules, database.rules.json, sample-library.json, README images
   tools/     test-photo generator for the photo import
 ```
