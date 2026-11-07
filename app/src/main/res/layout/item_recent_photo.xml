@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One picture in the recent-photos strip on the import screen. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="88dp"
+    android:layout_height="88dp"
+    android:layout_marginEnd="@dimen/gap_small"
+    android:background="?attr/gl_surface"
+    android:foreground="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/recent_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="yes"
+        android:scaleType="centerCrop" />
+</FrameLayout>

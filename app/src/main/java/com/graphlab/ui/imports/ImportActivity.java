@@ -51,6 +51,9 @@ public class ImportActivity extends AppCompatActivity {
     private AppContainer container;
     private ReviewSession session;
     private CameraPermission cameraPermission;
+    private MediaPermission mediaPermission;
+    private RecentPhotoAdapter recentAdapter;
+    private final java.util.concurrent.ExecutorService thumbnails = java.util.concurrent.Executors.newFixedThreadPool(2);
     private FlagAdapter adapter;
     private boolean updatingSwitches;
     private boolean working;
@@ -85,6 +88,11 @@ public class ImportActivity extends AppCompatActivity {
         });
         container = GraphLabApp.container(this);
         cameraPermission = new CameraPermission(this, this::openCamera);
+        mediaPermission = new MediaPermission(this, this::loadRecent);
+        recentAdapter = new RecentPhotoAdapter(getContentResolver(), thumbnails, photo -> read(photo.uri, null));
+        binding.importRecent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.importRecent.setAdapter(recentAdapter);
+        binding.importRecentShow.setOnClickListener(v -> mediaPermission.request());
         adapter = new FlagAdapter(this::fix);
         binding.importFlags.setLayoutManager(new LinearLayoutManager(this));
         binding.importFlags.setAdapter(adapter);
@@ -133,6 +141,34 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     public static final String EXTRA_DEMO = "demo";
+
+    @Override
+    protected void onDestroy() {
+        thumbnails.shutdownNow();
+        super.onDestroy();
+    }
+
+    /** Queries the MediaStore content provider off the main thread and fills the strip. */
+    private void loadRecent() {
+        final android.content.ContentResolver resolver = getContentResolver();
+        container.executors().disk(() -> com.graphlab.data.imports.RecentPhotos.newest(resolver, 30),
+                new AppExecutors.Callback<List<com.graphlab.data.imports.RecentPhotos.Photo>>() {
+                    @Override
+                    public void onSuccess(List<com.graphlab.data.imports.RecentPhotos.Photo> photos) {
+                        if (isFinishing()) {
+                            return;
+                        }
+                        recentAdapter.submit(photos);
+                        binding.importRecent.setVisibility(photos.isEmpty() ? View.GONE : View.VISIBLE);
+                        binding.importRecentEmpty.setVisibility(photos.isEmpty() ? View.VISIBLE : View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Exception error) {
+                        binding.importRecentEmpty.setVisibility(View.VISIBLE);
+                    }
+                });
+    }
 
     // ---- reading a photo ----
 

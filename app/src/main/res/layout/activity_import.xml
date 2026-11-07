@@ -116,6 +116,30 @@
                 android:text="@string/import_gallery" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/import_recent_show"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_min"
+                android:text="@string/recent_show" />
+
+            <TextView
+                android:id="@+id/import_recent_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recent_empty"
+                android:textAppearance="@style/TextAppearance.GraphLab.Label"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/import_recent"
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:layout_marginTop="@dimen/gap_small"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/import_demo"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="match_parent"

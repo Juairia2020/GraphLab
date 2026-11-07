@@ -20,6 +20,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
+    <!-- Evaluation add-on. The "Recent photos" strip in the photo import queries the system MediaStore (a Content Provider owned
+         by Android). READ_MEDIA_IMAGES is the runtime permission on Android 13+, READ_EXTERNAL_STORAGE on 12 and older.
+         It is asked for only when the person taps "Show recent photos" (ui/imports/MediaPermission). -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
     <application
         android:name=".GraphLabApp"
         android:allowBackup="true"
