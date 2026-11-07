@@ -170,6 +170,19 @@
             android:layout_marginTop="@dimen/gap_small"
             android:textAppearance="@style/TextAppearance.GraphLab.Body" />
 
+        <TextView
+            android:id="@+id/me_presence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_small"
+            android:textAppearance="@style/TextAppearance.GraphLab.Body" />
+
+        <TextView
+            android:id="@+id/me_auth_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.GraphLab.Label" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/me_cloud_name"
             style="@style/Widget.Material3.Button.OutlinedButton"

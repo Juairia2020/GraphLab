@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 public class MeActivity extends BaseActivity {
     private ReminderController reminders;
     private ContentMeBinding meBinding;
+    private final com.graphlab.data.cloud.PresenceCounter presence = new com.graphlab.data.cloud.PresenceCounter();
 
     /** Asks the system for the notification permission. Registered here, before the Activity starts, as the API requires. */
     private final ActivityResultLauncher<String> notificationPermission = registerForActivityResult(
@@ -129,6 +130,47 @@ public class MeActivity extends BaseActivity {
             reminders.render();   // the user may have changed the notification settings meanwhile
         }
         showCloudSummary();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startPresence();
+    }
+
+    @Override
+    protected void onStop() {
+        presence.stop();
+        super.onStop();
+    }
+
+    /** Realtime Database: lists this user as online and shows how many players are online right now. */
+    private void startPresence() {
+        if (meBinding == null) {
+            return;
+        }
+        if (!com.graphlab.data.cloud.PresenceCounter.isAvailable()) {
+            meBinding.mePresence.setText(R.string.me_presence_off);
+            meBinding.meAuthStatus.setText("");
+            return;
+        }
+        meBinding.mePresence.setText(R.string.me_presence_wait);
+        presence.start(this, new com.graphlab.data.cloud.PresenceCounter.Listener() {
+            @Override
+            public void onCount(int online, @NonNull String uid) {
+                if (meBinding != null) {
+                    meBinding.mePresence.setText(getString(R.string.me_presence_online, online));
+                    meBinding.meAuthStatus.setText(getString(R.string.me_auth_signed_in, uid.substring(0, Math.min(6, uid.length()))));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                if (meBinding != null) {
+                    meBinding.mePresence.setText(message);
+                }
+            }
+        });
     }
 
     /** "Cloud sharing is ready." or the reason it is not, and the name shown beside shared graphs. */
